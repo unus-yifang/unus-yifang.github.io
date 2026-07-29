@@ -8,35 +8,39 @@
         <span class="font-light">一方</span>
       </h1>
 
-      <!-- 搜索框 -->
-      <div class="search-wrapper w-full max-w-xl flex items-stretch glass dark:glass-dark rounded-2xl border border-white/20 dark:border-white/10 overflow-hidden focus-within:ring-2 focus-within:ring-accent/50 relative z-20">
-        <div class="relative flex items-center pl-3 pr-2 border-r border-white/15 dark:border-white/10 cursor-pointer select-none" @click="toggleDropdown">
-          <span class="text-white/90 dark:text-white/90 text-sm font-medium whitespace-nowrap flex items-center gap-1.5">
+      <!-- ===== 搜索框 ===== -->
+      <div class="search-wrapper w-full max-w-xl flex items-stretch rounded-2xl border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-accent/50 relative z-20">
+        <!-- 左侧下拉按钮（文字黑色） -->
+        <div class="relative flex items-center pl-4 pr-2 border-r border-gray-200 cursor-pointer select-none" @click="toggleDropdown">
+          <span class="text-gray-800 text-sm font-medium whitespace-nowrap flex items-center gap-1.5">
             {{ selectedPlatform.name }}
           </span>
-          <i class="fas fa-chevron-down text-white/40 dark:text-white/40 text-[10px] ml-1 transition-transform" :class="{ 'rotate-180': isDropdownOpen }"></i>
+          <i class="fas fa-chevron-down text-gray-400 text-[10px] ml-1 transition-transform" :class="{ 'rotate-180': isDropdownOpen }"></i>
         </div>
 
+        <!-- 输入框 -->
         <input
           type="text"
           v-model="query"
           @keydown.enter="search"
           placeholder="搜索你想要的..."
-          class="flex-1 bg-transparent text-white dark:text-white placeholder-white/60 dark:placeholder-white/50 px-4 py-3 outline-none text-base font-light min-w-0"
+          class="flex-1 bg-transparent text-gray-800 placeholder-gray-400 px-4 py-3 outline-none text-base font-light min-w-0"
           autofocus
         />
 
-        <button @click="search" class="px-5 text-white/80 dark:text-white/80 hover:text-white transition-colors flex-shrink-0">
+        <!-- 搜索按钮 -->
+        <button @click="search" class="px-5 text-gray-500 hover:text-gray-700 transition-colors flex-shrink-0">
           <i class="fas fa-search text-lg"></i>
         </button>
       </div>
 
-      <!-- 下拉菜单 -->
+      <!-- ===== 下拉菜单 ===== -->
       <div v-if="isDropdownOpen" class="relative w-full max-w-xl z-50 -mt-1">
-        <div class="glass dark:glass-dark rounded-2xl border border-white/20 dark:border-white/10 p-4 shadow-2xl">
+        <div class="dropdown-menu rounded-2xl p-4 shadow-lg">
+          <!-- 搜索引擎 -->
           <div class="mb-3">
-            <div class="text-white/40 dark:text-white/40 text-[10px] font-semibold tracking-wider uppercase mb-2 flex items-center gap-2">
-              <span class="w-4 h-px bg-white/20"></span> 搜索引擎
+            <div class="dropdown-label text-[10px] font-semibold tracking-wider uppercase mb-2 flex items-center gap-2">
+              <span class="w-4 h-px bg-gray-300"></span> 搜索引擎
             </div>
             <div class="flex flex-wrap gap-1.5">
               <div
@@ -50,9 +54,11 @@
               </div>
             </div>
           </div>
+
+          <!-- 应用/社交媒体 -->
           <div>
-            <div class="text-white/40 dark:text-white/40 text-[10px] font-semibold tracking-wider uppercase mb-2 flex items-center gap-2">
-              <span class="w-4 h-px bg-white/20"></span> 应用与社区
+            <div class="dropdown-label text-[10px] font-semibold tracking-wider uppercase mb-2 flex items-center gap-2">
+              <span class="w-4 h-px bg-gray-300"></span> 应用与社区
             </div>
             <div class="flex flex-wrap gap-1.5">
               <div
@@ -131,7 +137,7 @@
           </div>
         </div>
 
-        <!-- ===== 公共推荐位 ===== -->
+        <!-- ===== 公共推荐位（透明度 10%） ===== -->
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="section-title text-sm font-medium tracking-wide">
@@ -145,13 +151,12 @@
               :key="item.id"
               :href="item.url"
               target="_blank"
-              class="link-card"
-              style="background:rgba(212,175,55,0.15)"
+              class="link-card promo-card"
             >
               <span v-if="item.icon" class="mr-0.5">{{ item.icon }}</span>
               {{ item.title }}
               <span class="badge-promote">推广</span>
-              <span class="text-white/30 text-[10px] ml-1">· {{ item.remaining }}d</span>
+              <span class="promo-remaining">· {{ item.remaining }}d</span>
             </a>
 
             <router-link
@@ -231,7 +236,6 @@ const newLinkName = ref('')
 const newLinkUrl = ref('')
 const selectedPlatform = ref({ name: '百度', type: 'engine', url: 'https://www.baidu.com/s?wd=' })
 
-// ===== 平台数据 =====
 const enginePlatforms = [
   { name: '百度', type: 'engine', url: 'https://www.baidu.com/s?wd=' },
   { name: '必应', type: 'engine', url: 'https://cn.bing.com/search?q=' },
@@ -259,9 +263,6 @@ const linkLimit = computed(() => {
   return 3
 })
 
-// ============================================================
-// 方法：搜索
-// ============================================================
 function search() {
   const keyword = query.value.trim()
   if (!keyword) return
@@ -289,7 +290,7 @@ function goLogin() {
 }
 
 // ============================================================
-// 方法：自定义链接
+// 自定义链接
 // ============================================================
 function loadCustomLinks() {
   const allLinks = (userStore.isLoggedIn && userStore.profile?.custom_links) || []
@@ -361,7 +362,7 @@ async function deleteLink(index) {
 }
 
 // ============================================================
-// 方法：推荐位
+// 推荐位
 // ============================================================
 async function loadPromotions() {
   try {
@@ -388,7 +389,7 @@ async function loadPromotions() {
 }
 
 // ============================================================
-// 方法：下拉菜单外部关闭
+// 下拉菜单外部关闭
 // ============================================================
 function handleClickOutside(event) {
   const wrapper = event.target.closest('.search-wrapper')
@@ -398,21 +399,14 @@ function handleClickOutside(event) {
   }
 }
 
-// ============================================================
-// 监听登录状态和订阅状态变化
-// ============================================================
 watch(
   () => userStore.isLoggedIn,
-  () => {
-    loadCustomLinks()
-  }
+  () => { loadCustomLinks() }
 )
 
 watch(
   () => userStore.effectiveSubscription,
-  () => {
-    loadCustomLinks()
-  }
+  () => { loadCustomLinks() }
 )
 
 // ============================================================
@@ -442,13 +436,30 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* ===== 分类标题（保持白色） ===== */
-.section-title {
-  color: #ffffff !important;
+/* ===== 搜索框（纯白） ===== */
+.search-wrapper {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
-.section-hint {
-  color: rgba(255, 255, 255, 0.50) !important;
-  font-size: 0.65rem;
+.search-wrapper:focus-within {
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25);
+  border-color: #d4af37;
+}
+
+/* ===== 下拉菜单 ===== */
+.dropdown-menu {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dropdown-label {
+  color: #1a1a2e !important;
+}
+.dropdown-label .bg-gray-300 {
+  background-color: #d1d5db !important;
 }
 
 /* ===== 平台选项 ===== */
@@ -462,19 +473,27 @@ onUnmounted(() => {
   color: #1a1a2e;
   transition: all 0.15s ease;
   background: rgba(255, 255, 255, 0.70);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 .platform-item:hover {
   background: rgba(255, 255, 255, 0.90);
-  color: #1a1a2e;
 }
 .platform-item.active {
-  background: rgba(212, 175, 55, 0.20);
+  background: rgba(212, 175, 55, 0.15);
   border-color: rgba(212, 175, 55, 0.30);
   color: #d4af37;
 }
 
-/* ===== 链接卡片（更不透明） ===== */
+/* ===== 分类标题 ===== */
+.section-title {
+  color: #ffffff !important;
+}
+.section-hint {
+  color: rgba(255, 255, 255, 0.50) !important;
+  font-size: 0.65rem;
+}
+
+/* ===== 链接卡片 ===== */
 .link-card-wrapper {
   position: relative;
   display: inline-flex;
@@ -547,6 +566,20 @@ onUnmounted(() => {
   background: rgba(255, 50, 50, 0.30);
   color: #fff;
   transform: translateY(-50%) scale(1.1);
+}
+
+/* ===== 推广位（透明度 10%） ===== */
+.promo-card {
+  background: rgba(212, 175, 55, 0.10) !important;
+  border-color: rgba(212, 175, 55, 0.08) !important;
+}
+.promo-card:hover {
+  background: rgba(212, 175, 55, 0.18) !important;
+}
+
+.promo-remaining {
+  color: rgba(255, 255, 255, 0.30) !important;
+  font-size: 0.65rem;
 }
 
 .badge-promote {
