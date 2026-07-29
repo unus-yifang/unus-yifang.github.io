@@ -2,7 +2,6 @@
   <!-- 背景 -->
   <div class="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-700"
        :style="backgroundStyle">
-    <!-- 遮罩层：改为 20% 黑色，更亮 -->
     <div class="absolute inset-0 bg-black/20 transition-all duration-500"></div>
   </div>
 
@@ -18,9 +17,10 @@
           <router-view class="w-full max-w-2xl" />
         </div>
 
+        <!-- 每日一句（纯白色，无虚化） -->
         <div class="flex-shrink-0 w-full text-center py-3">
           <span class="daily-quote">
-            <i class="fas fa-quote-left mr-2 opacity-40"></i>
+            <i class="fas fa-quote-left mr-2"></i>
             {{ dailyQuote }}
           </span>
         </div>
@@ -92,11 +92,17 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* 每日一句：纯白色，无虚化，无透明度 */
 .daily-quote {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.65);
+  font-size: 1rem;
+  color: #ffffff;
   font-weight: 400;
   letter-spacing: 0.5px;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.daily-quote .fa-quote-left {
+  color: #ffffff;
+  opacity: 0.5;
 }
 </style>
