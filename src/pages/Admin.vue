@@ -405,13 +405,74 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* 卡片内文字改为黑色/深色，标题保留原样 */
+.glass {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(12px) !important;
+  border-color: rgba(255, 255, 255, 0.30) !important;
+}
+.glass-dark {
+  background: rgba(255, 255, 255, 0.70) !important;
+  backdrop-filter: blur(12px) !important;
+  border-color: rgba(255, 255, 255, 0.30) !important;
+}
+
+/* 所有卡片内文字（除标题）改为深色 */
+.glass h2,
+.glass-dark h2,
+.glass .text-white\/80,
+.glass-dark .text-white\/80,
+.glass .text-white\/70,
+.glass-dark .text-white\/70,
+.glass .text-white\/60,
+.glass-dark .text-white\/60,
+.glass .text-white\/50,
+.glass-dark .text-white\/50,
+.glass .text-white\/40,
+.glass-dark .text-white\/40,
+.glass .text-white\/30,
+.glass-dark .text-white\/30,
+.glass .text-white\/10,
+.glass-dark .text-white\/10 {
+  color: #1a1a2e !important;
+}
+
+/* 但标题保留原色（金色或白色） */
+.glass .text-accent,
+.glass-dark .text-accent {
+  color: #d4af37 !important;
+}
+
+/* 输入框和选择框文字深色 */
+.glass input,
+.glass-dark input,
+.glass select,
+.glass-dark select {
+  color: #1a1a2e !important;
+}
+.glass input::placeholder,
+.glass-dark input::placeholder {
+  color: rgba(60, 60, 80, 0.50) !important;
+}
+
+/* 按钮文字保留原有风格（accent色） */
+.glass .bg-accent\/20,
+.glass-dark .bg-accent\/20 {
+  color: #d4af37 !important;
+}
+
+/* 错误/成功消息保留原有颜色 */
+.text-green-400 { color: #4ade80 !important; }
+.text-red-400 { color: #f87171 !important; }
+
+/* 滚动条 */
 .max-h-64::-webkit-scrollbar,
 .max-h-40::-webkit-scrollbar {
   width: 3px;
 }
 .max-h-64::-webkit-scrollbar-thumb,
 .max-h-40::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 }
 .max-h-64::-webkit-scrollbar-track,

@@ -2,7 +2,7 @@
   <div class="about-container w-full max-w-2xl mx-auto px-4 py-8">
 
     <div class="text-center mb-10">
-      <h1 class="text-3xl md:text-4xl font-bold text-gray-800 drop-shadow-lg tracking-tight">
+      <h1 class="text-3xl md:text-4xl font-bold text-white drop-shadow-lg tracking-tight">
         📖 关于 <span class="text-accent">Unus · 一方</span>
       </h1>
       <p class="text-gray-500 text-sm mt-2 tracking-wider">

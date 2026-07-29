@@ -391,14 +391,108 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.tier-card {
-  transition: border-color 0.2s ease, transform 0.2s ease;
+/* 卡片背景改为实心毛玻璃 */
+.glass {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(12px) !important;
+  border-color: rgba(255, 255, 255, 0.30) !important;
 }
-.tier-card:hover {
-  border-color: rgba(212, 175, 55, 0.5);
-  transform: translateY(-2px);
+.glass-dark {
+  background: rgba(255, 255, 255, 0.70) !important;
+  backdrop-filter: blur(12px) !important;
+  border-color: rgba(255, 255, 255, 0.30) !important;
 }
-.max-h-80::-webkit-scrollbar { width: 3px; }
-.max-h-80::-webkit-scrollbar-track { background: transparent; }
-.max-h-80::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+
+/* 所有卡片内文字（除标题外）改为深色/黑色 */
+.glass h2,
+.glass-dark h2,
+.glass .text-white,
+.glass-dark .text-white,
+.glass .text-white\/[0-9]+,
+.glass-dark .text-white\/[0-9]+,
+.glass .text-white-*,
+.glass-dark .text-white-* {
+  color: #1a1a2e !important;
+}
+
+/* 但标题保留原有颜色（金色或白色） */
+.glass .text-accent,
+.glass-dark .text-accent,
+.glass .text-accent\/[0-9]+,
+.glass-dark .text-accent\/[0-9]+ {
+  color: #d4af37 !important;
+}
+
+/* 输入框和选择框文字 */
+.glass input,
+.glass-dark input,
+.glass select,
+.glass-dark select {
+  color: #1a1a2e !important;
+  background: rgba(255, 255, 255, 0.80) !important;
+}
+.glass input::placeholder,
+.glass-dark input::placeholder {
+  color: rgba(60, 60, 80, 0.50) !important;
+}
+
+/* 按钮保留原有风格（accent色） */
+.glass .bg-accent\/20,
+.glass-dark .bg-accent\/20,
+.glass .bg-accent\/20 *,
+.glass-dark .bg-accent\/20 * {
+  color: #d4af37 !important;
+}
+
+/* 错误/成功消息保留原有颜色 */
+.text-green-400 { color: #4ade80 !important; }
+.text-red-400 { color: #f87171 !important; }
+.text-blue-400 { color: #60a5fa !important; }
+.text-amber-400 { color: #fbbf24 !important; }
+
+/* 感谢名单中的特殊颜色 */
+.text-green-400,
+.text-accent\/70,
+.text-white\/20,
+.text-white\/30,
+.text-white\/50,
+.text-white\/60,
+.text-white\/80 {
+  color: #1a1a2e !important;
+}
+.text-green-400 {
+  color: #22c55e !important;
+}
+.text-accent\/70 {
+  color: #d4af37 !important;
+}
+
+/* 滚动条 */
+.max-h-80::-webkit-scrollbar {
+  width: 3px;
+}
+.max-h-80::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+.max-h-80::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 档位卡片内的文字 */
+.tier-card .text-white,
+.tier-card .text-white\/60,
+.tier-card .text-white\/30,
+.tier-card .text-accent\/70 {
+  color: #1a1a2e !important;
+}
+.tier-card .text-accent\/70 {
+  color: #d4af37 !important;
+}
+.tier-card .text-2xl {
+  color: #1a1a2e !important;
+}
+.tier-card .text-white {
+  color: #1a1a2e !important;
+}
 </style>
