@@ -15,14 +15,14 @@
       <div class="chat-header">
         <div class="flex items-center gap-2">
           <span class="text-white font-semibold text-lg">小U</span>
-          <span class="text-white/30 text-[10px]">
+          <span class="text-white/80 text-[10px]">
             {{ remainingFreeCount > 0 ? `今日免费 ${remainingFreeCount} 次` : '💰 1 U币/次' }}
           </span>
           <span v-if="userStore.isLoggedIn && userStore.effectiveSubscription !== 'free'" class="text-[10px] px-2 py-0.5 rounded-full bg-accent/20 text-accent">
             {{ userStore.effectiveSubscription === 'yearly' ? '年卡' : '月卡' }}
           </span>
         </div>
-        <button @click="closeChat" class="text-white/40 hover:text-white/70 transition">
+        <button @click="closeChat" class="text-white/70 hover:text-white transition">
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -31,8 +31,8 @@
       <div ref="messagesContainer" class="chat-messages">
         <div v-if="messages.length === 0" class="chat-empty">
           <span class="text-3xl mb-2">👋</span>
-          <span class="text-white/50 text-sm">你好！我是小U，有什么可以帮你的？</span>
-          <span class="text-white/30 text-[10px] mt-1">试试问我关于「一方」的任何问题</span>
+          <span class="text-white/80 text-sm">你好！我是小U，有什么可以帮你的？</span>
+          <span class="text-white/60 text-[10px] mt-1">试试问我关于「一方」的任何问题</span>
         </div>
         <div
           v-for="(msg, index) in messages"
@@ -138,7 +138,6 @@ async function loadFreeCount() {
   const maxFree = getMaxFreeCount()
   const currentSub = userStore.effectiveSubscription
 
-  // 新的一天 → 重置
   if (storedDate !== today) {
     remainingFreeCount.value = maxFree
     await userStore.updateAIFreeCount(maxFree, today)
@@ -146,7 +145,6 @@ async function loadFreeCount() {
     return
   }
 
-  // 订阅升级 → 重置
   const subLevel = { 'free': 0, 'monthly': 1, 'yearly': 2 }
   const lastSub = localStorage.getItem('unus_last_subscription') || 'free'
   if (subLevel[currentSub] > subLevel[lastSub]) {
@@ -157,7 +155,6 @@ async function loadFreeCount() {
     return
   }
 
-  // 正常读取
   const finalCount = Math.min(storedCount, maxFree)
   remainingFreeCount.value = finalCount
   localStorage.setItem('unus_last_subscription', currentSub)
@@ -203,6 +200,9 @@ function handleClickOutside(event) {
   }
 }
 
+// ============================================================
+// 发送消息
+// ============================================================
 async function sendMessage() {
   const text = inputMessage.value.trim()
   if (!text || isLoading.value) return
@@ -224,7 +224,6 @@ async function sendMessage() {
     const token = session?.access_token
     const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-    // 调试日志
     console.log('🔍 [小U] 调试信息:')
     console.log('  - token 是否存在:', !!token)
     console.log('  - token 前10位:', token ? token.substring(0, 10) + '...' : '无')
@@ -300,7 +299,6 @@ async function sendMessage() {
       messages.value[assistantIndex].content = '抱歉，我没有理解你的问题，能再详细说说吗？'
     }
 
-    // 扣费
     if (remainingFreeCount.value > 0) {
       await decrementFreeCount()
     } else {
@@ -319,7 +317,7 @@ async function sendMessage() {
 }
 
 // ============================================================
-// 辅助函数：Markdown 转 HTML
+// 辅助函数
 // ============================================================
 function formatMessage(content) {
   if (!content) return ''
@@ -332,9 +330,6 @@ function scrollToBottom() {
   }
 }
 
-// ============================================================
-// 监听订阅变化
-// ============================================================
 watch(
   () => userStore.effectiveSubscription,
   async () => {
@@ -343,9 +338,6 @@ watch(
   { immediate: true }
 )
 
-// ============================================================
-// 生命周期
-// ============================================================
 onMounted(() => {
   loadFreeCount()
   document.addEventListener('click', handleClickOutside)
@@ -369,10 +361,10 @@ onUnmounted(() => {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(212, 175, 55, 0.15);
+  background: rgba(212, 175, 55, 0.2);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.3);
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -382,7 +374,7 @@ onUnmounted(() => {
 }
 .assistant-bubble:hover {
   transform: scale(1.08);
-  background: rgba(212, 175, 55, 0.25);
+  background: rgba(212, 175, 55, 0.35);
   box-shadow: 0 4px 32px rgba(212, 175, 55, 0.25);
 }
 .assistant-bubble.bubble-hidden {
@@ -419,12 +411,15 @@ onUnmounted(() => {
   width: 380px;
   height: 500px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   animation: slideUp 0.3s ease;
   box-shadow: 0 8px 48px rgba(0, 0, 0, 0.4);
+}
+.dark .chat-window {
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 @keyframes slideUp {
@@ -438,8 +433,11 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 14px 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
+}
+.dark .chat-header {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 .chat-header button {
   background: none;
@@ -466,8 +464,11 @@ onUnmounted(() => {
   background: transparent;
 }
 .chat-messages::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
+}
+.dark .chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .chat-empty {
@@ -476,7 +477,10 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.5);
+}
+.dark .chat-empty {
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .chat-message {
@@ -501,16 +505,25 @@ onUnmounted(() => {
   max-width: 100%;
 }
 .bubble-user {
-  background: rgba(212, 175, 55, 0.2);
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  color: rgba(255, 255, 255, 0.9);
+  background: rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  color: #fff;
   border-bottom-right-radius: 4px;
 }
+.dark .bubble-user {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.1);
+}
 .bubble-assistant {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
   border-bottom-left-radius: 4px;
+}
+.dark .bubble-assistant {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.04);
 }
 
 .typing-dots {
@@ -529,13 +542,16 @@ onUnmounted(() => {
   display: flex;
   gap: 8px;
   padding: 12px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
+}
+.dark .chat-input-area {
+  border-top-color: rgba(255, 255, 255, 0.06);
 }
 .chat-input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   padding: 8px 14px;
   color: white;
@@ -543,7 +559,14 @@ onUnmounted(() => {
   outline: none;
   transition: border-color 0.2s ease;
 }
+.dark .chat-input {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
 .chat-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+.dark .chat-input::placeholder {
   color: rgba(255, 255, 255, 0.3);
 }
 .chat-input:focus {
@@ -558,19 +581,28 @@ onUnmounted(() => {
   height: 40px;
   border-radius: 50%;
   border: none;
-  background: rgba(212, 175, 55, 0.2);
+  background: rgba(212, 175, 55, 0.25);
   border: 1px solid rgba(212, 175, 55, 0.2);
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.dark .chat-send-btn {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+}
 .chat-send-btn:hover:not(:disabled) {
-  background: rgba(212, 175, 55, 0.35);
+  background: rgba(212, 175, 55, 0.4);
   color: #fff;
   transform: scale(1.05);
+}
+.dark .chat-send-btn:hover:not(:disabled) {
+  background: rgba(212, 175, 55, 0.25);
+  color: #fff;
 }
 .chat-send-btn:disabled {
   opacity: 0.3;
