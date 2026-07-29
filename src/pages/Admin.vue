@@ -22,7 +22,7 @@
       </div>
       <div v-if="generatedCode" class="mt-3 flex items-center gap-2 rounded-lg px-3 py-2 code-box">
         <code class="text-accent text-sm font-mono flex-1">{{ generatedCode }}</code>
-        <button @click="copyCode" class="text-white/60 hover:text-white text-xs">📋 复制</button>
+        <button @click="copyCode" class="text-gray-600 hover:text-gray-900 text-xs">📋 复制</button>
         <button @click="generatedCode = ''" class="text-white/30 hover:text-white/60 text-xs">✕</button>
       </div>
       <p v-if="codeMsg" class="text-xs mt-2" :class="codeMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ codeMsg }}</p>

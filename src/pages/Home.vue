@@ -8,7 +8,7 @@
         <span class="font-light">一方</span>
       </h1>
 
-      <!-- ===== 搜索框（纯白） ===== -->
+      <!-- ===== 搜索框 ===== -->
       <div class="search-wrapper w-full max-w-xl flex items-stretch rounded-2xl border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-accent/50 relative z-20">
         <div class="relative flex items-center pl-4 pr-2 border-r border-gray-200 cursor-pointer select-none" @click="toggleDropdown">
           <span class="text-gray-800 text-sm font-medium whitespace-nowrap flex items-center gap-1.5">
@@ -31,7 +31,7 @@
         </button>
       </div>
 
-      <!-- ===== 下拉菜单（虚化20%） ===== -->
+      <!-- ===== 下拉菜单 ===== -->
       <div v-if="isDropdownOpen" class="relative w-full max-w-xl z-50 -mt-1">
         <div class="dropdown-menu rounded-2xl p-4 shadow-lg">
           <div class="mb-3">
@@ -131,7 +131,7 @@
           </div>
         </div>
 
-        <!-- ===== 公共推荐位 ===== -->
+        <!-- ===== 公共推荐位（引导卡片始终显示，白底黄框） ===== -->
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="section-title text-sm font-medium tracking-wide">
@@ -140,6 +140,7 @@
             <span class="section-hint">· 推广位</span>
           </div>
           <div class="flex flex-wrap gap-2">
+            <!-- 推广链接 -->
             <a
               v-for="item in promotions"
               :key="item.id"
@@ -153,14 +154,16 @@
               <span class="promo-remaining">· {{ item.remaining }}d</span>
             </a>
 
+            <!-- ===== 引导卡片（始终显示，白底黄框） ===== -->
             <router-link
-              v-if="promotions.length === 0"
               to="/support"
               class="link-card guide-card"
             >
               <i class="fas fa-rocket text-accent"></i>
-              想让你的网站出现在这里？
-              <span class="text-accent/60 text-[10px] ml-1">→ 了解更多</span>
+              <span class="guide-text">
+                {{ promotions.length > 0 ? '想让你的网站也出现在这里？' : '想让你的网站出现在这里？' }}
+              </span>
+              <span class="guide-arrow">→ 了解更多</span>
             </router-link>
           </div>
         </div>
@@ -257,9 +260,6 @@ const linkLimit = computed(() => {
   return 3
 })
 
-// ============================================================
-// 方法：搜索
-// ============================================================
 function search() {
   const keyword = query.value.trim()
   if (!keyword) return
@@ -385,9 +385,6 @@ async function loadPromotions() {
   }
 }
 
-// ============================================================
-// 下拉菜单外部关闭
-// ============================================================
 function handleClickOutside(event) {
   const wrapper = event.target.closest('.search-wrapper')
   const dropdown = event.target.closest('.relative.z-50')
@@ -430,7 +427,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* ===== 搜索框（纯白） ===== */
+/* ===== 搜索框 ===== */
 .search-wrapper {
   background: #ffffff;
   border: 1px solid #e5e7eb;
@@ -441,11 +438,11 @@ onUnmounted(() => {
   border-color: #d4af37;
 }
 
-/* ===== 下拉菜单（虚化20%） ===== */
+/* ===== 下拉菜单 ===== */
 .dropdown-menu {
-  background: rgba(255, 255, 255, 0.80) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
@@ -562,7 +559,7 @@ onUnmounted(() => {
   transform: translateY(-50%) scale(1.1);
 }
 
-/* ===== 推广位（白色底，黄色边框） ===== */
+/* ===== 推广位 ===== */
 .promo-card {
   background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(4px) !important;
@@ -575,7 +572,6 @@ onUnmounted(() => {
   transform: translateY(-2px);
 }
 
-/* ===== 剩余天数（和 tag 一样的黄色） ===== */
 .promo-remaining {
   color: #d4af37 !important;
   font-size: 0.65rem;
@@ -592,15 +588,26 @@ onUnmounted(() => {
   margin-left: 4px;
 }
 
+/* ===== 引导卡片（白底黄框，始终显示） ===== */
 .guide-card {
-  background: rgba(212, 175, 55, 0.10) !important;
-  border: 1px dashed rgba(212, 175, 55, 0.25) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(212, 175, 55, 0.40) !important;
   color: #1a1a2e !important;
   transition: all 0.3s ease !important;
 }
 .guide-card:hover {
-  background: rgba(212, 175, 55, 0.20) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
   transform: translateY(-2px) !important;
-  border-color: rgba(212, 175, 55, 0.40) !important;
+  border-color: rgba(212, 175, 55, 0.60) !important;
+}
+
+.guide-text {
+  color: #1a1a2e;
+}
+.guide-arrow {
+  color: #d4af37;
+  font-size: 0.65rem;
 }
 </style>
