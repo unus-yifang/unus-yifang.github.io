@@ -1,7 +1,6 @@
 <template>
   <div class="customize-container w-full max-w-3xl mx-auto px-4 py-6">
 
-    <!-- ===== 标题 ===== -->
     <div class="text-center mb-8">
       <h1 class="text-3xl md:text-4xl font-bold text-white drop-shadow-lg tracking-tight">
         🎨 自定义装扮
@@ -11,14 +10,14 @@
       </p>
     </div>
 
-    <!-- ===== 未订阅 ===== -->
-    <div v-if="!isSubscribed" class="glass dark:glass-dark rounded-2xl p-8 border border-white/10 text-center">
+    <!-- ===== 未订阅：引导 ===== -->
+    <div v-if="!isSubscribed" class="custom-card rounded-2xl p-8 border text-center">
       <div class="text-6xl mb-4">🔒</div>
       <h2 class="text-2xl font-bold text-white mb-2">订阅解锁自定义装扮</h2>
-      <p class="text-white/50 text-sm mb-6 max-w-md mx-auto">
+      <p class="text-white/60 text-sm mb-6 max-w-md mx-auto">
         自定义壁纸、主题色，打造属于你自己的专属首页
       </p>
-      <div class="flex flex-wrap justify-center gap-6 mb-6 text-white/40 text-sm">
+      <div class="flex flex-wrap justify-center gap-6 mb-6 text-white/60 text-sm">
         <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义壁纸</div>
         <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义主题色</div>
       </div>
@@ -27,24 +26,24 @@
       </router-link>
     </div>
 
-    <!-- ===== 已订阅 ===== -->
+    <!-- ===== 已订阅：自定义内容 ===== -->
     <div v-else class="space-y-6">
 
       <!-- 订阅状态 -->
-      <div class="glass dark:glass-dark rounded-xl p-4 border border-accent/20 flex items-center justify-between">
+      <div class="custom-card rounded-xl p-4 border border-accent/20 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <span class="text-2xl">✨</span>
           <div>
             <div class="text-white font-medium">{{ userStore.subscriptionDisplay }}</div>
-            <div class="text-white/30 text-xs">有效期至 {{ formatDate(userStore.subscriptionExpiresAt) }}</div>
+            <div class="text-white/50 text-xs">有效期至 {{ formatDate(userStore.subscriptionExpiresAt) }}</div>
           </div>
         </div>
         <router-link to="/support" class="text-accent text-sm hover:underline">续费 →</router-link>
       </div>
 
       <!-- ===== 壁纸 ===== -->
-      <div class="glass dark:glass-dark rounded-xl p-5 border border-white/10">
-        <h3 class="text-white/80 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+      <div class="custom-card rounded-xl p-5 border">
+        <h3 class="text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
           <i class="fas fa-image text-accent"></i> 壁纸
         </h3>
         <div class="flex flex-wrap gap-2 mb-3">
@@ -53,7 +52,7 @@
             :key="option.value"
             @click="saveWallpaperPreference(option.value)"
             class="px-4 py-2 rounded-lg text-sm font-medium transition border"
-            :class="wallpaperPreference === option.value ? 'bg-accent/20 border-accent/30 text-accent' : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'"
+            :class="wallpaperPreference === option.value ? 'bg-accent/20 border-accent/30 text-accent' : 'bg-white/10 border-white/10 text-white/70 hover:bg-white/20'"
           >
             {{ option.label }}
           </button>
@@ -82,7 +81,7 @@
             v-model="solidColor"
             class="w-12 h-12 rounded-lg cursor-pointer border border-white/20 bg-transparent p-1"
           />
-          <span class="text-white/40 text-xs">选择颜色，点击下方按钮保存</span>
+          <span class="text-white/50 text-xs">选择颜色，点击下方按钮保存</span>
           <button
             @click="saveSolidColor"
             class="px-4 py-2 rounded-lg bg-accent/20 border border-accent/30 text-accent text-sm font-medium hover:bg-accent/30 transition whitespace-nowrap"
@@ -93,22 +92,22 @@
 
         <!-- 预览 -->
         <div v-if="customWallpaperUrl && wallpaperPreference === 'fixed'" class="mt-3">
-          <p class="text-white/30 text-xs mb-1">当前壁纸预览：</p>
+          <p class="text-white/40 text-xs mb-1">当前壁纸预览：</p>
           <img :src="customWallpaperUrl" alt="壁纸预览" class="w-full max-h-40 object-cover rounded-lg border border-white/10" @error="handleImageError" />
         </div>
         <div v-if="wallpaperPreference === 'solid' && solidColor" class="mt-3">
-          <p class="text-white/30 text-xs mb-1">当前纯色预览：</p>
+          <p class="text-white/40 text-xs mb-1">当前纯色预览：</p>
           <div class="w-full h-20 rounded-lg border border-white/10" :style="{ backgroundColor: solidColor }"></div>
-          <p class="text-white/30 text-xs mt-1">{{ solidColor }}</p>
+          <p class="text-white/40 text-xs mt-1">{{ solidColor }}</p>
         </div>
       </div>
 
       <!-- ===== 主题色 ===== -->
-      <div class="glass dark:glass-dark rounded-xl p-5 border border-white/10">
-        <h3 class="text-white/80 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
-          <i class="fas fa-palette text-accent"></i> 主题色
+      <div class="custom-card rounded-xl p-5 border">
+        <h3 class="text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+          <i class="fas fa-palette text-accent"></i> 主题色（点击后刷新页面）
         </h3>
-        <p class="text-white/30 text-xs mb-2">头像背景色将同步跟随主题色</p>
+        <p class="text-white/50 text-xs mb-2">头像背景色将同步跟随主题色</p>
         <div class="flex flex-wrap gap-3 items-center">
           <button
             v-for="color in colorOptions"
@@ -127,27 +126,27 @@
             @change="saveThemeColor(customThemeColor)"
           />
         </div>
-        <div class="mt-3 text-white/30 text-xs">
+        <div class="mt-3 text-white/50 text-xs">
           当前主题色：<span class="text-white" :style="{ color: themeColor }">{{ themeColor }}</span>
         </div>
         <div class="mt-3 flex items-center gap-3">
-          <span class="text-white/30 text-xs">头像预览：</span>
+          <span class="text-white/50 text-xs">头像预览：</span>
           <img
             :src="userStore.avatar"
             alt="头像预览"
             class="w-10 h-10 rounded-full border-2"
             :style="{ borderColor: themeColor }"
           />
-          <span class="text-white/30 text-xs">背景色跟随主题色</span>
+          <span class="text-white/40 text-xs">背景色跟随主题色</span>
         </div>
       </div>
 
       <!-- ===== 重置 ===== -->
-      <div class="glass dark:glass-dark rounded-xl p-5 border border-red-500/20">
-        <h3 class="text-white/80 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+      <div class="custom-card rounded-xl p-5 border border-red-500/20">
+        <h3 class="text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
           <i class="fas fa-undo text-red-400"></i> 重置
         </h3>
-        <p class="text-white/30 text-xs mb-3">重置所有自定义设置为默认值</p>
+        <p class="text-white/50 text-xs mb-3">重置所有自定义设置为默认值</p>
         <button
           @click="resetAll"
           class="px-6 py-2 rounded-lg bg-red-500/20 border border-red-500/30 text-red-400 text-sm font-medium hover:bg-red-500/30 transition"
@@ -319,19 +318,16 @@ function applyThemeColor(color) {
 async function resetAll() {
   if (!confirm('确定要重置所有自定义设置为默认值吗？此操作不可撤销！')) return
 
-  // 重置壁纸
   wallpaperPreference.value = 'daily'
   customWallpaperUrl.value = ''
   solidColor.value = '#1a1a2e'
 
-  // 重置主题色
   const defaultColor = '#d4af37'
   themeColor.value = defaultColor
   customThemeColor.value = defaultColor
   localStorage.setItem('unus_theme_color', defaultColor)
   applyThemeColor(defaultColor)
 
-  // 保存到 Supabase
   if (userStore.isLoggedIn) {
     const { error } = await supabase
       .from('profiles')
@@ -366,7 +362,61 @@ onMounted(() => {
 </script>
 
 <style scoped>
-:root {
-  --accent-color: #d4af37;
+/* ===== 自定义卡片（更不透明，文字黑色） ===== */
+.custom-card {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-color: rgba(255, 255, 255, 0.40) !important;
+}
+
+/* 卡片内所有文字（除标题和金色标签外）改为黑色 */
+.custom-card .text-white,
+.custom-card .text-white\/50,
+.custom-card .text-white\/60,
+.custom-card .text-white\/70,
+.custom-card .text-white\/80,
+.custom-card .text-white\/90 {
+  color: #1a1a2e !important;
+}
+
+/* 但标题保留白色（如 "🎨 自定义装扮" 是页面标题，不在卡片内） */
+.custom-card h2,
+.custom-card h3 {
+  color: #1a1a2e !important;
+}
+
+/* 卡片内的金色文字保留 */
+.custom-card .text-accent,
+.custom-card .text-accent\/[0-9]+ {
+  color: #d4af37 !important;
+}
+
+/* 卡片内的绿色（✅）保留 */
+.custom-card .text-green-400 {
+  color: #4ade80 !important;
+}
+
+/* 输入框、选择框、按钮文字 */
+.custom-card input,
+.custom-card select,
+.custom-card button:not(.bg-accent\/20):not(.bg-red-500\/20) {
+  color: #1a1a2e !important;
+}
+.custom-card input::placeholder {
+  color: rgba(60, 60, 80, 0.50) !important;
+}
+
+/* 按钮内文字（accent按钮保持金色） */
+.custom-card .bg-accent\/20 {
+  color: #d4af37 !important;
+}
+.custom-card .bg-red-500\/20 {
+  color: #f87171 !important;
+}
+
+/* 预览文字 */
+.custom-card .text-white\/40 {
+  color: rgba(60, 60, 80, 0.60) !important;
 }
 </style>
