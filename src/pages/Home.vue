@@ -131,7 +131,7 @@
           </div>
         </div>
 
-        <!-- ===== 公共推荐位（透明度10%） ===== -->
+        <!-- ===== 公共推荐位（白色底） ===== -->
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="section-title text-sm font-medium tracking-wide">
@@ -562,16 +562,16 @@ onUnmounted(() => {
   transform: translateY(-50%) scale(1.1);
 }
 
-/* ===== 推广位（透明度10%，保留毛玻璃虚化） ===== */
+/* ===== 推广位（和自定义链接一样白色底，黄色边框） ===== */
 .promo-card {
-  background: rgba(212, 175, 55, 0.10) !important;
-  border-color: rgba(212, 175, 55, 0.08) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(4px) !important;
   -webkit-backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(212, 175, 55, 0.40) !important;
   color: #1a1a2e !important;
 }
 .promo-card:hover {
-  background: rgba(212, 175, 55, 0.18) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
   transform: translateY(-2px);
 }
 
