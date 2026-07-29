@@ -51,6 +51,14 @@ export const useUserStore = defineStore('user', {
       }
       return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${bgColor}&color=fff&size=64&bold=true`
     },
+
+    // ===== 签到状态（从 Supabase 读取，跨平台互通） =====
+    isSignedInToday: (state) => {
+      if (!state.profile?.last_sign_in) return false
+      const today = new Date().toISOString().split('T')[0]
+      const lastSign = new Date(state.profile.last_sign_in).toISOString().split('T')[0]
+      return lastSign === today
+    },
   },
 
   actions: {
@@ -64,7 +72,6 @@ export const useUserStore = defineStore('user', {
       this.loading = false
     },
 
-    // ===== 修复：获取资料后同步签到状态到 localStorage =====
     async fetchProfile() {
       if (!this.user) return
       const { data, error } = await supabase
@@ -72,17 +79,10 @@ export const useUserStore = defineStore('user', {
         .select('*')
         .eq('id', this.user.id)
         .single()
-      if (error) console.error('获取资料失败:', error)
-      else {
+      if (error) {
+        console.error('获取资料失败:', error)
+      } else {
         this.profile = data
-        // 同步签到状态：如果 last_sign_in 是今天，写入 localStorage
-        if (data?.last_sign_in) {
-          const today = new Date().toISOString().split('T')[0]
-          const lastSignDate = new Date(data.last_sign_in).toISOString().split('T')[0]
-          if (lastSignDate === today) {
-            localStorage.setItem('unus_sign_date', today)
-          }
-        }
       }
     },
 
@@ -132,21 +132,21 @@ export const useUserStore = defineStore('user', {
       localStorage.removeItem('unus_sign_date')
     },
 
-    // ===== 修复：签到成功后同时更新 localStorage =====
+    // ===== 签到（数据库级别，跨平台互通） =====
     async signInDaily() {
       if (!this.user) throw new Error('请先登录')
-      
+
       const { data: profile, error: fetchError } = await supabase
         .from('profiles')
         .select('last_sign_in, ucoins')
         .eq('id', this.user.id)
         .single()
-      
+
       if (fetchError) throw fetchError
-      
+
       const today = new Date().toISOString().split('T')[0]
       const lastSignIn = profile?.last_sign_in ? new Date(profile.last_sign_in).toISOString().split('T')[0] : null
-      
+
       if (lastSignIn === today) {
         throw new Error('今天已签到')
       }
@@ -154,18 +154,18 @@ export const useUserStore = defineStore('user', {
       const newCoins = (profile?.ucoins || 0) + 1
       const { error: updateError } = await supabase
         .from('profiles')
-        .update({ 
-          ucoins: newCoins, 
-          last_sign_in: new Date().toISOString().split('T')[0] 
+        .update({
+          ucoins: newCoins,
+          last_sign_in: new Date().toISOString().split('T')[0]
         })
         .eq('id', this.user.id)
-      
+
       if (updateError) throw updateError
 
       this.profile.ucoins = newCoins
       this.profile.last_sign_in = new Date().toISOString().split('T')[0]
       localStorage.setItem('unus_sign_date', today)
-      
+
       return newCoins
     },
 
