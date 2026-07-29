@@ -2,8 +2,8 @@
   <!-- 背景 -->
   <div class="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-700"
        :style="backgroundStyle">
-    <!-- 遮罩层：改为 40% 黑色 -->
-    <div class="absolute inset-0 bg-black/40 transition-all duration-500"></div>
+    <!-- 遮罩层：改为 20% 黑色，更亮 -->
+    <div class="absolute inset-0 bg-black/20 transition-all duration-500"></div>
   </div>
 
   <!-- 主布局 -->
