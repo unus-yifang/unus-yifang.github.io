@@ -7,28 +7,30 @@ body {
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+  background: #0a0a0f;
 }
 
+/* ===== 玻璃效果 - 夜间模式 ===== */
 .glass {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.20);
+  border: 1px solid rgba(255, 255, 255, 0.10);
 }
 .glass-dark {
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.50);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 .glass-nav {
-  background: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
 }
 .glass-nav-dark {
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.60);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-right: 1px solid rgba(255, 255, 255, 0.04);
@@ -36,19 +38,19 @@ body {
 
 .search-select {
   background: transparent; border: none; outline: none; font-size: 0.85rem;
-  font-weight: 500; color: inherit; cursor: pointer; padding-right: 4px;
+  font-weight: 500; color: #fff; cursor: pointer; padding-right: 4px;
   appearance: none; -webkit-appearance: none;
 }
 .search-select option { background: #1e1e2f; color: #fff; }
 
 .nav-item {
   display: flex; align-items: center; gap: 10px; padding: 8px 12px;
-  border-radius: 8px; color: rgba(255, 255, 255, 0.50);
+  border-radius: 8px; color: rgba(255, 255, 255, 0.55);
   transition: all 0.2s ease; font-weight: 500; font-size: 0.85rem;
   text-decoration: none; white-space: nowrap;
 }
-.nav-item:hover { background: rgba(255, 255, 255, 0.07); color: #fff; }
-.nav-item.active { background: rgba(255, 255, 255, 0.09); color: #fff; }
+.nav-item:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.nav-item.active { background: rgba(255, 255, 255, 0.12); color: #fff; }
 .nav-item i { width: 18px; text-align: center; font-size: 1rem; }
 
 .nav-user-card {
@@ -56,12 +58,12 @@ body {
   border-radius: 8px; cursor: pointer; transition: all 0.2s ease;
   margin-top: 4px; text-decoration: none;
 }
-.nav-user-card:hover { background: rgba(255, 255, 255, 0.05); }
+.nav-user-card:hover { background: rgba(255, 255, 255, 0.06); }
 .nav-user-card .username {
-  font-size: 0.8rem; font-weight: 500; color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem; font-weight: 500; color: rgba(255, 255, 255, 0.75);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70px;
 }
-.nav-user-card .sub-text { font-size: 0.6rem; color: rgba(255, 255, 255, 0.35); }
+.nav-user-card .sub-text { font-size: 0.6rem; color: rgba(255, 255, 255, 0.40); }
 .avatar-sm { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.25); flex-shrink: 0; }
 .avatar-top { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.25); cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; }
 .avatar-top:hover { transform: scale(1.06); border-color: rgba(255, 255, 255, 0.5); }
@@ -75,7 +77,7 @@ body {
   border-radius: 8px;
   font-size: 0.8rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.80);
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
@@ -92,20 +94,16 @@ body {
 }
 
 .daily-quote {
-  font-size: 0.9rem; color: rgba(255, 255, 255, 0.65); font-weight: 400;
-  letter-spacing: 0.3px; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
-}
-
-.theme-btn {
-  display: none !important;
+  font-size: 0.9rem; color: rgba(255, 255, 255, 0.70); font-weight: 400;
+  letter-spacing: 0.3px; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
 }
 
 .signin-btn {
   font-size: 0.75rem; padding: 4px 14px; border-radius: 20px;
-  background: rgba(255, 255, 255, 0.10); color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.08); color: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer; transition: all 0.2s ease; font-weight: 500;
 }
-.signin-btn:hover { background: rgba(255, 255, 255, 0.18); }
+.signin-btn:hover { background: rgba(255, 255, 255, 0.16); }
 
 .page-card {
   background: rgba(255, 255, 255, 0.04);
@@ -114,8 +112,8 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 16px; padding: 2rem 2.5rem; width: 100%; max-width: 560px; text-align: center;
 }
-.page-card h2 { font-size: 1.5rem; font-weight: 700; color: #eee; margin-bottom: 0.5rem; }
-.page-card p { color: rgba(255, 255, 255, 0.5); font-size: 0.95rem; line-height: 1.6; }
+.page-card h2 { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+.page-card p { color: rgba(255, 255, 255, 0.55); font-size: 0.95rem; line-height: 1.6; }
 .page-card .icon-big { font-size: 3rem; color: rgba(255, 255, 255, 0.20); margin-bottom: 0.75rem; }
 
 .price-tag {

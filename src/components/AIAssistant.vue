@@ -10,7 +10,7 @@
     </div>
 
     <!-- 聊天窗口 -->
-    <div v-if="isChatOpen" class="chat-window glass-dark">
+    <div v-if="isChatOpen" class="chat-window">
       <!-- 标题栏 -->
       <div class="chat-header">
         <div class="flex items-center gap-2">
@@ -396,7 +396,7 @@ onUnmounted(() => {
   50% { background-position: 100% 50%; }
 }
 
-/* ===== 聊天窗口 ===== */
+/* ===== 聊天窗口（深色背景 + 白色边框） ===== */
 .chat-window {
   position: absolute;
   bottom: 76px;
@@ -404,12 +404,15 @@ onUnmounted(() => {
   width: 380px;
   height: 500px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 15, 25, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   animation: slideUp 0.3s ease;
-  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.6);
 }
 
 @keyframes slideUp {
@@ -430,11 +433,11 @@ onUnmounted(() => {
 .chat-title {
   font-weight: 600;
   font-size: 1.125rem;
-  color: #fff;
+  color: #ffffff;
 }
 
 .chat-sub {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.40);
   font-size: 0.65rem;
 }
 
@@ -452,10 +455,11 @@ onUnmounted(() => {
   cursor: pointer;
   font-size: 16px;
   padding: 4px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.40);
+  transition: color 0.2s ease;
 }
 .close-btn:hover {
-  color: #fff;
+  color: #ffffff;
 }
 
 /* ===== 消息列表 ===== */
@@ -475,7 +479,7 @@ onUnmounted(() => {
   background: transparent;
 }
 .chat-messages::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 4px;
 }
 
@@ -485,11 +489,11 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.30);
 }
 
 .empty-title {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.60);
   font-size: 0.875rem;
 }
 
@@ -512,6 +516,7 @@ onUnmounted(() => {
   align-self: flex-start;
 }
 
+/* ===== 消息气泡（白色框框） ===== */
 .message-bubble {
   padding: 10px 14px;
   border-radius: 14px;
@@ -521,15 +526,15 @@ onUnmounted(() => {
   max-width: 100%;
 }
 .bubble-user {
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.1);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ffffff;
   border-bottom-right-radius: 4px;
 }
 .bubble-assistant {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
   border-bottom-left-radius: 4px;
 }
 
@@ -565,7 +570,7 @@ onUnmounted(() => {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 8px 14px;
-  color: #fff;
+  color: #ffffff;
   font-size: 0.85rem;
   outline: none;
   transition: border-color 0.2s ease;
@@ -586,8 +591,8 @@ onUnmounted(() => {
   border-radius: 50%;
   border: none;
   background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.1);
-  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(212, 175, 55, 0.10);
+  color: rgba(255, 255, 255, 0.60);
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -596,7 +601,7 @@ onUnmounted(() => {
 }
 .chat-send-btn:hover:not(:disabled) {
   background: rgba(212, 175, 55, 0.25);
-  color: #fff;
+  color: #ffffff;
   transform: scale(1.05);
 }
 .chat-send-btn:disabled {
