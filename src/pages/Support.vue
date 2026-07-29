@@ -12,7 +12,7 @@
 
     <!-- ===== 充值档位 ===== -->
     <div class="mb-8">
-      <h2 class="support-section-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+      <h2 class="section-title-white text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-coins text-accent"></i> 支持档位
       </h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -37,12 +37,12 @@
       </div>
     </div>
 
-    <!-- ===== 推广位购买 ===== -->
+    <!-- ===== 推广位购买（标题和小字白色，卡片内黑色） ===== -->
     <div class="mb-8">
-      <h2 class="support-section-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+      <h2 class="section-title-white text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-bullhorn text-accent"></i> 推广位购买
       </h2>
-      <p class="support-sub-text text-xs mb-3">让你的网站出现在首页推荐位，获得更多曝光</p>
+      <p class="section-desc-white text-xs mb-3">让你的网站出现在首页推荐位，获得更多曝光</p>
       <div class="grid grid-cols-3 gap-3">
         <div
           v-for="promo in promoTiers"
@@ -59,7 +59,7 @@
 
     <!-- ===== 兑换码输入 ===== -->
     <div class="mb-8">
-      <h2 class="support-section-title text-sm font-medium tracking-wide mb-2 flex items-center gap-2">
+      <h2 class="section-title-white text-sm font-medium tracking-wide mb-2 flex items-center gap-2">
         <i class="fas fa-key text-accent"></i> 已有兑换码？
       </h2>
       <div class="flex gap-2">
@@ -84,7 +84,7 @@
 
     <!-- ===== 会员订阅 ===== -->
     <div class="mb-8">
-      <h2 class="support-section-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+      <h2 class="section-title-white text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-crown text-accent"></i> 会员订阅
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -101,7 +101,7 @@
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义链接上限 8 个</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 每日 AI 免费 8 次</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义壁纸 / 主题色</div>
-            <div class="flex items-center gap-2 "><span>❌</span> 新功能优先体验</div>
+            <div class="flex items-center gap-2 text-white/50"><span>❌</span> 新功能优先体验</div>
           </div>
           <button
             v-if="userStore.effectiveSubscription !== 'monthly'"
@@ -158,7 +158,7 @@
 
     <!-- ===== 感谢名单 ===== -->
     <div>
-      <h2 class="support-section-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+      <h2 class="section-title-white text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-heart text-red-400"></i> 感谢支持者（{{ thanksList.length }} 人）
       </h2>
       <div class="thanks-card rounded-xl p-4 border">
@@ -177,7 +177,6 @@
             <span class="thanks-date">{{ formatDate(item.created_at) }}</span>
           </div>
         </div>
-        <!-- ===== 底部文案改为黑色 ===== -->
         <div class="text-center text-gray-500 text-[10px] mt-3">
           —— 感谢每一位让 Unus · 一方变得更好的人 ——
         </div>
@@ -341,17 +340,19 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.support-section-title {
-  color: #1a1a2e !important;
+/* ===== 标题和小字（白色） ===== */
+.section-title-white {
+  color: #ffffff !important;
 }
-.support-section-title .text-accent {
+.section-title-white .text-accent {
   color: #d4af37 !important;
 }
 
-.support-sub-text {
-  color: rgba(60, 60, 80, 0.60) !important;
+.section-desc-white {
+  color: rgba(255, 255, 255, 0.50) !important;
 }
 
+/* ===== 输入框 ===== */
 .support-input {
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.40);
@@ -365,6 +366,7 @@ onMounted(() => {
   outline: none;
 }
 
+/* ===== 卡片（黑色文字） ===== */
 .tier-card {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
@@ -396,6 +398,7 @@ onMounted(() => {
   margin-top: 2px;
 }
 
+/* ===== 会员卡 ===== */
 .member-card {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
@@ -417,6 +420,7 @@ onMounted(() => {
   color: rgba(60, 60, 80, 0.70);
 }
 
+/* ===== 感谢名单 ===== */
 .thanks-card {
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(12px);
