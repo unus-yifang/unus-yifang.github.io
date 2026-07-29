@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <!-- ===== 推广位购买（标题和小字白色，卡片内黑色） ===== -->
+    <!-- ===== 推广位购买 ===== -->
     <div class="mb-8">
       <h2 class="section-title-white text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-bullhorn text-accent"></i> 推广位购买
@@ -101,7 +101,7 @@
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义链接上限 8 个</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 每日 AI 免费 8 次</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义壁纸 / 主题色</div>
-            <div class="flex items-center gap-2"><span class="text-gray-500>❌</span> 新功能优先体验</div>
+            <div class="flex items-center gap-2 text-gray-500"><span>❌</span> 新功能优先体验</div>
           </div>
           <button
             v-if="userStore.effectiveSubscription !== 'monthly'"
