@@ -36,10 +36,18 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
   
-  // 如果 URL 带有 redirect 参数，处理它
-  if (to.query.redirect && to.path === '/') {
-    // 把 redirect 参数存到 localStorage，登录后使用
-    localStorage.setItem('unus_redirect', to.query.redirect)
+  // ===== 检查是否有 404 重定向路径 =====
+  const redirectPath = sessionStorage.getItem('redirect_path')
+  if (redirectPath && to.path === '/') {
+    sessionStorage.removeItem('redirect_path')
+    // 如果路径是 /login，直接跳转登录页
+    if (redirectPath.startsWith('/login')) {
+      next({ path: redirectPath })
+      return
+    }
+    // 否则保留原路径，Vue Router 会处理
+    next({ path: redirectPath })
+    return
   }
   
   if (to.meta.requiresAuth && !userStore.isLoggedIn) {
@@ -57,7 +65,6 @@ router.beforeEach(async (to, from, next) => {
   }
   
   if (to.path === '/login' && userStore.isLoggedIn) {
-    // 登录后检查是否有 redirect
     const redirectPath = localStorage.getItem('unus_redirect')
     localStorage.removeItem('unus_redirect')
     if (redirectPath) {
