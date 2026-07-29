@@ -101,7 +101,7 @@
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义链接上限 8 个</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 每日 AI 免费 8 次</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义壁纸 / 主题色</div>
-            <div class="flex items-center gap-2"><span>❌</span> 新功能优先体验</div>
+            <div class="flex items-center gap-2"><span class="text-gray-500>❌</span> 新功能优先体验</div>
           </div>
           <button
             v-if="userStore.effectiveSubscription !== 'monthly'"
