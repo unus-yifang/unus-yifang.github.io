@@ -10,47 +10,58 @@ body {
   background: #0a0a0f;
 }
 
-/* ===== 玻璃效果 - 夜间模式 ===== */
+/* ===== 统一毛玻璃效果（实心，清晰可见） ===== */
 .glass {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.50);
 }
+
 .glass-dark {
-  background: rgba(0, 0, 0, 0.50);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.40);
 }
+
 .glass-nav {
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: 1px solid rgba(255, 255, 255, 0.50);
 }
+
 .glass-nav-dark {
-  background: rgba(0, 0, 0, 0.60);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: 1px solid rgba(255, 255, 255, 0.40);
+}
+
+/* 浅色毛玻璃（和关于页面一致） */
+.glass-light {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.50);
 }
 
 .search-select {
   background: transparent; border: none; outline: none; font-size: 0.85rem;
-  font-weight: 500; color: #fff; cursor: pointer; padding-right: 4px;
+  font-weight: 500; color: #333; cursor: pointer; padding-right: 4px;
   appearance: none; -webkit-appearance: none;
 }
-.search-select option { background: #1e1e2f; color: #fff; }
+.search-select option { background: #f5f5f5; color: #333; }
 
 .nav-item {
   display: flex; align-items: center; gap: 10px; padding: 8px 12px;
-  border-radius: 8px; color: rgba(255, 255, 255, 0.55);
+  border-radius: 8px; color: rgba(60, 60, 70, 0.65);
   transition: all 0.2s ease; font-weight: 500; font-size: 0.85rem;
   text-decoration: none; white-space: nowrap;
 }
-.nav-item:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
-.nav-item.active { background: rgba(255, 255, 255, 0.12); color: #fff; }
+.nav-item:hover { background: rgba(255, 255, 255, 0.40); color: rgba(30, 30, 40, 0.9); }
+.nav-item.active { background: rgba(255, 255, 255, 0.50); color: rgba(20, 20, 30, 0.95); }
 .nav-item i { width: 18px; text-align: center; font-size: 1rem; }
 
 .nav-user-card {
@@ -58,74 +69,74 @@ body {
   border-radius: 8px; cursor: pointer; transition: all 0.2s ease;
   margin-top: 4px; text-decoration: none;
 }
-.nav-user-card:hover { background: rgba(255, 255, 255, 0.06); }
+.nav-user-card:hover { background: rgba(255, 255, 255, 0.25); }
 .nav-user-card .username {
-  font-size: 0.8rem; font-weight: 500; color: rgba(255, 255, 255, 0.75);
+  font-size: 0.8rem; font-weight: 500; color: rgba(40, 40, 50, 0.8);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70px;
 }
-.nav-user-card .sub-text { font-size: 0.6rem; color: rgba(255, 255, 255, 0.40); }
-.avatar-sm { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.25); flex-shrink: 0; }
-.avatar-top { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.25); cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; }
-.avatar-top:hover { transform: scale(1.06); border-color: rgba(255, 255, 255, 0.5); }
+.nav-user-card .sub-text { font-size: 0.6rem; color: rgba(80, 80, 90, 0.5); }
+.avatar-sm { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.40); flex-shrink: 0; }
+.avatar-top { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.40); cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; }
+.avatar-top:hover { transform: scale(1.06); border-color: rgba(255, 255, 255, 0.7); }
 
 .link-card {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.50);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.30);
   padding: 6px 14px;
   border-radius: 8px;
   font-size: 0.8rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.80);
+  color: rgba(40, 40, 50, 0.85);
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
   display: inline-flex;
   align-items: center; gap: 6px;
 }
-.link-card:hover { background: rgba(255, 255, 255, 0.12); transform: translateY(-2px); }
-.link-card.add-btn { border: 1px dashed rgba(255, 255, 255, 0.30); background: rgba(255, 255, 255, 0.04); }
-.link-card.add-btn:hover { background: rgba(255, 255, 255, 0.12); }
+.link-card:hover { background: rgba(255, 255, 255, 0.75); transform: translateY(-2px); }
+.link-card.add-btn { border: 1px dashed rgba(0, 0, 0, 0.20); background: rgba(255, 255, 255, 0.30); }
+.link-card.add-btn:hover { background: rgba(255, 255, 255, 0.60); }
 
 .badge-promote {
-  font-size: 0.5rem; background: rgba(212, 175, 55, 0.6); color: #fff;
+  font-size: 0.5rem; background: rgba(212, 175, 55, 0.7); color: #fff;
   padding: 1px 8px; border-radius: 20px; font-weight: 600; letter-spacing: 0.3px; margin-left: 4px;
 }
 
 .daily-quote {
-  font-size: 0.9rem; color: rgba(255, 255, 255, 0.70); font-weight: 400;
-  letter-spacing: 0.3px; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
+  font-size: 0.9rem; color: rgba(60, 60, 70, 0.70); font-weight: 400;
+  letter-spacing: 0.3px; text-shadow: none;
 }
 
 .signin-btn {
   font-size: 0.75rem; padding: 4px 14px; border-radius: 20px;
-  background: rgba(255, 255, 255, 0.08); color: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer; transition: all 0.2s ease; font-weight: 500;
+  background: rgba(255, 255, 255, 0.60); color: rgba(40, 40, 50, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.30); cursor: pointer; transition: all 0.2s ease; font-weight: 500;
 }
-.signin-btn:hover { background: rgba(255, 255, 255, 0.16); }
+.signin-btn:hover { background: rgba(255, 255, 255, 0.80); }
 
 .page-card {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.70);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.40);
   border-radius: 16px; padding: 2rem 2.5rem; width: 100%; max-width: 560px; text-align: center;
 }
-.page-card h2 { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
-.page-card p { color: rgba(255, 255, 255, 0.55); font-size: 0.95rem; line-height: 1.6; }
-.page-card .icon-big { font-size: 3rem; color: rgba(255, 255, 255, 0.20); margin-bottom: 0.75rem; }
+.page-card h2 { font-size: 1.5rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0.5rem; }
+.page-card p { color: rgba(40, 40, 50, 0.75); font-size: 0.95rem; line-height: 1.6; }
+.page-card .icon-big { font-size: 3rem; color: rgba(40, 40, 50, 0.20); margin-bottom: 0.75rem; }
 
 .price-tag {
   display: inline-block; background: rgba(212, 175, 55, 0.2);
   border: 1px solid rgba(212, 175, 55, 0.3); padding: 4px 16px;
-  border-radius: 20px; font-size: 0.8rem; color: #d4af37; font-weight: 600;
+  border-radius: 20px; font-size: 0.8rem; color: #b8860b; font-weight: 600;
 }
 
 /* ===== 滚动条 ===== */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.12); border-radius: 4px; }
 
 @media (max-width: 768px) {
   .nav-label { display: none; }
@@ -139,12 +150,4 @@ body {
   .nav-user-card { justify-content: center; padding: 8px 0; }
   .page-card { padding: 1.5rem 1rem; }
   .top-bar { padding-right: 8px !important; }
-}
-
-/* ===== 浅色毛玻璃（配合浅色UI） ===== */
-.glass-light {
-  background: rgba(255, 255, 255, 0.70);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.50);
 }
