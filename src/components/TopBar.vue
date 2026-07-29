@@ -1,8 +1,8 @@
 <template>
   <div class="top-bar w-full flex items-center justify-end gap-3 px-4 md:px-6 py-3 flex-shrink-0">
     <!-- U币余额 -->
-    <router-link to="/profile" class="flex items-center gap-1.5 px-3 h-9 rounded-full glass dark:glass-dark border border-white/15 dark:border-white/5 text-white/90 text-sm font-medium hover:bg-white/10 transition-all duration-200">
-      <i class="fas fa-coins text-accent"></i>
+    <router-link to="/profile" class="flex items-center gap-1.5 px-3 h-9 rounded-full glass-dark border border-white/5 text-white/90 text-sm font-medium hover:bg-white/10 transition-all duration-200">
+      <span class="text-accent">💰</span>
       <span>{{ userStore.ucoins }}</span>
       <span class="text-white/40 text-xs ml-0.5">U币</span>
     </router-link>
@@ -12,17 +12,12 @@
       <i class="fas fa-calendar-check mr-1"></i> 签到
     </button>
 
-    <!-- 日夜间 -->
-    <button class="theme-btn h-9 w-9" @click="toggleTheme">
-      <i class="fas" :class="isDark ? 'fa-sun' : 'fa-moon'"></i>
-    </button>
-
     <!-- 头像 -->
     <router-link to="/profile">
       <img
         :src="userStore.avatar"
         alt="avatar"
-        class="avatar-top h-9 w-9 rounded-full object-cover border-2 border-white/25 hover:border-white/50 transition-all"
+        class="avatar-top h-9 w-9 rounded-full object-cover border-2 border-white/20 hover:border-white/50 transition-all"
         @error="handleAvatarError"
         ref="avatarImg"
       />
@@ -35,17 +30,10 @@ import { ref, onMounted } from 'vue'
 import { useUserStore } from '../stores/user'
 
 const userStore = useUserStore()
-const isDark = ref(localStorage.getItem('theme') === 'dark')
 const avatarImg = ref(null)
 
 function handleAvatarError(event) {
   event.target.src = 'https://ui-avatars.com/api/?name=?&background=6b7280&color=fff&size=64&font-size=0.5&bold=true'
-}
-
-function toggleTheme() {
-  isDark.value = !isDark.value
-  document.documentElement.classList.toggle('dark', isDark.value)
-  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
 }
 
 async function handleSignin() {
@@ -58,9 +46,8 @@ async function handleSignin() {
 }
 
 onMounted(() => {
-  if (localStorage.getItem('theme') === 'dark') {
-    document.documentElement.classList.add('dark')
-  }
+  // 确保夜间模式
+  document.documentElement.classList.add('dark')
 })
 </script>
 
@@ -73,51 +60,18 @@ onMounted(() => {
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 500;
-  background: rgba(255, 255, 255, 0.18);
-  color: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 .signin-btn:hover {
-  background: rgba(255, 255, 255, 0.30);
-}
-.dark .signin-btn {
-  background: rgba(255, 255, 255, 0.10);
-  color: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-.dark .signin-btn:hover {
-  background: rgba(255, 255, 255, 0.18);
-}
-
-.theme-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.18);
-  color: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.theme-btn:hover {
-  transform: scale(1.08);
-  background: rgba(255, 255, 255, 0.30);
-}
-.dark .theme-btn {
-  background: rgba(255, 255, 255, 0.10);
-  color: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-.dark .theme-btn:hover {
   background: rgba(255, 255, 255, 0.18);
 }
 
 .avatar-top {
   object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.25);
   cursor: pointer;
   transition: all 0.2s ease;
 }

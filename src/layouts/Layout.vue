@@ -2,27 +2,24 @@
   <!-- 背景 -->
   <div class="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-700"
        :style="backgroundStyle">
-    <div class="absolute inset-0 bg-black/10 dark:bg-black/60 transition-all duration-500"></div>
+    <div class="absolute inset-0 bg-black/60 transition-all duration-500"></div>
   </div>
 
   <!-- 主布局 -->
   <div class="relative z-10 flex h-screen w-screen overflow-hidden">
     <Sidebar />
 
-    <!-- 右侧主区域 -->
     <div class="flex-1 h-full overflow-y-auto flex flex-col">
       <TopBar />
 
-      <!-- 主内容 + 每日一句 -->
       <div class="flex-1 flex flex-col items-center justify-center px-4 pb-4">
         <div class="flex-1 flex items-center justify-center w-full">
           <router-view class="w-full max-w-2xl" />
         </div>
 
-        <!-- 每日一句 -->
         <div class="flex-shrink-0 w-full text-center py-3">
           <span class="daily-quote">
-            <i class="fas fa-quote-left mr-2 opacity-60"></i>
+            <i class="fas fa-quote-left mr-2 opacity-40"></i>
             {{ dailyQuote }}
           </span>
         </div>
@@ -30,7 +27,6 @@
     </div>
   </div>
 
-  <!-- AI 助手 -->
   <AIAssistant v-if="$route.path !== '/login'" />
 </template>
 
@@ -97,13 +93,9 @@ onMounted(() => {
 <style scoped>
 .daily-quote {
   font-size: 0.95rem;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.65);
   font-weight: 400;
   letter-spacing: 0.5px;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
-}
-.dark .daily-quote {
-  color: #ffffff;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 </style>
