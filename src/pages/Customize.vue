@@ -43,7 +43,7 @@
 
       <!-- ===== 壁纸 ===== -->
       <div class="custom-card rounded-xl p-5 border">
-        <h3 class="text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+        <h3 class="section-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
           <i class="fas fa-image text-accent"></i> 壁纸
         </h3>
         <div class="flex flex-wrap gap-2 mb-3">
@@ -104,7 +104,7 @@
 
       <!-- ===== 主题色 ===== -->
       <div class="custom-card rounded-xl p-5 border">
-        <h3 class="text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+        <h3 class="section-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
           <i class="fas fa-palette text-accent"></i> 主题色（点击后刷新页面）
         </h3>
         <p class="text-white/50 text-xs mb-2">头像背景色将同步跟随主题色</p>
@@ -143,7 +143,7 @@
 
       <!-- ===== 重置 ===== -->
       <div class="custom-card rounded-xl p-5 border border-red-500/20">
-        <h3 class="text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+        <h3 class="section-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
           <i class="fas fa-undo text-red-400"></i> 重置
         </h3>
         <p class="text-white/50 text-xs mb-3">重置所有自定义设置为默认值</p>
@@ -362,7 +362,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* ===== 自定义卡片（更不透明，文字黑色） ===== */
+/* ===== 自定义卡片：更不透明，文字黑色 ===== */
 .custom-card {
   background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(12px) !important;
@@ -370,31 +370,30 @@ onMounted(() => {
   border-color: rgba(255, 255, 255, 0.40) !important;
 }
 
-/* 卡片内所有文字（除标题和金色标签外）改为黑色 */
-.custom-card .text-white,
-.custom-card .text-white\/50,
-.custom-card .text-white\/60,
-.custom-card .text-white\/70,
-.custom-card .text-white\/80,
-.custom-card .text-white\/90 {
+/* 卡片内所有文字（除了 .section-title 和 .text-accent）改为黑色 */
+.custom-card :not(.section-title):not(.text-accent):not(.text-green-400):not(.text-red-400):not(.text-white\/40) {
   color: #1a1a2e !important;
 }
 
-/* 但标题保留白色（如 "🎨 自定义装扮" 是页面标题，不在卡片内） */
-.custom-card h2,
-.custom-card h3 {
+/* 标题保留深色（已经是黑色） */
+.section-title {
   color: #1a1a2e !important;
+}
+.section-title .text-accent {
+  color: #d4af37 !important;
 }
 
 /* 卡片内的金色文字保留 */
-.custom-card .text-accent,
-.custom-card .text-accent\/[0-9]+ {
+.custom-card .text-accent {
   color: #d4af37 !important;
 }
 
 /* 卡片内的绿色（✅）保留 */
 .custom-card .text-green-400 {
   color: #4ade80 !important;
+}
+.custom-card .text-red-400 {
+  color: #f87171 !important;
 }
 
 /* 输入框、选择框、按钮文字 */
@@ -418,5 +417,13 @@ onMounted(() => {
 /* 预览文字 */
 .custom-card .text-white\/40 {
   color: rgba(60, 60, 80, 0.60) !important;
+}
+
+/* 未订阅引导卡片中的文字 */
+.custom-card .text-white {
+  color: #1a1a2e !important;
+}
+.custom-card .text-white\/60 {
+  color: rgba(60, 60, 80, 0.70) !important;
 }
 </style>
