@@ -1,19 +1,23 @@
 <template>
   <div class="top-bar w-full flex items-center justify-end gap-3 px-4 md:px-6 py-3 flex-shrink-0">
 
-    <!-- U币余额（文字黑色） -->
+    <!-- U币余额（无 hover 变化） -->
     <router-link
       to="/profile"
-      class="flex items-center gap-1.5 px-3 h-9 rounded-full glass-light text-gray-900 text-sm font-medium hover:bg-white/30 transition-all duration-200"
+      class="ubox flex items-center gap-1.5 px-3 h-9 rounded-full glass-light text-gray-900 text-sm font-medium transition-none"
     >
       <span class="text-accent">💰</span>
       <span>{{ userStore.ucoins }}</span>
       <span class="text-gray-500 text-xs ml-0.5">U币</span>
     </router-link>
 
-    <!-- 签到 -->
-    <button class="signin-btn h-9 px-4" @click="handleSignin">
-      <i class="fas fa-calendar-check mr-1"></i> 签到
+    <!-- 签到（签到后保持高亮，不再变化） -->
+    <button
+      class="signin-btn h-9 px-4"
+      :class="{ 'signed-in': isSignedInToday }"
+      @click="handleSignin"
+    >
+      <i class="fas fa-calendar-check mr-1"></i> {{ isSignedInToday ? '已签到' : '签到' }}
     </button>
 
     <!-- 头像 -->
@@ -30,27 +34,60 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserStore } from '../stores/user'
 
 const userStore = useUserStore()
 const avatarImg = ref(null)
+const isSignedInToday = ref(false)
+
+// 检查今天是否已签到
+function checkSignInStatus() {
+  const today = new Date().toDateString()
+  const lastSign = localStorage.getItem('unus_sign_date')
+  isSignedInToday.value = (lastSign === today)
+}
 
 function handleAvatarError(event) {
   event.target.src = 'https://ui-avatars.com/api/?name=?&background=6b7280&color=fff&size=64&font-size=0.5&bold=true'
 }
 
 async function handleSignin() {
+  if (isSignedInToday.value) {
+    alert('今天已签到 🎯')
+    return
+  }
+
   try {
     const newCoins = await userStore.signInDaily()
+    isSignedInToday.value = true
     alert(`签到成功！+1 U币，当前余额：${newCoins} U币`)
   } catch (err) {
     alert(err.message)
   }
 }
+
+onMounted(() => {
+  checkSignInStatus()
+})
 </script>
 
 <style scoped>
+/* ===== U币框（无 hover 变化） ===== */
+.ubox {
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+  transition: none !important;
+  cursor: default;
+}
+.ubox:hover {
+  background: rgba(255, 255, 255, 0.70) !important;
+  transform: none !important;
+}
+
+/* ===== 签到按钮（普通状态） ===== */
 .signin-btn {
   min-width: 80px;
   display: inline-flex;
@@ -63,10 +100,22 @@ async function handleSignin() {
   color: #1a1a2e;
   border: 1px solid rgba(255, 255, 255, 0.30);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: none !important;
 }
-.signin-btn:hover {
+/* 未签到时的 hover（会变化） */
+.signin-btn:not(.signed-in):hover {
   background: rgba(255, 255, 255, 0.85);
+}
+
+/* ===== 签到按钮（已签到状态：高亮，不变化） ===== */
+.signin-btn.signed-in {
+  background: rgba(255, 255, 255, 0.85) !important;
+  color: #1a1a2e;
+  cursor: default;
+}
+.signin-btn.signed-in:hover {
+  background: rgba(255, 255, 255, 0.85) !important;
+  transform: none !important;
 }
 
 .avatar-top {
@@ -77,12 +126,5 @@ async function handleSignin() {
 .avatar-top:hover {
   transform: scale(1.06);
   border-color: rgba(0, 0, 0, 0.20);
-}
-
-.glass-light {
-  background: rgba(255, 255, 255, 0.70);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.40);
 }
 </style>
