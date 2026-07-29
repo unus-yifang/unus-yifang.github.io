@@ -162,7 +162,6 @@
         <i class="fas fa-heart text-red-400"></i> 感谢支持者（{{ thanksList.length }} 人）
       </h2>
       <div class="thanks-card rounded-xl p-4 border">
-        <!-- ===== 空状态文案改为黑色 ===== -->
         <div v-if="thanksList.length === 0" class="text-gray-700 text-sm text-center py-4">
           还没有支持者，成为第一个吧 🎉
         </div>
@@ -178,7 +177,8 @@
             <span class="thanks-date">{{ formatDate(item.created_at) }}</span>
           </div>
         </div>
-        <div class="text-center text-white/20 text-[10px] mt-3">
+        <!-- ===== 底部文案改为黑色 ===== -->
+        <div class="text-center text-gray-500 text-[10px] mt-3">
           —— 感谢每一位让 Unus · 一方变得更好的人 ——
         </div>
       </div>
@@ -188,7 +188,6 @@
     <div v-if="qrModalVisible" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm" @click.self="qrModalVisible = false">
       <div class="glass dark:glass-dark rounded-2xl border border-white/20 p-6 w-full max-w-sm shadow-2xl text-center">
         <div class="text-white font-medium mb-3">扫码联系站长</div>
-        <!-- ===== 二维码图片更换为新链接 ===== -->
         <img
           :src="qrImageUrl"
           alt="微信二维码"
@@ -226,7 +225,6 @@ const isRedeeming = ref(false)
 
 const qrModalVisible = ref(false)
 const selectedItem = ref(null)
-// ===== 二维码图片更换为新链接 =====
 const qrImageUrl = ref('https://cdn.luogu.com.cn/upload/image_hosting/l26vwta6.png')
 
 const subMsg = ref('')
