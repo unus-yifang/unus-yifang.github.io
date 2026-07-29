@@ -11,10 +11,10 @@
       <!-- 搜索框 -->
       <div class="search-wrapper w-full max-w-xl flex items-stretch glass dark:glass-dark rounded-2xl border border-white/20 dark:border-white/10 overflow-hidden focus-within:ring-2 focus-within:ring-accent/50 relative z-20">
         <div class="relative flex items-center pl-3 pr-2 border-r border-white/15 dark:border-white/10 cursor-pointer select-none" @click="toggleDropdown">
-          <span class="text-white/90 text-sm font-medium whitespace-nowrap flex items-center gap-1.5">
+          <span class="text-white/90 dark:text-white/90 text-sm font-medium whitespace-nowrap flex items-center gap-1.5">
             {{ selectedPlatform.name }}
           </span>
-          <i class="fas fa-chevron-down text-white/40 text-[10px] ml-1 transition-transform" :class="{ 'rotate-180': isDropdownOpen }"></i>
+          <i class="fas fa-chevron-down text-white/40 dark:text-white/40 text-[10px] ml-1 transition-transform" :class="{ 'rotate-180': isDropdownOpen }"></i>
         </div>
 
         <input
@@ -22,11 +22,11 @@
           v-model="query"
           @keydown.enter="search"
           placeholder="搜索你想要的..."
-          class="flex-1 bg-transparent text-white placeholder-white/60 dark:placeholder-white/50 px-4 py-3 outline-none text-base font-light min-w-0"
+          class="flex-1 bg-transparent text-white dark:text-white placeholder-white/60 dark:placeholder-white/50 px-4 py-3 outline-none text-base font-light min-w-0"
           autofocus
         />
 
-        <button @click="search" class="px-5 text-white/80 hover:text-white transition-colors flex-shrink-0">
+        <button @click="search" class="px-5 text-white/80 dark:text-white/80 hover:text-white transition-colors flex-shrink-0">
           <i class="fas fa-search text-lg"></i>
         </button>
       </div>
@@ -35,7 +35,7 @@
       <div v-if="isDropdownOpen" class="relative w-full max-w-xl z-50 -mt-1">
         <div class="glass dark:glass-dark rounded-2xl border border-white/20 dark:border-white/10 p-4 shadow-2xl">
           <div class="mb-3">
-            <div class="text-white/40 text-[10px] font-semibold tracking-wider uppercase mb-2 flex items-center gap-2">
+            <div class="text-white/40 dark:text-white/40 text-[10px] font-semibold tracking-wider uppercase mb-2 flex items-center gap-2">
               <span class="w-4 h-px bg-white/20"></span> 搜索引擎
             </div>
             <div class="flex flex-wrap gap-1.5">
@@ -51,7 +51,7 @@
             </div>
           </div>
           <div>
-            <div class="text-white/40 text-[10px] font-semibold tracking-wider uppercase mb-2 flex items-center gap-2">
+            <div class="text-white/40 dark:text-white/40 text-[10px] font-semibold tracking-wider uppercase mb-2 flex items-center gap-2">
               <span class="w-4 h-px bg-white/20"></span> 应用与社区
             </div>
             <div class="flex flex-wrap gap-1.5">
@@ -74,13 +74,13 @@
         <!-- 自定义链接 -->
         <div>
           <div class="flex items-center gap-2 mb-2">
-            <span class="text-white/80 text-sm font-medium tracking-wide">
+            <span class="section-title text-sm font-medium tracking-wide">
               <i class="fas fa-bookmark mr-1"></i> 我的链接
             </span>
-            <span v-if="!userStore.isLoggedIn" class="text-white/40 text-[10px]">
+            <span v-if="!userStore.isLoggedIn" class="section-hint">
               · <router-link to="/login" class="text-accent hover:underline">登录</router-link> 后自定义
             </span>
-            <span v-else class="text-white/40 text-[10px]">
+            <span v-else class="section-hint">
               · {{ links.length }} / {{ linkLimit }} 个
             </span>
           </div>
@@ -103,7 +103,7 @@
               </button>
             </div>
 
-            <!-- 添加按钮：始终显示，未登录跳转登录页 -->
+            <!-- 添加按钮 -->
             <a
               v-if="!userStore.isLoggedIn"
               href="#"
@@ -134,10 +134,10 @@
         <!-- ===== 公共推荐位 ===== -->
         <div>
           <div class="flex items-center gap-2 mb-2">
-            <span class="text-white/70 text-sm font-medium tracking-wide">
+            <span class="section-title text-sm font-medium tracking-wide">
               <i class="fas fa-fire mr-1"></i> 推荐
             </span>
-            <span class="text-accent/60 text-[10px]">· 推广位</span>
+            <span class="section-hint">· 推广位</span>
           </div>
           <div class="flex flex-wrap gap-2">
             <a
@@ -146,7 +146,7 @@
               :href="item.url"
               target="_blank"
               class="link-card"
-              :style="{ background: 'rgba(212,175,55,0.10)' }"
+              style="background:rgba(212,175,55,0.15)"
             >
               <span v-if="item.icon" class="mr-0.5">{{ item.icon }}</span>
               {{ item.title }}
@@ -442,6 +442,16 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* ===== 分类标题（保持白色） ===== */
+.section-title {
+  color: #ffffff !important;
+}
+.section-hint {
+  color: rgba(255, 255, 255, 0.50) !important;
+  font-size: 0.65rem;
+}
+
+/* ===== 平台选项 ===== */
 .platform-item {
   display: inline-flex;
   align-items: center;
@@ -449,21 +459,22 @@ onUnmounted(() => {
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #1a1a2e;
   transition: all 0.15s ease;
-  background: transparent;
-  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.70);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 .platform-item:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.90);
+  color: #1a1a2e;
 }
 .platform-item.active {
-  background: rgba(212, 175, 55, 0.15);
-  border-color: rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.20);
+  border-color: rgba(212, 175, 55, 0.30);
   color: #d4af37;
 }
 
+/* ===== 链接卡片（更不透明） ===== */
 .link-card-wrapper {
   position: relative;
   display: inline-flex;
@@ -472,6 +483,47 @@ onUnmounted(() => {
 .link-card-wrapper .link-card {
   padding-right: 28px;
 }
+
+.link-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #1a1a2e;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.link-card:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+}
+.link-card.add-btn {
+  border: 1px dashed rgba(0, 0, 0, 0.20);
+  background: rgba(255, 255, 255, 0.50);
+  color: #1a1a2e;
+}
+.link-card.add-btn:hover {
+  background: rgba(255, 255, 255, 0.80);
+}
+.link-card.add-btn-full {
+  border: 1px solid rgba(255, 80, 80, 0.30);
+  background: rgba(255, 60, 60, 0.10);
+  color: rgba(255, 80, 80, 0.85);
+  cursor: pointer;
+}
+.link-card.add-btn-full:hover {
+  background: rgba(255, 60, 60, 0.20);
+  transform: translateY(-2px);
+}
+
 .link-delete-btn {
   position: absolute;
   right: 4px;
@@ -481,8 +533,8 @@ onUnmounted(() => {
   height: 18px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 100, 100, 0.2);
-  color: rgba(255, 150, 150, 0.8);
+  background: rgba(255, 100, 100, 0.15);
+  color: rgba(255, 100, 100, 0.70);
   font-size: 9px;
   cursor: pointer;
   display: flex;
@@ -492,60 +544,14 @@ onUnmounted(() => {
   padding: 0;
 }
 .link-delete-btn:hover {
-  background: rgba(255, 50, 50, 0.4);
+  background: rgba(255, 50, 50, 0.30);
   color: #fff;
   transform: translateY(-50%) scale(1.1);
 }
 
-.link-card {
-  background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 6px 14px;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.link-card:hover {
-  background: rgba(255, 255, 255, 0.20);
-  transform: translateY(-2px);
-}
-.dark .link-card {
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.75);
-}
-.dark .link-card:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-.link-card.add-btn {
-  border: 1px dashed rgba(255, 255, 255, 0.30);
-  background: rgba(255, 255, 255, 0.04);
-}
-.link-card.add-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-.link-card.add-btn-full {
-  border: 1px solid rgba(255, 80, 80, 0.4);
-  background: rgba(255, 60, 60, 0.10);
-  color: rgba(255, 150, 150, 0.9);
-  cursor: pointer;
-}
-.link-card.add-btn-full:hover {
-  background: rgba(255, 60, 60, 0.20);
-  transform: translateY(-2px);
-}
-
 .badge-promote {
   font-size: 0.5rem;
-  background: rgba(212, 175, 55, 0.6);
+  background: rgba(212, 175, 55, 0.70);
   color: #fff;
   padding: 1px 8px;
   border-radius: 20px;
@@ -555,14 +561,14 @@ onUnmounted(() => {
 }
 
 .guide-card {
-  background: rgba(212, 175, 55, 0.08) !important;
-  border: 1px dashed rgba(212, 175, 55, 0.3) !important;
-  color: rgba(255, 255, 255, 0.8) !important;
+  background: rgba(212, 175, 55, 0.10) !important;
+  border: 1px dashed rgba(212, 175, 55, 0.25) !important;
+  color: #1a1a2e !important;
   transition: all 0.3s ease !important;
 }
 .guide-card:hover {
-  background: rgba(212, 175, 55, 0.18) !important;
+  background: rgba(212, 175, 55, 0.20) !important;
   transform: translateY(-2px) !important;
-  border-color: rgba(212, 175, 55, 0.5) !important;
+  border-color: rgba(212, 175, 55, 0.40) !important;
 }
 </style>
