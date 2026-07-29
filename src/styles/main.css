@@ -9,6 +9,7 @@ body {
   width: 100vw;
 }
 
+/* ===== 玻璃效果 ===== */
 .glass {
   background: rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(14px);
@@ -32,6 +33,24 @@ body {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-right: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* 白天模式：玻璃效果改为黑色系 */
+html:not(.dark) .glass {
+  background: rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(0, 0, 0, 0.10) !important;
+}
+html:not(.dark) .glass-dark {
+  background: rgba(0, 0, 0, 0.12) !important;
+  border: 1px solid rgba(0, 0, 0, 0.10) !important;
+}
+html:not(.dark) .glass-nav {
+  background: rgba(0, 0, 0, 0.06) !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+html:not(.dark) .glass-nav-dark {
+  background: rgba(0, 0, 0, 0.10) !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.08) !important;
 }
 
 .search-select {
@@ -148,72 +167,146 @@ body {
 }
 
 /* ============================================================
-   白天模式透明度修复（夜间模式不受影响）
-   所有文字透明度 ≥ 80%，卡片背景透明度 ≥ 80%
+   白天模式全部改为黑色系（夜间模式保持不变）
    ============================================================ */
 
+/* 文字颜色：白天黑色，夜间白色 */
 html:not(.dark) .nav-item {
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: rgba(0, 0, 0, 0.75) !important;
+}
+html:not(.dark) .nav-item:hover {
+  background: rgba(0, 0, 0, 0.06) !important;
+  color: rgba(0, 0, 0, 0.9) !important;
+}
+html:not(.dark) .nav-item.active {
+  background: rgba(0, 0, 0, 0.08) !important;
+  color: rgba(0, 0, 0, 0.95) !important;
 }
 
 html:not(.dark) .nav-user-card .username {
-  color: rgba(255, 255, 255, 0.90) !important;
+  color: rgba(0, 0, 0, 0.85) !important;
+}
+html:not(.dark) .nav-user-card .sub-text {
+  color: rgba(0, 0, 0, 0.50) !important;
+}
+html:not(.dark) .nav-user-card:hover {
+  background: rgba(0, 0, 0, 0.05) !important;
 }
 
-html:not(.dark) .nav-user-card .sub-text {
-  color: rgba(255, 255, 255, 0.55) !important;
+html:not(.dark) .logo-text {
+  color: rgba(0, 0, 0, 0.9) !important;
 }
 
 html:not(.dark) .link-card {
-  background: rgba(255, 255, 255, 0.18) !important;
-  color: rgba(255, 255, 255, 0.95) !important;
+  background: rgba(0, 0, 0, 0.06) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: rgba(0, 0, 0, 0.8) !important;
 }
-
+html:not(.dark) .link-card:hover {
+  background: rgba(0, 0, 0, 0.10) !important;
+  color: rgba(0, 0, 0, 0.95) !important;
+}
 html:not(.dark) .link-card.add-btn {
-  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+  background: rgba(0, 0, 0, 0.03) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
-
 html:not(.dark) .link-card.add-btn:hover {
-  background: rgba(255, 255, 255, 0.20) !important;
+  background: rgba(0, 0, 0, 0.08) !important;
+  color: rgba(0, 0, 0, 0.85) !important;
 }
 
 html:not(.dark) .page-card {
-  background: rgba(255, 255, 255, 0.15) !important;
-  border-color: rgba(255, 255, 255, 0.18) !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
 }
-
+html:not(.dark) .page-card h2 {
+  color: rgba(0, 0, 0, 0.9) !important;
+}
 html:not(.dark) .page-card p {
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: rgba(0, 0, 0, 0.7) !important;
 }
-
 html:not(.dark) .page-card .icon-big {
-  color: rgba(255, 255, 255, 0.50) !important;
+  color: rgba(0, 0, 0, 0.20) !important;
 }
 
 html:not(.dark) .daily-quote {
-  color: rgba(255, 255, 255, 0.90) !important;
+  color: rgba(0, 0, 0, 0.70) !important;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.3) !important;
 }
 
 html:not(.dark) .signin-btn {
-  background: rgba(255, 255, 255, 0.22) !important;
-  border-color: rgba(255, 255, 255, 0.20) !important;
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  color: rgba(0, 0, 0, 0.8) !important;
+}
+html:not(.dark) .signin-btn:hover {
+  background: rgba(0, 0, 0, 0.15) !important;
+  color: rgba(0, 0, 0, 0.95) !important;
 }
 
 html:not(.dark) .theme-btn {
-  background: rgba(255, 255, 255, 0.22) !important;
-  border-color: rgba(255, 255, 255, 0.20) !important;
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+html:not(.dark) .theme-btn:hover {
+  background: rgba(0, 0, 0, 0.15) !important;
+  color: rgba(0, 0, 0, 0.9) !important;
 }
 
 html:not(.dark) .glass-nav {
-  background: rgba(255, 255, 255, 0.18) !important;
-  border-right-color: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-right-color: rgba(0, 0, 0, 0.06) !important;
 }
 
 html:not(.dark) .glass {
-  background: rgba(255, 255, 255, 0.25) !important;
-  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+html:not(.dark) .glass-dark {
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
 }
 
 html:not(.dark) .badge-promote {
   background: rgba(212, 175, 55, 0.7) !important;
+  color: #fff !important;
+}
+
+/* 白天模式：边框分割线改为黑色 */
+html:not(.dark) .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.10) !important;
+}
+html:not(.dark) .border-white\/20 {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+html:not(.dark) .border-white\/5 {
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 白天模式：搜索框 placeholder 黑色 */
+html:not(.dark) .placeholder-white\/40::placeholder {
+  color: rgba(0, 0, 0, 0.40) !important;
+}
+html:not(.dark) .placeholder-white\/50::placeholder {
+  color: rgba(0, 0, 0, 0.50) !important;
+}
+html:not(.dark) .placeholder-white\/60::placeholder {
+  color: rgba(0, 0, 0, 0.60) !important;
+}
+
+/* 白天模式：搜索框文字黑色 */
+html:not(.dark) .search-select {
+  color: rgba(0, 0, 0, 0.8) !important;
+}
+html:not(.dark) .search-select option {
+  background: #f5f5f5 !important;
+  color: #222 !important;
+}
+
+/* 白天模式：价格标签文字 */
+html:not(.dark) .price-tag {
+  color: #b8860b !important;
 }

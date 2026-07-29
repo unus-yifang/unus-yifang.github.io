@@ -14,15 +14,15 @@
       <!-- 标题栏 -->
       <div class="chat-header">
         <div class="flex items-center gap-2">
-          <span class="text-white font-semibold text-lg">小U</span>
-          <span class="text-white/80 text-[10px]">
+          <span class="chat-title">小U</span>
+          <span class="chat-sub">
             {{ remainingFreeCount > 0 ? `今日免费 ${remainingFreeCount} 次` : '💰 1 U币/次' }}
           </span>
-          <span v-if="userStore.isLoggedIn && userStore.effectiveSubscription !== 'free'" class="text-[10px] px-2 py-0.5 rounded-full bg-accent/20 text-accent">
+          <span v-if="userStore.isLoggedIn && userStore.effectiveSubscription !== 'free'" class="sub-badge">
             {{ userStore.effectiveSubscription === 'yearly' ? '年卡' : '月卡' }}
           </span>
         </div>
-        <button @click="closeChat" class="text-white/70 hover:text-white transition">
+        <button @click="closeChat" class="close-btn">
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -31,8 +31,8 @@
       <div ref="messagesContainer" class="chat-messages">
         <div v-if="messages.length === 0" class="chat-empty">
           <span class="text-3xl mb-2">👋</span>
-          <span class="text-white/80 text-sm">你好！我是小U，有什么可以帮你的？</span>
-          <span class="text-white/60 text-[10px] mt-1">试试问我关于「一方」的任何问题</span>
+          <span class="empty-title">你好！我是小U，有什么可以帮你的？</span>
+          <span class="empty-sub">试试问我关于「一方」的任何问题</span>
         </div>
         <div
           v-for="(msg, index) in messages"
@@ -41,7 +41,7 @@
           :class="msg.role === 'user' ? 'message-user' : 'message-assistant'"
         >
           <div class="message-bubble" :class="msg.role === 'user' ? 'bubble-user' : 'bubble-assistant'">
-            <span v-if="msg.role === 'assistant'" class="text-accent text-xs mr-1">小U</span>
+            <span v-if="msg.role === 'assistant'" class="assistant-label">小U</span>
             <span v-html="formatMessage(msg.content)"></span>
           </div>
         </div>
@@ -80,11 +80,7 @@ import { useUserStore } from '../stores/user'
 import { supabase } from '../lib/supabase'
 import { marked } from 'marked'
 
-// 配置 marked
-marked.setOptions({
-  gfm: true,
-  breaks: true,
-})
+marked.setOptions({ gfm: true, breaks: true })
 
 const userStore = useUserStore()
 
@@ -109,9 +105,6 @@ function getMaxFreeCount() {
   return 3
 }
 
-// ============================================================
-// 获取今天的日期字符串
-// ============================================================
 function getToday() {
   return new Date().toISOString().split('T')[0]
 }
@@ -421,6 +414,11 @@ onUnmounted(() => {
 .dark .chat-window {
   border-color: rgba(255, 255, 255, 0.08);
 }
+/* 白天模式：聊天窗口边框黑色 */
+html:not(.dark) .chat-window {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.08) !important;
+}
 
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px) scale(0.95); }
@@ -439,12 +437,68 @@ onUnmounted(() => {
 .dark .chat-header {
   border-bottom-color: rgba(255, 255, 255, 0.06);
 }
-.chat-header button {
+/* 白天模式：标题栏边框黑色 */
+html:not(.dark) .chat-header {
+  border-bottom-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+.chat-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: #fff;
+}
+.dark .chat-title {
+  color: #fff;
+}
+/* 白天模式：标题黑色 */
+html:not(.dark) .chat-title {
+  color: rgba(0, 0, 0, 0.9) !important;
+}
+
+.chat-sub {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.65rem;
+}
+.dark .chat-sub {
+  color: rgba(255, 255, 255, 0.4);
+}
+/* 白天模式：副标题黑色 */
+html:not(.dark) .chat-sub {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.sub-badge {
+  font-size: 0.6rem;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: rgba(212, 175, 55, 0.2);
+  color: #d4af37;
+}
+html:not(.dark) .sub-badge {
+  background: rgba(212, 175, 55, 0.15) !important;
+  color: #b8860b !important;
+}
+
+.close-btn {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 16px;
   padding: 4px;
+  color: rgba(255, 255, 255, 0.5);
+}
+.dark .close-btn {
+  color: rgba(255, 255, 255, 0.4);
+}
+.close-btn:hover {
+  color: #fff;
+}
+/* 白天模式：关闭按钮黑色 */
+html:not(.dark) .close-btn {
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+html:not(.dark) .close-btn:hover {
+  color: rgba(0, 0, 0, 0.8) !important;
 }
 
 /* ===== 消息列表 ===== */
@@ -470,6 +524,10 @@ onUnmounted(() => {
 .dark .chat-messages::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.08);
 }
+/* 白天模式：滚动条黑色 */
+html:not(.dark) .chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.10) !important;
+}
 
 .chat-empty {
   flex: 1;
@@ -481,6 +539,35 @@ onUnmounted(() => {
 }
 .dark .chat-empty {
   color: rgba(255, 255, 255, 0.3);
+}
+/* 白天模式：空状态黑色 */
+html:not(.dark) .chat-empty {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.empty-title {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+}
+.dark .empty-title {
+  color: rgba(255, 255, 255, 0.6);
+}
+/* 白天模式：空状态标题黑色 */
+html:not(.dark) .empty-title {
+  color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.empty-sub {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.65rem;
+  margin-top: 4px;
+}
+.dark .empty-sub {
+  color: rgba(255, 255, 255, 0.25);
+}
+/* 白天模式：空状态副标题黑色 */
+html:not(.dark) .empty-sub {
+  color: rgba(0, 0, 0, 0.4) !important;
 }
 
 .chat-message {
@@ -514,6 +601,13 @@ onUnmounted(() => {
   background: rgba(212, 175, 55, 0.15);
   border-color: rgba(212, 175, 55, 0.1);
 }
+/* 白天模式：用户气泡黑色 */
+html:not(.dark) .bubble-user {
+  background: rgba(212, 175, 55, 0.20) !important;
+  border-color: rgba(212, 175, 55, 0.15) !important;
+  color: rgba(0, 0, 0, 0.9) !important;
+}
+
 .bubble-assistant {
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -524,6 +618,21 @@ onUnmounted(() => {
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.8);
   border-color: rgba(255, 255, 255, 0.04);
+}
+/* 白天模式：AI气泡黑色 */
+html:not(.dark) .bubble-assistant {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+  color: rgba(0, 0, 0, 0.85) !important;
+}
+
+.assistant-label {
+  color: #d4af37;
+  font-size: 0.65rem;
+  margin-right: 4px;
+}
+html:not(.dark) .assistant-label {
+  color: #b8860b !important;
 }
 
 .typing-dots {
@@ -548,13 +657,18 @@ onUnmounted(() => {
 .dark .chat-input-area {
   border-top-color: rgba(255, 255, 255, 0.06);
 }
+/* 白天模式：输入区边框黑色 */
+html:not(.dark) .chat-input-area {
+  border-top-color: rgba(0, 0, 0, 0.06) !important;
+}
+
 .chat-input {
   flex: 1;
   background: rgba(255, 255, 255, 0.10);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   padding: 8px 14px;
-  color: white;
+  color: #fff;
   font-size: 0.85rem;
   outline: none;
   transition: border-color 0.2s ease;
@@ -562,12 +676,23 @@ onUnmounted(() => {
 .dark .chat-input {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+/* 白天模式：输入框黑色 */
+html:not(.dark) .chat-input {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: rgba(0, 0, 0, 0.85) !important;
 }
 .chat-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.4);
 }
 .dark .chat-input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.25);
+}
+/* 白天模式：占位文字黑色 */
+html:not(.dark) .chat-input::placeholder {
+  color: rgba(0, 0, 0, 0.35) !important;
 }
 .chat-input:focus {
   border-color: rgba(212, 175, 55, 0.3);
@@ -595,6 +720,12 @@ onUnmounted(() => {
   border-color: rgba(212, 175, 55, 0.1);
   color: rgba(255, 255, 255, 0.6);
 }
+/* 白天模式：发送按钮黑色 */
+html:not(.dark) .chat-send-btn {
+  background: rgba(212, 175, 55, 0.20) !important;
+  border-color: rgba(212, 175, 55, 0.15) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
+}
 .chat-send-btn:hover:not(:disabled) {
   background: rgba(212, 175, 55, 0.4);
   color: #fff;
@@ -603,6 +734,11 @@ onUnmounted(() => {
 .dark .chat-send-btn:hover:not(:disabled) {
   background: rgba(212, 175, 55, 0.25);
   color: #fff;
+}
+/* 白天模式：发送按钮悬停黑色 */
+html:not(.dark) .chat-send-btn:hover:not(:disabled) {
+  background: rgba(212, 175, 55, 0.35) !important;
+  color: rgba(0, 0, 0, 0.9) !important;
 }
 .chat-send-btn:disabled {
   opacity: 0.3;
