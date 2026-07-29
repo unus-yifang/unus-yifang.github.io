@@ -10,7 +10,7 @@ body {
   background: #0a0a0f;
 }
 
-/* ===== 统一毛玻璃效果 ===== */
+/* ===== 统一毛玻璃效果（实心） ===== */
 .glass {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
@@ -42,34 +42,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.50);
 }
 
-/* ===== 全局文字颜色强制为深色/黑色 ===== */
-html:not(.dark) {
-  color: #1a1a2e;
-}
-
-/* ============================================================
-   全局强制：所有白色文字改为黑色（除每日一句）
-   ============================================================ */
-
-/* 强制所有白色文字变为黑色（排除每日一句） */
-html:not(.dark) .text-white,
-html:not(.dark) .text-white\/*,
-html:not(.dark) [class*="text-white"],
-html:not(.dark) .text-white\/[0-9]+ {
-  color: #1a1a2e !important;
-}
-
-/* 但每日一句保持白色/浅色 */
-html:not(.dark) .daily-quote,
-html:not(.dark) .daily-quote * {
-  color: rgba(255, 255, 255, 0.65) !important;
-}
-
-html:not(.dark) .daily-quote .fa-quote-left {
-  color: rgba(255, 255, 255, 0.40) !important;
-}
-
-/* 导航栏文字 */
+/* ===== 导航栏 ===== */
 .nav-item {
   display: flex; align-items: center; gap: 10px; padding: 8px 12px;
   border-radius: 8px; color: rgba(30, 30, 50, 0.60);
@@ -98,7 +71,7 @@ html:not(.dark) .daily-quote .fa-quote-left {
 
 .logo-text { font-size: 1.1rem; color: #1a1a2e !important; }
 
-/* 搜索框 */
+/* ===== 搜索框 ===== */
 .search-select {
   background: transparent; border: none; outline: none; font-size: 0.85rem;
   font-weight: 500; color: #1a1a2e; cursor: pointer; padding-right: 4px;
@@ -106,7 +79,7 @@ html:not(.dark) .daily-quote .fa-quote-left {
 }
 .search-select option { background: #f5f5f5; color: #1a1a2e; }
 
-/* 链接卡片 */
+/* ===== 链接卡片 ===== */
 .link-card {
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(4px);
@@ -132,7 +105,7 @@ html:not(.dark) .daily-quote .fa-quote-left {
   padding: 1px 8px; border-radius: 20px; font-weight: 600; letter-spacing: 0.3px; margin-left: 4px;
 }
 
-/* 每日一句（保持白色/浅色，不强制改黑） */
+/* ===== 每日一句（保持白色） ===== */
 .daily-quote {
   font-size: 0.9rem; color: rgba(255, 255, 255, 0.65);
   font-weight: 400; letter-spacing: 0.3px; text-shadow: none;
@@ -141,7 +114,7 @@ html:not(.dark) .daily-quote .fa-quote-left {
   color: rgba(255, 255, 255, 0.40);
 }
 
-/* 签到按钮 */
+/* ===== 签到按钮 ===== */
 .signin-btn {
   font-size: 0.75rem; padding: 4px 14px; border-radius: 20px;
   background: rgba(255, 255, 255, 0.60); color: #1a1a2e;
@@ -149,7 +122,7 @@ html:not(.dark) .daily-quote .fa-quote-left {
 }
 .signin-btn:hover { background: rgba(255, 255, 255, 0.85); }
 
-/* 页面卡片 */
+/* ===== 页面卡片 ===== */
 .page-card {
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(8px);
@@ -167,16 +140,17 @@ html:not(.dark) .daily-quote .fa-quote-left {
   border-radius: 20px; font-size: 0.8rem; color: #b8860b; font-weight: 600;
 }
 
-/* 侧边栏分割线 */
+/* ===== 分割线 ===== */
 .border-white\/5 { border-color: rgba(255, 255, 255, 0.30) !important; }
 .border-white\/10 { border-color: rgba(255, 255, 255, 0.35) !important; }
 .border-white\/20 { border-color: rgba(255, 255, 255, 0.45) !important; }
 
-/* 滚动条 */
+/* ===== 滚动条 ===== */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.12); border-radius: 4px; }
 
+/* ===== 响应式 ===== */
 @media (max-width: 768px) {
   .nav-label { display: none; }
   .nav-item { justify-content: center; padding: 10px 0; }
@@ -189,9 +163,4 @@ html:not(.dark) .daily-quote .fa-quote-left {
   .nav-user-card { justify-content: center; padding: 8px 0; }
   .page-card { padding: 1.5rem 1rem; }
   .top-bar { padding-right: 8px !important; }
-}
-
-/* 其他杂项文字统一为深色 */
-.text-white\/40, .text-white\/50, .text-white\/60, .text-white\/70, .text-white\/80, .text-white\/90 {
-  color: #1a1a2e !important;
 }
