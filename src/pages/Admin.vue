@@ -7,7 +7,7 @@
     </div>
 
     <!-- ===== 卡片1：兑换码 ===== -->
-    <div class="glass dark:glass-dark rounded-xl p-5 border border-white/10 mb-6">
+    <div class="admin-card glass dark:glass-dark rounded-xl p-5 border border-white/10 mb-6">
       <h2 class="text-white/80 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-ticket-alt text-accent"></i> 兑换码管理
       </h2>
@@ -29,7 +29,7 @@
     </div>
 
     <!-- ===== 卡片2：一言管理 ===== -->
-    <div class="glass dark:glass-dark rounded-xl p-5 border border-white/10 mb-6">
+    <div class="admin-card glass dark:glass-dark rounded-xl p-5 border border-white/10 mb-6">
       <h2 class="text-white/80 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-quote-left text-accent"></i> 一言管理（共 {{ quotes.length }} 条）
       </h2>
@@ -67,7 +67,7 @@
     </div>
 
     <!-- ===== 卡片3：推荐位 ===== -->
-    <div class="glass dark:glass-dark rounded-xl p-5 border border-white/10">
+    <div class="admin-card glass dark:glass-dark rounded-xl p-5 border border-white/10">
       <h2 class="text-white/80 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-fire text-accent"></i> 推荐位管理（共 {{ promos.length }} 个）
       </h2>
@@ -405,63 +405,46 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 卡片内文字改为黑色/深色，标题保留原样 */
-.glass {
+/* ===== 卡片背景改为实心毛玻璃 ===== */
+.admin-card {
   background: rgba(255, 255, 255, 0.75) !important;
   backdrop-filter: blur(12px) !important;
-  border-color: rgba(255, 255, 255, 0.30) !important;
-}
-.glass-dark {
-  background: rgba(255, 255, 255, 0.70) !important;
-  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   border-color: rgba(255, 255, 255, 0.30) !important;
 }
 
-/* 所有卡片内文字（除标题）改为深色 */
-.glass h2,
-.glass-dark h2,
-.glass .text-white\/80,
-.glass-dark .text-white\/80,
-.glass .text-white\/70,
-.glass-dark .text-white\/70,
-.glass .text-white\/60,
-.glass-dark .text-white\/60,
-.glass .text-white\/50,
-.glass-dark .text-white\/50,
-.glass .text-white\/40,
-.glass-dark .text-white\/40,
-.glass .text-white\/30,
-.glass-dark .text-white\/30,
-.glass .text-white\/10,
-.glass-dark .text-white\/10 {
+/* 卡片内的所有文字改为深色（除标题外） */
+.admin-card .text-white,
+.admin-card .text-white\/40,
+.admin-card .text-white\/50,
+.admin-card .text-white\/60,
+.admin-card .text-white\/70,
+.admin-card .text-white\/80,
+.admin-card .text-white\/90 {
   color: #1a1a2e !important;
 }
 
-/* 但标题保留原色（金色或白色） */
-.glass .text-accent,
-.glass-dark .text-accent {
+/* 但标题保留原色（accent金色） */
+.admin-card .text-accent {
   color: #d4af37 !important;
 }
 
-/* 输入框和选择框文字深色 */
-.glass input,
-.glass-dark input,
-.glass select,
-.glass-dark select {
+/* 输入框和选择框 */
+.admin-card input,
+.admin-card select {
   color: #1a1a2e !important;
+  background: rgba(255, 255, 255, 0.80) !important;
 }
-.glass input::placeholder,
-.glass-dark input::placeholder {
+.admin-card input::placeholder {
   color: rgba(60, 60, 80, 0.50) !important;
 }
 
-/* 按钮文字保留原有风格（accent色） */
-.glass .bg-accent\/20,
-.glass-dark .bg-accent\/20 {
+/* 按钮保留accent色 */
+.admin-card .bg-accent\/20 {
   color: #d4af37 !important;
 }
 
-/* 错误/成功消息保留原有颜色 */
+/* 错误/成功消息保留原色 */
 .text-green-400 { color: #4ade80 !important; }
 .text-red-400 { color: #f87171 !important; }
 
