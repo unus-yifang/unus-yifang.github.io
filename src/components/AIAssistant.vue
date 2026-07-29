@@ -173,11 +173,10 @@ async function decrementFreeCount() {
 }
 
 // ============================================================
-// 切换聊天（修复：未登录时带 redirect 参数）
+// 切换聊天
 // ============================================================
 async function toggleChat() {
   if (!userStore.isLoggedIn) {
-    // 带上当前路径作为 redirect 参数，登录后可以回到当前页面
     const currentPath = window.location.pathname + window.location.search
     window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`
     return
@@ -205,7 +204,7 @@ function handleClickOutside(event) {
 }
 
 // ============================================================
-// 发送消息
+// 发送消息（含调试日志）
 // ============================================================
 async function sendMessage() {
   const text = inputMessage.value.trim()
@@ -225,14 +224,19 @@ async function sendMessage() {
 
   try {
     const { data: { session } } = await supabase.auth.getSession()
-    let token = session?.access_token
+    const token = session?.access_token
+    const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+    // ===== 调试日志 =====
+    console.log('🔍 [小U] 调试信息:')
+    console.log('  - token 是否存在:', !!token)
+    console.log('  - token 前10位:', token ? token.substring(0, 10) + '...' : '无')
+    console.log('  - anonKey 是否存在:', !!anonKey)
+    console.log('  - anonKey 前10位:', anonKey ? anonKey.substring(0, 10) + '...' : '无')
+    console.log('  - 请求URL:', 'https://oifrhpfekuocvdjixohc.supabase.co/functions/v1/ai-chat')
 
     if (!token) {
-      const { data: { session: refreshed } } = await supabase.auth.refreshSession()
-      token = refreshed?.access_token
-      if (!token) {
-        throw new Error('未登录，请重新登录')
-      }
+      throw new Error('未登录，请重新登录')
     }
 
     const response = await fetch(
@@ -242,7 +246,7 @@ async function sendMessage() {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
-          'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+          'apikey': anonKey,
         },
         body: JSON.stringify({
           messages: messages.value.map(m => ({ role: m.role, content: m.content }))
@@ -250,12 +254,15 @@ async function sendMessage() {
       }
     )
 
+    console.log('🔍 [小U] 响应状态码:', response.status)
+    console.log('🔍 [小U] 响应状态文本:', response.statusText)
+
     if (response.status === 401) {
       throw new Error('登录已过期，请重新登录')
     }
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`)
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
     }
 
     const reader = response.body.getReader()
