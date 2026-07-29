@@ -131,7 +131,7 @@
           </div>
         </div>
 
-        <!-- ===== 公共推荐位（白色底） ===== -->
+        <!-- ===== 公共推荐位 ===== -->
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="section-title text-sm font-medium tracking-wide">
@@ -562,7 +562,7 @@ onUnmounted(() => {
   transform: translateY(-50%) scale(1.1);
 }
 
-/* ===== 推广位（和自定义链接一样白色底，黄色边框） ===== */
+/* ===== 推广位（白色底，黄色边框） ===== */
 .promo-card {
   background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(4px) !important;
@@ -575,8 +575,9 @@ onUnmounted(() => {
   transform: translateY(-2px);
 }
 
+/* ===== 剩余天数（和 tag 一样的黄色） ===== */
 .promo-remaining {
-  color: rgba(255, 255, 255, 0.70) !important;
+  color: #d4af37 !important;
   font-size: 0.65rem;
 }
 
