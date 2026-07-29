@@ -60,7 +60,7 @@
             <button @click="deleteQuote(q.id)" class="text-red-400/60 hover:text-red-400 text-xs transition px-1">✕</button>
           </div>
         </div>
-        <div v-if="quotes.length === 0" class="text-white/30 text-xs text-center py-4">暂无一言</div>
+        <div v-if="quotes.length === 0" class="text-gray-500 text-xs text-center py-4">暂无一言</div>
       </div>
 
       <p v-if="quoteMsg" class="text-xs mt-2" :class="quoteMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ quoteMsg }}</p>
@@ -89,7 +89,7 @@
           <span class="text-white/30 text-xs mr-2">{{ p.remaining }}d</span>
           <button @click="removePromo(p.id)" class="text-red-400/60 hover:text-red-400 text-xs transition opacity-0 group-hover:opacity-100">下架</button>
         </div>
-        <div v-if="promos.length === 0" class="text-white/30 text-xs text-center py-3">暂无推荐位</div>
+        <div v-if="promos.length === 0" class="text-gray-500 text-xs text-center py-3">暂无推荐位</div>
       </div>
       <p v-if="promoMsg" class="text-xs mt-2" :class="promoMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ promoMsg }}</p>
     </div>

@@ -64,6 +64,7 @@ export const useUserStore = defineStore('user', {
       this.loading = false
     },
 
+    // ===== 修复：获取资料后同步签到状态到 localStorage =====
     async fetchProfile() {
       if (!this.user) return
       const { data, error } = await supabase
@@ -72,7 +73,17 @@ export const useUserStore = defineStore('user', {
         .eq('id', this.user.id)
         .single()
       if (error) console.error('获取资料失败:', error)
-      else this.profile = data
+      else {
+        this.profile = data
+        // 同步签到状态：如果 last_sign_in 是今天，写入 localStorage
+        if (data?.last_sign_in) {
+          const today = new Date().toISOString().split('T')[0]
+          const lastSignDate = new Date(data.last_sign_in).toISOString().split('T')[0]
+          if (lastSignDate === today) {
+            localStorage.setItem('unus_sign_date', today)
+          }
+        }
+      }
     },
 
     async updateAIFreeCount(count, date) {
@@ -118,23 +129,43 @@ export const useUserStore = defineStore('user', {
       await supabase.auth.signOut()
       this.user = null
       this.profile = null
+      localStorage.removeItem('unus_sign_date')
     },
 
+    // ===== 修复：签到成功后同时更新 localStorage =====
     async signInDaily() {
       if (!this.user) throw new Error('请先登录')
-      const today = new Date().toDateString()
-      const lastSign = localStorage.getItem('unus_sign_date')
-      if (lastSign === today) throw new Error('今天已签到')
-
-      const newCoins = (this.profile?.ucoins || 0) + 1
-      const { error } = await supabase
+      
+      const { data: profile, error: fetchError } = await supabase
         .from('profiles')
-        .update({ ucoins: newCoins, last_sign_in: new Date().toISOString().split('T')[0] })
+        .select('last_sign_in, ucoins')
         .eq('id', this.user.id)
-      if (error) throw error
+        .single()
+      
+      if (fetchError) throw fetchError
+      
+      const today = new Date().toISOString().split('T')[0]
+      const lastSignIn = profile?.last_sign_in ? new Date(profile.last_sign_in).toISOString().split('T')[0] : null
+      
+      if (lastSignIn === today) {
+        throw new Error('今天已签到')
+      }
+
+      const newCoins = (profile?.ucoins || 0) + 1
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ 
+          ucoins: newCoins, 
+          last_sign_in: new Date().toISOString().split('T')[0] 
+        })
+        .eq('id', this.user.id)
+      
+      if (updateError) throw updateError
 
       this.profile.ucoins = newCoins
+      this.profile.last_sign_in = new Date().toISOString().split('T')[0]
       localStorage.setItem('unus_sign_date', today)
+      
       return newCoins
     },
 
@@ -169,7 +200,6 @@ export const useUserStore = defineStore('user', {
       this.profile.subscription_expires_at = expiresAt.toISOString()
     },
 
-    // ===== 购买月卡（68 U币 / 30天） =====
     async subscribeMonthly() {
       if (!this.user) throw new Error('请先登录')
       if (this.effectiveSubscription === 'monthly') throw new Error('已是月卡会员')
@@ -178,9 +208,10 @@ export const useUserStore = defineStore('user', {
       await this.deductCoins(68)
       await this.setSubscription('monthly', 30)
 
-      // 重置AI免费次数为月卡标准（8次）
       const today = new Date().toISOString().split('T')[0]
       const maxFree = 8
+      this.profile.ai_free_count = maxFree
+      this.profile.ai_free_date = today
       localStorage.setItem('unus_ai_free_date', today)
       localStorage.setItem('unus_ai_free_count', String(maxFree))
       await this.updateAIFreeCount(maxFree, today)
@@ -188,7 +219,6 @@ export const useUserStore = defineStore('user', {
       return true
     },
 
-    // ===== 购买年卡（648 U币 / 365天） =====
     async subscribeYearly() {
       if (!this.user) throw new Error('请先登录')
       if (this.effectiveSubscription === 'yearly') throw new Error('已是年卡会员')
@@ -196,9 +226,10 @@ export const useUserStore = defineStore('user', {
       await this.deductCoins(648)
       await this.setSubscription('yearly', 365)
 
-      // 重置AI免费次数为年卡标准（20次）
       const today = new Date().toISOString().split('T')[0]
       const maxFree = 20
+      this.profile.ai_free_count = maxFree
+      this.profile.ai_free_date = today
       localStorage.setItem('unus_ai_free_date', today)
       localStorage.setItem('unus_ai_free_count', String(maxFree))
       await this.updateAIFreeCount(maxFree, today)

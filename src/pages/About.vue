@@ -32,7 +32,6 @@
         </div>
       </div>
 
-      <!-- ===== 为什么需要支持？ ===== -->
       <div class="about-card rounded-2xl p-6 border">
         <div class="space-y-4 text-gray-700 text-sm leading-relaxed">
           <p class="text-gray-800 font-medium">为什么需要支持？</p>
@@ -46,16 +45,13 @@
         </div>
       </div>
 
-      <!-- ===== 付费逻辑 ===== -->
       <div class="about-card rounded-2xl p-6 border">
         <div class="space-y-4 text-gray-700 text-sm leading-relaxed">
           <p class="text-gray-800 font-medium">年卡 648 U币，实际花多少钱？</p>
           <p>充值 60 元 = 900 U币，足够兑换年卡，还多 252 U币。</p>
           <p>实际花费：约 <span class="text-gray-800 font-medium">43 元/年</span></p>
           <p>每天成本：43 ÷ 365 ≈ <span class="text-gray-800 font-medium">0.12 元/天</span></p>
-          <p>
-            对比一下日常消费：
-          </p>
+          <p>对比一下日常消费：</p>
           <ul class="space-y-1 text-gray-600 text-sm list-disc list-inside">
             <li>一瓶矿泉水：2 元，够你用 16 天</li>
             <li>一根烤肠：3 元，够你用 25 天</li>
@@ -66,7 +62,6 @@
         </div>
       </div>
 
-      <!-- ===== 联系方式 ===== -->
       <div class="about-card rounded-2xl p-6 border">
         <p class="text-gray-700 text-sm mb-3">📮 如果你有任何建议和意见：</p>
         <div class="space-y-2 text-sm">
@@ -85,7 +80,6 @@
         </div>
       </div>
 
-      <!-- ===== 底部行动按钮 ===== -->
       <div class="text-center pt-4">
         <div class="flex flex-wrap items-center justify-center gap-4">
           <router-link
@@ -108,9 +102,10 @@
 
     </div>
 
-    <!-- ===== 设为首页引导弹窗 ===== -->
-    <div v-if="showGuide" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-sm" @click.self="showGuide = false">
-      <div class="glass-light rounded-2xl border border-white/50 p-6 w-full max-w-md shadow-2xl">
+    <!-- ===== 设为首页引导弹窗（白色毛玻璃，更不透明） ===== -->
+    <div v-if="showGuide" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm" @click.self="showGuide = false">
+      <div class="guide-modal rounded-2xl p-6 w-full max-w-md shadow-2xl">
+
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-gray-800 font-semibold text-lg flex items-center gap-2">
             <span>🏠</span> 设为浏览器首页
@@ -124,7 +119,7 @@
           <p class="text-gray-600">浏览器不支持一键设置首页，请按以下步骤手动操作：</p>
 
           <div class="space-y-3">
-            <div class="bg-white/50 rounded-lg p-3">
+            <div class="guide-step rounded-lg p-3">
               <div class="flex items-center gap-2 text-gray-700 font-medium text-xs">
                 <span class="text-gray-400">①</span> Chrome / Edge
               </div>
@@ -133,7 +128,7 @@
               </p>
             </div>
 
-            <div class="bg-white/50 rounded-lg p-3">
+            <div class="guide-step rounded-lg p-3">
               <div class="flex items-center gap-2 text-gray-700 font-medium text-xs">
                 <span class="text-gray-400">②</span> Firefox
               </div>
@@ -142,7 +137,7 @@
               </p>
             </div>
 
-            <div class="bg-white/50 rounded-lg p-3">
+            <div class="guide-step rounded-lg p-3">
               <div class="flex items-center gap-2 text-gray-700 font-medium text-xs">
                 <span class="text-gray-400">③</span> Safari
               </div>
@@ -156,11 +151,11 @@
             <input
               :value="siteUrl"
               readonly
-              class="flex-1 bg-white/50 border border-white/60 rounded-lg px-3 py-2 text-gray-700 text-xs outline-none"
+              class="guide-url-input flex-1 rounded-lg px-3 py-2 text-gray-700 text-xs outline-none"
             />
             <button
               @click="copyUrl"
-              class="px-4 py-2 rounded-lg bg-accent/20 border border-accent/30 text-accent text-xs font-medium hover:bg-accent/30 transition whitespace-nowrap"
+              class="guide-copy-btn px-4 py-2 rounded-lg text-xs font-medium whitespace-nowrap"
             >
               复制链接
             </button>
@@ -190,7 +185,7 @@ function copyUrl() {
     copyMsg.value = '✅ 已复制，快去浏览器设置里粘贴吧！'
     setTimeout(() => { copyMsg.value = '' }, 3000)
   }).catch(() => {
-    const input = document.querySelector('.flex-1.bg-white\\/50')
+    const input = document.querySelector('.guide-url-input')
     if (input) {
       input.select()
       document.execCommand('copy')
@@ -202,10 +197,46 @@ function copyUrl() {
 </script>
 
 <style scoped>
+/* ===== 普通卡片（和之前一样） ===== */
 .about-card {
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-color: rgba(255, 255, 255, 0.30);
+  border-color: rgba(255, 255, 255, 0.40);
+}
+
+/* ===== 设为首页弹窗（白色毛玻璃，更不透明） ===== */
+.guide-modal {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.50);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10);
+}
+
+/* ===== 弹窗内步骤卡片 ===== */
+.guide-step {
+  background: rgba(255, 255, 255, 0.50);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+}
+
+/* ===== 弹窗内输入框 ===== */
+.guide-url-input {
+  background: rgba(255, 255, 255, 0.60);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+}
+.guide-url-input:focus {
+  outline: none;
+  border-color: rgba(212, 175, 55, 0.40);
+}
+
+/* ===== 弹窗内复制按钮 ===== */
+.guide-copy-btn {
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.20);
+  color: #b8860b;
+}
+.guide-copy-btn:hover {
+  background: rgba(212, 175, 55, 0.25);
 }
 </style>

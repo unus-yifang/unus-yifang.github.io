@@ -10,6 +10,12 @@
              class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 outline-none focus:border-accent/50 transition" />
       <input type="password" v-model="password" placeholder="密码（至少6位）"
              class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 outline-none focus:border-accent/50 transition" />
+
+      <!-- ===== 邮箱限制提示 ===== -->
+      <p v-if="!isLogin" class="text-xs text-white/40 mt-1">
+        📧 仅支持 <span class="text-white/60">@qq.com</span>、<span class="text-white/60">@163.com</span> 和 <span class="text-white/60">@126.com</span> 邮箱注册
+      </p>
+
       <button class="mt-2 w-full signin-btn" style="background:rgba(212,175,55,0.2); border-color:#d4af37; color:#d4af37; padding:8px 0;" @click="handleSubmit">
         {{ isLogin ? '登录' : '注册' }}
       </button>
@@ -43,7 +49,6 @@ async function handleSubmit() {
       await userStore.signUp(email.value, password.value, username.value)
       alert('注册成功！已自动登录')
     }
-    // 登录成功后，如果有 redirect 参数就跳转过去，否则跳转首页
     const redirectPath = route.query.redirect || '/'
     router.push(redirectPath)
   } catch (err) {

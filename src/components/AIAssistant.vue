@@ -396,7 +396,7 @@ onUnmounted(() => {
   50% { background-position: 100% 50%; }
 }
 
-/* ===== 聊天窗口（浅色毛玻璃） ===== */
+/* ===== 聊天窗口（更不透明白色毛玻璃） ===== */
 .chat-window {
   position: absolute;
   bottom: 76px;
@@ -404,15 +404,15 @@ onUnmounted(() => {
   width: 380px;
   height: 500px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.30);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.50);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   animation: slideUp 0.3s ease;
-  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
 }
 
 @keyframes slideUp {
@@ -445,7 +445,7 @@ onUnmounted(() => {
   font-size: 0.6rem;
   padding: 2px 8px;
   border-radius: 9999px;
-  background: rgba(212, 175, 55, 0.2);
+  background: rgba(212, 175, 55, 0.20);
   color: #b8860b;
 }
 
@@ -516,7 +516,7 @@ onUnmounted(() => {
   align-self: flex-start;
 }
 
-/* ===== 消息气泡（浅色框框） ===== */
+/* ===== 消息气泡 ===== */
 .message-bubble {
   padding: 10px 14px;
   border-radius: 14px;
@@ -534,7 +534,7 @@ onUnmounted(() => {
 .bubble-assistant {
   background: rgba(255, 255, 255, 0.30);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(30, 30, 50, 0.8);
+  color: rgba(30, 30, 50, 0.80);
   border-bottom-left-radius: 4px;
 }
 
@@ -579,7 +579,7 @@ onUnmounted(() => {
   color: rgba(0, 0, 0, 0.25);
 }
 .chat-input:focus {
-  border-color: rgba(212, 175, 55, 0.3);
+  border-color: rgba(212, 175, 55, 0.30);
 }
 .chat-input:disabled {
   opacity: 0.5;
@@ -590,7 +590,7 @@ onUnmounted(() => {
   height: 40px;
   border-radius: 50%;
   border: none;
-  background: rgba(212, 175, 55, 0.2);
+  background: rgba(212, 175, 55, 0.20);
   border: 1px solid rgba(212, 175, 55, 0.15);
   color: rgba(0, 0, 0, 0.50);
   cursor: pointer;

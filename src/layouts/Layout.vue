@@ -43,7 +43,11 @@ import AIAssistant from '../components/AIAssistant.vue'
 const route = useRoute()
 const userStore = useUserStore()
 const dailyQuote = ref('')
-const bgUrl = ref('https://picsum.photos/1920/1080?random=' + Date.now())
+
+// ===== 背景：每日固定一张图（0点自动换） =====
+const today = new Date()
+const seed = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0')
+const bgUrl = ref('https://picsum.photos/seed/' + seed + '/1920/1080')
 
 const backgroundStyle = computed(() => {
   const pref = userStore.profile?.wallpaper_preference || 'daily'
