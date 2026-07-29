@@ -1,13 +1,14 @@
 <template>
   <div class="top-bar w-full flex items-center justify-end gap-3 px-4 md:px-6 py-3 flex-shrink-0">
-    <!-- U币余额（浅色毛玻璃） -->
+
+    <!-- U币余额（文字黑色） -->
     <router-link
       to="/profile"
-      class="flex items-center gap-1.5 px-3 h-9 rounded-full glass-light text-gray-700 text-sm font-medium hover:bg-white/30 transition-all duration-200"
+      class="flex items-center gap-1.5 px-3 h-9 rounded-full glass-light text-gray-900 text-sm font-medium hover:bg-white/30 transition-all duration-200"
     >
       <span class="text-accent">💰</span>
       <span>{{ userStore.ucoins }}</span>
-      <span class="text-gray-400 text-xs ml-0.5">U币</span>
+      <span class="text-gray-500 text-xs ml-0.5">U币</span>
     </router-link>
 
     <!-- 签到 -->
@@ -20,7 +21,7 @@
       <img
         :src="userStore.avatar"
         alt="avatar"
-        class="avatar-top h-9 w-9 rounded-full object-cover border-2 border-white/40 hover:border-white/60 transition-all"
+        class="avatar-top h-9 w-9 rounded-full object-cover border-2 border-white/40 hover:border-gray-300 transition-all"
         @error="handleAvatarError"
         ref="avatarImg"
       />
@@ -58,14 +59,14 @@ async function handleSignin() {
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 500;
-  background: rgba(255, 255, 255, 0.55);
-  color: rgba(40, 40, 50, 0.85);
+  background: rgba(255, 255, 255, 0.60);
+  color: #1a1a2e;
   border: 1px solid rgba(255, 255, 255, 0.30);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 .signin-btn:hover {
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .avatar-top {
@@ -75,6 +76,13 @@ async function handleSignin() {
 }
 .avatar-top:hover {
   transform: scale(1.06);
-  border-color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.20);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.40);
 }
 </style>
