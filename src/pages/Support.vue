@@ -1,7 +1,6 @@
 <template>
   <div class="support-container w-full max-w-3xl mx-auto px-4 py-6">
 
-    <!-- ===== 顶部标题 ===== -->
     <div class="text-center mb-8">
       <h1 class="text-3xl md:text-4xl font-bold text-white drop-shadow-lg tracking-tight">
         支持 <span class="text-accent">Unus · 一方</span>
@@ -103,18 +102,10 @@
             <span class="text-white/40 text-sm">68 U币</span>
           </div>
           <div class="text-white/50 text-xs space-y-1">
-            <div class="flex items-center gap-2">
-              <span class="text-green-400">✅</span> 自定义链接上限 8 个
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-green-400">✅</span> 每日 AI 免费 8 次
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-green-400">✅</span> 自定义壁纸 / 主题色
-            </div>
-            <div class="flex items-center gap-2 text-white/30">
-              <span>❌</span> 新功能优先体验
-            </div>
+            <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义链接上限 8 个</div>
+            <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 每日 AI 免费 8 次</div>
+            <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义壁纸 / 主题色</div>
+            <div class="flex items-center gap-2 text-white/30"><span>❌</span> 新功能优先体验</div>
           </div>
           <button
             v-if="userStore.effectiveSubscription !== 'monthly'"
@@ -145,18 +136,10 @@
             <span class="text-amber-400 text-sm font-bold">648 U币</span>
           </div>
           <div class="text-white/50 text-xs space-y-1">
-            <div class="flex items-center gap-2">
-              <span class="text-green-400">✅</span> 自定义链接上限 20 个
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-green-400">✅</span> 每日 AI 免费 20 次
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-green-400">✅</span> 自定义壁纸 / 主题色
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-green-400">✅</span> 新功能优先体验
-            </div>
+            <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义链接上限 20 个</div>
+            <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 每日 AI 免费 20 次</div>
+            <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义壁纸 / 主题色</div>
+            <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 新功能优先体验</div>
           </div>
           <button
             v-if="userStore.effectiveSubscription !== 'yearly'"
@@ -225,12 +208,7 @@
             推广位：<span class="text-white">{{ selectedItem?.days }}天 — {{ selectedItem?.price }}元</span>
           </div>
         </div>
-        <button
-          @click="qrModalVisible = false"
-          class="mt-4 px-6 py-2 rounded-lg bg-white/10 border border-white/10 text-white/70 hover:bg-white/20 transition"
-        >
-          关闭
-        </button>
+        <button @click="qrModalVisible = false" class="mt-4 px-6 py-2 rounded-lg bg-white/10 border border-white/10 text-white/70 hover:bg-white/20 transition">关闭</button>
       </div>
     </div>
 
@@ -244,9 +222,6 @@ import { useUserStore } from '../stores/user'
 
 const userStore = useUserStore()
 
-// ============================================================
-// 状态
-// ============================================================
 const thanksList = ref([])
 const redeemCode = ref('')
 const redeemMsg = ref('')
@@ -260,7 +235,6 @@ const qrImageUrl = ref('https://cdn.luogu.com.cn/upload/image_hosting/bdj5xsuu.p
 const subMsg = ref('')
 const subMsgType = ref('ok')
 
-// ===== 充值档位 =====
 const tiers = [
   { price: 6, coins: 60, label: '体验包', bonus: 0, tag: null, tagClass: '' },
   { price: 12, coins: 132, label: '标准包', bonus: 12, tag: '+10%', tagClass: 'bg-blue-500' },
@@ -268,16 +242,12 @@ const tiers = [
   { price: 60, coins: 900, label: '旗舰包', bonus: 300, tag: '+50% 🔥', tagClass: 'bg-accent' },
 ]
 
-// ===== 推广位档位 =====
 const promoTiers = [
   { days: 7, price: '7.9', label: '体验推广' },
   { days: 30, price: '29.9', label: '标准推广' },
   { days: 365, price: '298', label: '长期推广' },
 ]
 
-// ============================================================
-// 感谢名单
-// ============================================================
 async function loadThanksList() {
   const { data, error } = await supabase
     .from('recharge_records')
@@ -293,9 +263,6 @@ function formatDate(dateStr) {
   return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0')
 }
 
-// ============================================================
-// 二维码弹窗
-// ============================================================
 function openQRCode(item) {
   selectedItem.value = item
   qrModalVisible.value = true
@@ -305,9 +272,6 @@ function handleQrError() {
   qrImageUrl.value = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=weixin'
 }
 
-// ============================================================
-// 会员订阅
-// ============================================================
 async function buyMonthly() {
   if (!userStore.isLoggedIn) {
     subMsg.value = '⚠️ 请先登录'
@@ -318,12 +282,9 @@ async function buyMonthly() {
   try {
     await userStore.subscribeMonthly()
     await userStore.fetchProfile()
-
     alert('🎉 恭喜你成为 Unus · 一方 月卡会员！\n\n✨ 自定义链接上限提升至 8 个\n✨ 每日 AI 免费次数提升至 8 次\n✨ 自定义壁纸 / 主题色已解锁\n\n感谢你的支持，让一方变得更好 ❤️')
-
     subMsg.value = '✅ 月卡订阅成功！'
     subMsgType.value = 'ok'
-
   } catch (err) {
     subMsg.value = '❌ ' + err.message
     subMsgType.value = 'err'
@@ -341,12 +302,9 @@ async function buyYearly() {
   try {
     await userStore.subscribeYearly()
     await userStore.fetchProfile()
-
     alert('🎉🎉🎉 恭喜你成为 Unus · 一方 年卡会员！\n\n✨ 自定义链接上限提升至 20 个\n✨ 每日 AI 免费次数提升至 20 次\n✨ 自定义壁纸 / 主题色已解锁\n✨ 新功能优先体验权已开启\n\n你是我们最重要的支持者！感谢你让一方变得更好 ❤️')
-
     subMsg.value = '✅ 年卡订阅成功！'
     subMsgType.value = 'ok'
-
   } catch (err) {
     subMsg.value = '❌ ' + err.message
     subMsgType.value = 'err'
@@ -354,9 +312,6 @@ async function buyYearly() {
   setTimeout(() => { subMsg.value = '' }, 3000)
 }
 
-// ============================================================
-// 兑换码
-// ============================================================
 async function redeem() {
   const code = redeemCode.value.trim()
   if (!code) { redeemMsg.value = '⚠️ 请输入兑换码'; redeemMsgType.value = 'err'; return }
@@ -391,19 +346,6 @@ async function redeem() {
       redeemMsgType.value = 'err'
       isRedeeming.value = false
       return
-    }
-
-    if (codeData.discount_quota > 0) {
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('discount_quota')
-        .eq('id', userStore.user.id)
-        .single()
-      const currentQuota = profileData?.discount_quota || 0
-      await supabase
-        .from('profiles')
-        .update({ discount_quota: currentQuota + codeData.discount_quota })
-        .eq('id', userStore.user.id)
     }
 
     await supabase
@@ -443,9 +385,6 @@ async function redeem() {
   setTimeout(() => { redeemMsg.value = '' }, 5000)
 }
 
-// ============================================================
-// 生命周期
-// ============================================================
 onMounted(() => {
   loadThanksList()
 })
@@ -459,15 +398,7 @@ onMounted(() => {
   border-color: rgba(212, 175, 55, 0.5);
   transform: translateY(-2px);
 }
-
-.max-h-80::-webkit-scrollbar {
-  width: 3px;
-}
-.max-h-80::-webkit-scrollbar-track {
-  background: transparent;
-}
-.max-h-80::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-}
+.max-h-80::-webkit-scrollbar { width: 3px; }
+.max-h-80::-webkit-scrollbar-track { background: transparent; }
+.max-h-80::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
 </style>

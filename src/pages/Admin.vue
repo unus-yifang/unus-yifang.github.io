@@ -16,7 +16,7 @@
           <option value="6">6元 — 60币</option>
           <option value="12">12元 — 132币</option>
           <option value="30">30元 — 375币</option>
-          <option value="60">60元 — 900币 + 9折券</option>
+          <option value="60">60元 — 900币</option>
         </select>
         <button @click="generateCode" class="px-4 py-2 rounded-lg bg-accent/20 border border-accent/30 text-accent text-sm font-medium hover:bg-accent/30 transition">生成</button>
       </div>
@@ -66,7 +66,7 @@
       <p v-if="quoteMsg" class="text-xs mt-2" :class="quoteMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ quoteMsg }}</p>
     </div>
 
-    <!-- ===== 卡片3：推荐位（修复版） ===== -->
+    <!-- ===== 卡片3：推荐位 ===== -->
     <div class="glass dark:glass-dark rounded-xl p-5 border border-white/10">
       <h2 class="text-white/80 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-fire text-accent"></i> 推荐位管理（共 {{ promos.length }} 个）
@@ -121,9 +121,7 @@
 import { ref, onMounted } from 'vue'
 import { supabase } from '../lib/supabase'
 
-// ============================================================
-// 状态
-// ============================================================
+// ===== 状态 =====
 const codeTier = ref('6')
 const generatedCode = ref('')
 const codeMsg = ref('')
@@ -144,9 +142,7 @@ const promos = ref([])
 const promoMsg = ref('')
 const promoMsgType = ref('ok')
 
-// ============================================================
-// 兑换码
-// ============================================================
+// ===== 兑换码 =====
 async function generateCode() {
   const tierMap = { 6: 60, 12: 132, 30: 375, 60: 900 }
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
@@ -158,7 +154,6 @@ async function generateCode() {
     code,
     tier: codeTier.value,
     coins: tierMap[codeTier.value],
-    discount_quota: codeTier.value === '60' ? 1 : 0,
     used: false,
     created_at: new Date().toISOString(),
   })
@@ -178,13 +173,11 @@ function copyCode() {
   setTimeout(() => { codeMsg.value = '' }, 2000)
 }
 
-// ============================================================
-// 一言管理
-// ============================================================
+// ===== 一言管理 =====
 async function loadQuotes() {
   console.log('🔄 [一言] 开始加载...')
   quotes.value = []
-  
+
   try {
     const { data, error } = await supabase
       .from('user_quotes')
@@ -211,10 +204,10 @@ async function loadQuotes() {
 
 async function addQuote() {
   const content = newQuote.value.trim()
-  if (!content) { 
+  if (!content) {
     quoteMsg.value = '⚠️ 请输入内容'
     quoteMsgType.value = 'err'
-    return 
+    return
   }
 
   const { data: user } = await supabase.auth.getUser()
@@ -230,10 +223,10 @@ async function addQuote() {
     approved_at: new Date().toISOString(),
   })
 
-  if (error) { 
+  if (error) {
     quoteMsg.value = '❌ ' + error.message
     quoteMsgType.value = 'err'
-    return 
+    return
   }
 
   quoteMsg.value = '✅ 已添加'
@@ -251,10 +244,10 @@ function openEditModal(q) {
 
 async function confirmEditQuote() {
   const content = editQuoteContent.value.trim()
-  if (!content) { 
+  if (!content) {
     quoteMsg.value = '⚠️ 内容不能为空'
     quoteMsgType.value = 'err'
-    return 
+    return
   }
 
   const { error } = await supabase
@@ -264,10 +257,10 @@ async function confirmEditQuote() {
 
   editModalVisible.value = false
 
-  if (error) { 
+  if (error) {
     quoteMsg.value = '❌ ' + error.message
     quoteMsgType.value = 'err'
-    return 
+    return
   }
 
   quoteMsg.value = '✅ 已修改'
@@ -300,13 +293,11 @@ async function deleteQuote(id) {
   setTimeout(() => { quoteMsg.value = '' }, 2000)
 }
 
-// ============================================================
-// 推荐位管理（修复版）
-// ============================================================
+// ===== 推荐位管理 =====
 async function loadPromos() {
   console.log('🔄 [推荐位] 加载中...')
   promos.value = []
-  
+
   try {
     const { data, error } = await supabase
       .from('promotions')
@@ -320,7 +311,7 @@ async function loadPromos() {
     }
 
     console.log('✅ [推荐位] 加载成功，共', data?.length || 0, '个')
-    
+
     if (data) {
       promos.value = data.map(p => ({
         ...p,
@@ -335,14 +326,13 @@ async function loadPromos() {
 async function addPromo() {
   const title = promoTitle.value.trim()
   const url = promoUrl.value.trim()
-  
-  if (!title || !url) { 
+
+  if (!title || !url) {
     promoMsg.value = '⚠️ 请填写标题和链接'
     promoMsgType.value = 'err'
-    return 
+    return
   }
 
-  // 自动添加 http:// 前缀
   let finalUrl = url
   if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
     finalUrl = 'https://' + finalUrl
@@ -354,7 +344,6 @@ async function addPromo() {
 
   console.log('🔄 [推荐位] 添加:', { title, url: finalUrl, days: promoDays.value })
 
-  // 插入时只使用表里实际存在的字段
   const { error } = await supabase
     .from('promotions')
     .insert({
@@ -385,7 +374,7 @@ async function addPromo() {
 
 async function removePromo(id) {
   if (!confirm('确定下架吗？')) return
-  
+
   console.log('🔄 [推荐位] 下架:', id)
 
   const { error } = await supabase
@@ -407,9 +396,7 @@ async function removePromo(id) {
   setTimeout(() => { promoMsg.value = '' }, 2000)
 }
 
-// ============================================================
-// 生命周期
-// ============================================================
+// ===== 生命周期 =====
 onMounted(() => {
   console.log('📌 [Admin] 页面已加载')
   loadQuotes()
