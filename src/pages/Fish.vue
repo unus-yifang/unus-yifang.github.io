@@ -11,8 +11,8 @@
     <!-- ===== 音乐听歌 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🎵 音乐听歌</span>
-        <span class="text-white/30 text-[10px]">无损 · 免费 · 在线</span>
+        <span class="section-title text-sm font-medium tracking-wide">🎵 音乐听歌</span>
+        <span class="section-sub text-[10px]">无损 · 免费 · 在线</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in music" :key="item.name" :href="item.url" target="_blank" class="fish-link">{{ item.name }}</a>
@@ -22,8 +22,8 @@
     <!-- ===== 在线游戏 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🎮 在线游戏</span>
-        <span class="text-white/30 text-[10px]">摸鱼必备 · 点击即玩</span>
+        <span class="section-title text-sm font-medium tracking-wide">🎮 在线游戏</span>
+        <span class="section-sub text-[10px]">摸鱼必备 · 点击即玩</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in onlineGames" :key="item.name" :href="item.url" target="_blank" class="fish-link">{{ item.name }}</a>
@@ -33,8 +33,8 @@
     <!-- ===== 经典游戏 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🕹️ 经典游戏</span>
-        <span class="text-white/30 text-[10px]">怀旧 · 单机 · 合集</span>
+        <span class="section-title text-sm font-medium tracking-wide">🕹️ 经典游戏</span>
+        <span class="section-sub text-[10px]">怀旧 · 单机 · 合集</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in classicGames" :key="item.name" :href="item.url" target="_blank" class="fish-link">{{ item.name }}</a>
@@ -44,8 +44,8 @@
     <!-- ===== 趣味互动 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">😄 趣味互动</span>
-        <span class="text-white/30 text-[10px]">脑洞 · 解压 · 随机</span>
+        <span class="section-title text-sm font-medium tracking-wide">😄 趣味互动</span>
+        <span class="section-sub text-[10px]">脑洞 · 解压 · 随机</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in fun" :key="item.name" :href="item.url" target="_blank" class="fish-link">{{ item.name }}</a>
@@ -55,8 +55,8 @@
     <!-- ===== 减压放松 ===== -->
     <div>
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🧘 减压放松</span>
-        <span class="text-white/30 text-[10px]">放空 · 冥想 · 治愈</span>
+        <span class="section-title text-sm font-medium tracking-wide">🧘 减压放松</span>
+        <span class="section-sub text-[10px]">放空 · 冥想 · 治愈</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in relax" :key="item.name" :href="item.url" target="_blank" class="fish-link">{{ item.name }}</a>
@@ -125,17 +125,24 @@ const relax = [
 </script>
 
 <style scoped>
+.section-title {
+  color: #ffffff !important;
+}
+.section-sub {
+  color: rgba(255, 255, 255, 0.40) !important;
+}
+
 .fish-link {
   display: block;
-  padding: 8px 12px;
-  border-radius: 10px;
-  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
   font-weight: 500;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  color: #1a1a2e;
   transition: all 0.2s ease;
   text-decoration: none;
   text-align: center;
@@ -145,10 +152,9 @@ const relax = [
   letter-spacing: 0.3px;
 }
 .fish-link:hover {
-  color: #ffffff;
-  background: rgba(212, 175, 55, 0.25);
-  border-color: rgba(212, 175, 55, 0.35);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(212, 175, 55, 0.30);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 </style>

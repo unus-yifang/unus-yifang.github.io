@@ -11,8 +11,8 @@
     <!-- ===== 有趣网站 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">💡 有趣网站</span>
-        <span class="text-white/30 text-[10px]">脑洞 · 创意 · 导航</span>
+        <span class="section-title text-sm font-medium tracking-wide">💡 有趣网站</span>
+        <span class="section-sub text-[10px]">脑洞 · 创意 · 导航</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in funSites" :key="item.name" :href="item.url" target="_blank" class="discover-link">{{ item.name }}</a>
@@ -22,8 +22,8 @@
     <!-- ===== 小说阅读 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">📚 小说阅读</span>
-        <span class="text-white/30 text-[10px]">搜书 · 免费 · 电子书</span>
+        <span class="section-title text-sm font-medium tracking-wide">📚 小说阅读</span>
+        <span class="section-sub text-[10px]">搜书 · 免费 · 电子书</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in novels" :key="item.name" :href="item.url" target="_blank" class="discover-link">{{ item.name }}</a>
@@ -33,8 +33,8 @@
     <!-- ===== 影视娱乐 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🎬 影视娱乐</span>
-        <span class="text-white/30 text-[10px]">追剧 · 直播 · 解析</span>
+        <span class="section-title text-sm font-medium tracking-wide">🎬 影视娱乐</span>
+        <span class="section-sub text-[10px]">追剧 · 直播 · 解析</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in movies" :key="item.name" :href="item.url" target="_blank" class="discover-link">{{ item.name }}</a>
@@ -44,8 +44,8 @@
     <!-- ===== 资源网站 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">📦 资源网站</span>
-        <span class="text-white/30 text-[10px]">插件 · 软件 · 分享</span>
+        <span class="section-title text-sm font-medium tracking-wide">📦 资源网站</span>
+        <span class="section-sub text-[10px]">插件 · 软件 · 分享</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in resources" :key="item.name" :href="item.url" target="_blank" class="discover-link">{{ item.name }}</a>
@@ -55,8 +55,8 @@
     <!-- ===== 全球探索 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🌍 全球探索</span>
-        <span class="text-white/30 text-[10px]">地理 · 历史 · 文化</span>
+        <span class="section-title text-sm font-medium tracking-wide">🌍 全球探索</span>
+        <span class="section-sub text-[10px]">地理 · 历史 · 文化</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in explore" :key="item.name" :href="item.url" target="_blank" class="discover-link">{{ item.name }}</a>
@@ -66,8 +66,8 @@
     <!-- ===== 游戏资源 ===== -->
     <div>
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🎮 游戏资源</span>
-        <span class="text-white/30 text-[10px]">下载 · 分享 · 单机</span>
+        <span class="section-title text-sm font-medium tracking-wide">🎮 游戏资源</span>
+        <span class="section-sub text-[10px]">下载 · 分享 · 单机</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in gameRes" :key="item.name" :href="item.url" target="_blank" class="discover-link">{{ item.name }}</a>
@@ -162,17 +162,24 @@ const gameRes = [
 </script>
 
 <style scoped>
+.section-title {
+  color: #ffffff !important;
+}
+.section-sub {
+  color: rgba(255, 255, 255, 0.40) !important;
+}
+
 .discover-link {
   display: block;
-  padding: 8px 12px;
-  border-radius: 10px;
-  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
   font-weight: 500;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  color: #1a1a2e;
   transition: all 0.2s ease;
   text-decoration: none;
   text-align: center;
@@ -182,10 +189,9 @@ const gameRes = [
   letter-spacing: 0.3px;
 }
 .discover-link:hover {
-  color: #ffffff;
-  background: rgba(212, 175, 55, 0.25);
-  border-color: rgba(212, 175, 55, 0.35);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(212, 175, 55, 0.30);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 </style>

@@ -11,8 +11,8 @@
     <!-- ===== AI工具 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🤖 AI工具</span>
-        <span class="text-white/30 text-[10px]">创作 · 写作 · 编程</span>
+        <span class="section-title text-sm font-medium tracking-wide">🤖 AI工具</span>
+        <span class="section-sub text-[10px]">创作 · 写作 · 编程</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in aiTools" :key="item.name" :href="item.url" target="_blank" class="tool-link">{{ item.name }}</a>
@@ -22,8 +22,8 @@
     <!-- ===== 设计工具 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🎨 设计工具</span>
-        <span class="text-white/30 text-[10px]">PS · 图标 · 字体</span>
+        <span class="section-title text-sm font-medium tracking-wide">🎨 设计工具</span>
+        <span class="section-sub text-[10px]">PS · 图标 · 字体</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in designTools" :key="item.name" :href="item.url" target="_blank" class="tool-link">{{ item.name }}</a>
@@ -33,8 +33,8 @@
     <!-- ===== 图片处理 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🖼️ 图片处理</span>
-        <span class="text-white/30 text-[10px]">去水印 · 抠图 · 图床</span>
+        <span class="section-title text-sm font-medium tracking-wide">🖼️ 图片处理</span>
+        <span class="section-sub text-[10px]">去水印 · 抠图 · 图床</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in imageTools" :key="item.name" :href="item.url" target="_blank" class="tool-link">{{ item.name }}</a>
@@ -44,8 +44,8 @@
     <!-- ===== 办公资源 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">📄 办公资源</span>
-        <span class="text-white/30 text-[10px]">PDF · PPT · 文件传输</span>
+        <span class="section-title text-sm font-medium tracking-wide">📄 办公资源</span>
+        <span class="section-sub text-[10px]">PDF · PPT · 文件传输</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in officeTools" :key="item.name" :href="item.url" target="_blank" class="tool-link">{{ item.name }}</a>
@@ -55,8 +55,8 @@
     <!-- ===== 格式转换 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🔄 格式转换</span>
-        <span class="text-white/30 text-[10px]">转换 · 生成 · 压缩</span>
+        <span class="section-title text-sm font-medium tracking-wide">🔄 格式转换</span>
+        <span class="section-sub text-[10px]">转换 · 生成 · 压缩</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in convertTools" :key="item.name" :href="item.url" target="_blank" class="tool-link">{{ item.name }}</a>
@@ -66,8 +66,8 @@
     <!-- ===== 开发者工具 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">💻 开发者工具</span>
-        <span class="text-white/30 text-[10px]">编程 · 数据库 · 社区</span>
+        <span class="section-title text-sm font-medium tracking-wide">💻 开发者工具</span>
+        <span class="section-sub text-[10px]">编程 · 数据库 · 社区</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in devTools" :key="item.name" :href="item.url" target="_blank" class="tool-link">{{ item.name }}</a>
@@ -77,8 +77,8 @@
     <!-- ===== 装机必备 ===== -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">📦 装机必备</span>
-        <span class="text-white/30 text-[10px]">日常软件 · 系统工具</span>
+        <span class="section-title text-sm font-medium tracking-wide">📦 装机必备</span>
+        <span class="section-sub text-[10px]">日常软件 · 系统工具</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in mustHave" :key="item.name" :href="item.url" target="_blank" class="tool-link">{{ item.name }}</a>
@@ -88,8 +88,8 @@
     <!-- ===== 装机工具 ===== -->
     <div>
       <div class="flex items-center gap-2 mb-2.5">
-        <span class="text-white text-sm font-medium tracking-wide">🔧 装机工具</span>
-        <span class="text-white/30 text-[10px]">重装 · 驱动 · 测试</span>
+        <span class="section-title text-sm font-medium tracking-wide">🔧 装机工具</span>
+        <span class="section-sub text-[10px]">重装 · 驱动 · 测试</span>
       </div>
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
         <a v-for="item in systemTools" :key="item.name" :href="item.url" target="_blank" class="tool-link">{{ item.name }}</a>
@@ -100,6 +100,7 @@
 </template>
 
 <script setup>
+// ===== 工具数据 =====
 const aiTools = [
   { name: 'DeepSeek', url: 'https://chat.deepseek.com' },
   { name: '音述AI音乐', url: 'https://www.yinshuai.com' },
@@ -226,17 +227,26 @@ const systemTools = [
 </script>
 
 <style scoped>
+/* ===== 分类标题（保持白色） ===== */
+.section-title {
+  color: #ffffff !important;
+}
+.section-sub {
+  color: rgba(255, 255, 255, 0.40) !important;
+}
+
+/* ===== 卡片链接 ===== */
 .tool-link {
   display: block;
-  padding: 8px 12px;
-  border-radius: 10px;
-  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
   font-weight: 500;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  color: #1a1a2e;
   transition: all 0.2s ease;
   text-decoration: none;
   text-align: center;
@@ -246,10 +256,9 @@ const systemTools = [
   letter-spacing: 0.3px;
 }
 .tool-link:hover {
-  color: #ffffff;
-  background: rgba(212, 175, 55, 0.25);
-  border-color: rgba(212, 175, 55, 0.35);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(212, 175, 55, 0.30);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 </style>
