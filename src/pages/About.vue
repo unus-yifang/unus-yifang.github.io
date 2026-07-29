@@ -12,7 +12,7 @@
 
     <div class="space-y-5">
 
-      <div class="glass-light rounded-2xl p-6 border border-white/50">
+      <div class="about-card rounded-2xl p-6 border">
         <div class="space-y-4 text-gray-700 text-sm leading-relaxed">
           <p>每天打开浏览器的那一瞬间，你看到的是什么？</p>
           <p>是满屏的广告和推荐算法，还是一个安静的、属于你的角落？</p>
@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <div class="glass-light rounded-2xl p-6 border border-white/50">
+      <div class="about-card rounded-2xl p-6 border">
         <div class="space-y-4 text-gray-700 text-sm leading-relaxed">
           <p>我叫 <span class="text-gray-800 font-medium">Gesoleerdeiland</span>。</p>
           <p>做这个网站没有什么宏大的野心。只是觉得，在算法和流量之外，应该还有一个小小的角落，是为「人」本身而存在的。</p>
@@ -33,7 +33,7 @@
       </div>
 
       <!-- ===== 为什么需要支持？ ===== -->
-      <div class="glass-light rounded-2xl p-6 border border-white/50">
+      <div class="about-card rounded-2xl p-6 border">
         <div class="space-y-4 text-gray-700 text-sm leading-relaxed">
           <p class="text-gray-800 font-medium">为什么需要支持？</p>
           <p>做一个网站，比想象中要贵。</p>
@@ -46,8 +46,8 @@
         </div>
       </div>
 
-      <!-- ===== 付费逻辑（修正版） ===== -->
-      <div class="glass-light rounded-2xl p-6 border border-white/50">
+      <!-- ===== 付费逻辑 ===== -->
+      <div class="about-card rounded-2xl p-6 border">
         <div class="space-y-4 text-gray-700 text-sm leading-relaxed">
           <p class="text-gray-800 font-medium">年卡 648 U币，实际花多少钱？</p>
           <p>充值 60 元 = 900 U币，足够兑换年卡，还多 252 U币。</p>
@@ -67,7 +67,7 @@
       </div>
 
       <!-- ===== 联系方式 ===== -->
-      <div class="glass-light rounded-2xl p-6 border border-white/50">
+      <div class="about-card rounded-2xl p-6 border">
         <p class="text-gray-700 text-sm mb-3">📮 如果你有任何建议和意见：</p>
         <div class="space-y-2 text-sm">
           <p class="text-gray-700 flex items-center gap-3">
@@ -200,3 +200,12 @@ function copyUrl() {
   })
 }
 </script>
+
+<style scoped>
+.about-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: rgba(255, 255, 255, 0.30);
+}
+</style>

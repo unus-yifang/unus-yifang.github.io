@@ -12,14 +12,14 @@
 
     <!-- ===== 充值档位 ===== -->
     <div class="mb-8">
-      <h2 class="text-white/70 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+      <h2 class="support-section-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-coins text-accent"></i> 支持档位
       </h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div
           v-for="tier in tiers"
           :key="tier.price"
-          class="tier-card glass dark:glass-dark rounded-xl p-4 border border-white/10 text-center hover:border-accent/40 transition cursor-pointer relative"
+          class="tier-card rounded-xl p-4 border text-center hover:border-accent/40 transition cursor-pointer relative"
           @click="openQRCode(tier)"
         >
           <span
@@ -29,39 +29,37 @@
           >
             {{ tier.tag }}
           </span>
-          <div class="text-2xl font-bold text-white">{{ tier.price }}元</div>
-          <div class="text-white/60 text-sm mt-1">{{ tier.coins }} U币</div>
-          <div class="text-white/30 text-[10px] mt-1">{{ tier.label }}</div>
-          <div v-if="tier.bonus" class="text-accent/70 text-[10px] mt-0.5">
-            🎁 加赠 {{ tier.bonus }} 币
-          </div>
+          <div class="tier-price">{{ tier.price }}元</div>
+          <div class="tier-coins">{{ tier.coins }} U币</div>
+          <div class="tier-label">{{ tier.label }}</div>
+          <div v-if="tier.bonus" class="tier-bonus">🎁 加赠 {{ tier.bonus }} 币</div>
         </div>
       </div>
     </div>
 
     <!-- ===== 推广位购买 ===== -->
     <div class="mb-8">
-      <h2 class="text-white/70 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+      <h2 class="support-section-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-bullhorn text-accent"></i> 推广位购买
       </h2>
-      <p class="text-white/30 text-xs mb-3">让你的网站出现在首页推荐位，获得更多曝光</p>
+      <p class="support-sub-text text-xs mb-3">让你的网站出现在首页推荐位，获得更多曝光</p>
       <div class="grid grid-cols-3 gap-3">
         <div
           v-for="promo in promoTiers"
           :key="promo.days"
-          class="tier-card glass dark:glass-dark rounded-xl p-4 border border-white/10 text-center hover:border-accent/40 transition cursor-pointer"
+          class="tier-card rounded-xl p-4 border text-center hover:border-accent/40 transition cursor-pointer"
           @click="openQRCode(promo)"
         >
-          <div class="text-2xl font-bold text-white">{{ promo.days }}天</div>
-          <div class="text-accent text-sm font-bold mt-1">{{ promo.price }}元</div>
-          <div class="text-white/30 text-[10px] mt-1">{{ promo.label }}</div>
+          <div class="tier-price">{{ promo.days }}天</div>
+          <div class="tier-coins text-accent">{{ promo.price }}元</div>
+          <div class="tier-label">{{ promo.label }}</div>
         </div>
       </div>
     </div>
 
     <!-- ===== 兑换码输入 ===== -->
     <div class="mb-8">
-      <h2 class="text-white/70 text-sm font-medium tracking-wide mb-2 flex items-center gap-2">
+      <h2 class="support-section-title text-sm font-medium tracking-wide mb-2 flex items-center gap-2">
         <i class="fas fa-key text-accent"></i> 已有兑换码？
       </h2>
       <div class="flex gap-2">
@@ -69,7 +67,7 @@
           v-model="redeemCode"
           type="text"
           placeholder="输入兑换码..."
-          class="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm placeholder-white/40 outline-none focus:border-accent/50"
+          class="support-input flex-1 rounded-lg px-3 py-2 text-sm outline-none"
           @keydown.enter="redeem"
           :disabled="isRedeeming"
         />
@@ -81,27 +79,25 @@
           {{ isRedeeming ? '处理中...' : '兑换' }}
         </button>
       </div>
-      <p v-if="redeemMsg" class="text-xs mt-2" :class="redeemMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">
-        {{ redeemMsg }}
-      </p>
+      <p v-if="redeemMsg" class="text-xs mt-2" :class="redeemMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ redeemMsg }}</p>
     </div>
 
     <!-- ===== 会员订阅 ===== -->
     <div class="mb-8">
-      <h2 class="text-white/70 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+      <h2 class="support-section-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-crown text-accent"></i> 会员订阅
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <!-- 月卡 -->
-        <div class="glass dark:glass-dark rounded-xl p-5 border border-white/10 hover:border-blue-400/40 transition relative">
+        <div class="member-card rounded-xl p-5 border hover:border-blue-400/40 transition relative">
           <span v-if="userStore.effectiveSubscription === 'monthly'" class="absolute -top-2 -left-2 text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-500 text-white">
             ✅ 当前订阅
           </span>
           <div class="flex items-center justify-between mb-2">
-            <span class="text-white font-bold text-lg">📆 月卡</span>
-            <span class="text-white/40 text-sm">68 U币</span>
+            <span class="member-title">📆 月卡</span>
+            <span class="member-price">68 U币</span>
           </div>
-          <div class="text-white/50 text-xs space-y-1">
+          <div class="member-features text-xs space-y-1">
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义链接上限 8 个</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 每日 AI 免费 8 次</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义壁纸 / 主题色</div>
@@ -124,7 +120,7 @@
         </div>
 
         <!-- 年卡 -->
-        <div class="glass dark:glass-dark rounded-xl p-5 border border-amber-400/30 hover:border-amber-400/60 transition relative">
+        <div class="member-card rounded-xl p-5 border hover:border-amber-400/60 transition relative">
           <span v-if="userStore.effectiveSubscription === 'yearly'" class="absolute -top-2 -left-2 text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-500 text-white">
             ✅ 当前订阅
           </span>
@@ -132,10 +128,10 @@
             -20%
           </span>
           <div class="flex items-center justify-between mb-2">
-            <span class="text-white font-bold text-lg">✨ 年卡</span>
-            <span class="text-amber-400 text-sm font-bold">648 U币</span>
+            <span class="member-title">✨ 年卡</span>
+            <span class="member-price text-amber-400">648 U币</span>
           </div>
-          <div class="text-white/50 text-xs space-y-1">
+          <div class="member-features text-xs space-y-1">
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义链接上限 20 个</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 每日 AI 免费 20 次</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义壁纸 / 主题色</div>
@@ -157,17 +153,15 @@
           </button>
         </div>
       </div>
-      <p v-if="subMsg" class="text-xs mt-2" :class="subMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">
-        {{ subMsg }}
-      </p>
+      <p v-if="subMsg" class="text-xs mt-2" :class="subMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ subMsg }}</p>
     </div>
 
     <!-- ===== 感谢名单 ===== -->
     <div>
-      <h2 class="text-white/70 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+      <h2 class="support-section-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-heart text-red-400"></i> 感谢支持者（{{ thanksList.length }} 人）
       </h2>
-      <div class="glass dark:glass-dark rounded-xl p-4 border border-white/10">
+      <div class="thanks-card rounded-xl p-4 border">
         <div v-if="thanksList.length === 0" class="text-white/30 text-sm text-center py-4">
           还没有支持者，成为第一个吧 🎉
         </div>
@@ -175,12 +169,12 @@
           <div
             v-for="item in thanksList"
             :key="item.id"
-            class="flex items-center gap-2 text-sm text-white/60 px-2 py-1.5 rounded hover:bg-white/5 transition"
+            class="flex items-center gap-2 text-sm px-2 py-1.5 rounded hover:bg-white/5 transition thanks-item"
           >
             <span class="text-green-400 text-xs">●</span>
-            <span class="text-white/80">{{ item.username }}</span>
-            <span class="text-accent/70">+{{ item.amount }}元</span>
-            <span class="text-white/30 text-[10px] ml-auto">{{ formatDate(item.created_at) }}</span>
+            <span class="thanks-username">{{ item.username }}</span>
+            <span class="thanks-amount">+{{ item.amount }}元</span>
+            <span class="thanks-date">{{ formatDate(item.created_at) }}</span>
           </div>
         </div>
         <div class="text-center text-white/20 text-[10px] mt-3">
@@ -249,12 +243,7 @@ const promoTiers = [
 ]
 
 async function loadThanksList() {
-  const { data, error } = await supabase
-    .from('recharge_records')
-    .select('*')
-    .eq('status', 'active')
-    .order('created_at', { ascending: false })
-    .limit(100)
+  const { data, error } = await supabase.from('recharge_records').select('*').eq('status', 'active').order('created_at', { ascending: false }).limit(100)
   if (!error && data) thanksList.value = data
 }
 
@@ -273,12 +262,7 @@ function handleQrError() {
 }
 
 async function buyMonthly() {
-  if (!userStore.isLoggedIn) {
-    subMsg.value = '⚠️ 请先登录'
-    subMsgType.value = 'err'
-    return
-  }
-
+  if (!userStore.isLoggedIn) { subMsg.value = '⚠️ 请先登录'; subMsgType.value = 'err'; return }
   try {
     await userStore.subscribeMonthly()
     await userStore.fetchProfile()
@@ -293,12 +277,7 @@ async function buyMonthly() {
 }
 
 async function buyYearly() {
-  if (!userStore.isLoggedIn) {
-    subMsg.value = '⚠️ 请先登录'
-    subMsgType.value = 'err'
-    return
-  }
-
+  if (!userStore.isLoggedIn) { subMsg.value = '⚠️ 请先登录'; subMsgType.value = 'err'; return }
   try {
     await userStore.subscribeYearly()
     await userStore.fetchProfile()
@@ -321,53 +300,23 @@ async function redeem() {
   redeemMsg.value = ''
 
   try {
-    const { data: codeData, error: codeError } = await supabase
-      .from('redeem_codes')
-      .select('*')
-      .eq('code', code)
-      .eq('used', false)
-      .single()
-
-    if (codeError || !codeData) {
-      redeemMsg.value = '❌ 无效或已使用的兑换码'
-      redeemMsgType.value = 'err'
-      isRedeeming.value = false
-      return
-    }
+    const { data: codeData, error: codeError } = await supabase.from('redeem_codes').select('*').eq('code', code).eq('used', false).single()
+    if (codeError || !codeData) { redeemMsg.value = '❌ 无效或已使用的兑换码'; redeemMsgType.value = 'err'; isRedeeming.value = false; return }
 
     const newCoins = userStore.ucoins + codeData.coins
-    const { error: updateError } = await supabase
-      .from('profiles')
-      .update({ ucoins: newCoins })
-      .eq('id', userStore.user.id)
+    const { error: updateError } = await supabase.from('profiles').update({ ucoins: newCoins }).eq('id', userStore.user.id)
+    if (updateError) { redeemMsg.value = '❌ ' + updateError.message; redeemMsgType.value = 'err'; isRedeeming.value = false; return }
 
-    if (updateError) {
-      redeemMsg.value = '❌ ' + updateError.message
-      redeemMsgType.value = 'err'
-      isRedeeming.value = false
-      return
-    }
-
-    await supabase
-      .from('redeem_codes')
-      .update({ used: true, used_by: userStore.user.id, used_at: new Date().toISOString() })
-      .eq('id', codeData.id)
+    await supabase.from('redeem_codes').update({ used: true, used_by: userStore.user.id, used_at: new Date().toISOString() }).eq('id', codeData.id)
 
     const expiresAt = new Date()
     expiresAt.setDate(expiresAt.getDate() + 30)
 
-    await supabase
-      .from('recharge_records')
-      .insert({
-        user_id: userStore.user.id,
-        username: userStore.username,
-        email: userStore.user.email,
-        amount: parseInt(codeData.tier),
-        coins: codeData.coins,
-        created_at: new Date().toISOString(),
-        expires_at: expiresAt.toISOString(),
-        status: 'active'
-      })
+    await supabase.from('recharge_records').insert({
+      user_id: userStore.user.id, username: userStore.username, email: userStore.user.email,
+      amount: parseInt(codeData.tier), coins: codeData.coins,
+      created_at: new Date().toISOString(), expires_at: expiresAt.toISOString(), status: 'active'
+    })
 
     await userStore.fetchProfile()
     await loadThanksList()
@@ -391,83 +340,106 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 卡片背景改为实心毛玻璃 */
-.glass {
-  background: rgba(255, 255, 255, 0.75) !important;
-  backdrop-filter: blur(12px) !important;
-  border-color: rgba(255, 255, 255, 0.30) !important;
-}
-.glass-dark {
-  background: rgba(255, 255, 255, 0.70) !important;
-  backdrop-filter: blur(12px) !important;
-  border-color: rgba(255, 255, 255, 0.30) !important;
-}
-
-/* 所有卡片内文字（除标题外）改为深色/黑色 */
-.glass h2,
-.glass-dark h2,
-.glass .text-white,
-.glass-dark .text-white,
-.glass .text-white\/[0-9]+,
-.glass-dark .text-white\/[0-9]+,
-.glass .text-white-*,
-.glass-dark .text-white-* {
+.support-section-title {
   color: #1a1a2e !important;
 }
-
-/* 但标题保留原有颜色（金色或白色） */
-.glass .text-accent,
-.glass-dark .text-accent,
-.glass .text-accent\/[0-9]+,
-.glass-dark .text-accent\/[0-9]+ {
+.support-section-title .text-accent {
   color: #d4af37 !important;
 }
 
-/* 输入框和选择框文字 */
-.glass input,
-.glass-dark input,
-.glass select,
-.glass-dark select {
-  color: #1a1a2e !important;
-  background: rgba(255, 255, 255, 0.80) !important;
-}
-.glass input::placeholder,
-.glass-dark input::placeholder {
-  color: rgba(60, 60, 80, 0.50) !important;
+.support-sub-text {
+  color: rgba(60, 60, 80, 0.60) !important;
 }
 
-/* 按钮保留原有风格（accent色） */
-.glass .bg-accent\/20,
-.glass-dark .bg-accent\/20,
-.glass .bg-accent\/20 *,
-.glass-dark .bg-accent\/20 * {
-  color: #d4af37 !important;
+.support-input {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+  color: #1a1a2e;
+}
+.support-input::placeholder {
+  color: rgba(60, 60, 80, 0.50);
+}
+.support-input:focus {
+  border-color: #d4af37;
+  outline: none;
 }
 
-/* 错误/成功消息保留原有颜色 */
-.text-green-400 { color: #4ade80 !important; }
-.text-red-400 { color: #f87171 !important; }
-.text-blue-400 { color: #60a5fa !important; }
-.text-amber-400 { color: #fbbf24 !important; }
-
-/* 感谢名单中的特殊颜色 */
-.text-green-400,
-.text-accent\/70,
-.text-white\/20,
-.text-white\/30,
-.text-white\/50,
-.text-white\/60,
-.text-white\/80 {
-  color: #1a1a2e !important;
+.tier-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: rgba(255, 255, 255, 0.30);
 }
-.text-green-400 {
-  color: #22c55e !important;
-}
-.text-accent\/70 {
-  color: #d4af37 !important;
+.tier-card:hover {
+  border-color: rgba(212, 175, 55, 0.50);
 }
 
-/* 滚动条 */
+.tier-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+.tier-coins {
+  color: rgba(60, 60, 80, 0.70);
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+.tier-label {
+  color: rgba(60, 60, 80, 0.50);
+  font-size: 0.65rem;
+  margin-top: 4px;
+}
+.tier-bonus {
+  color: #d4af37;
+  font-size: 0.65rem;
+  margin-top: 2px;
+}
+
+.member-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: rgba(255, 255, 255, 0.30);
+}
+
+.member-title {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #1a1a2e;
+}
+.member-price {
+  color: rgba(60, 60, 80, 0.50);
+  font-size: 0.875rem;
+}
+
+.member-features {
+  color: rgba(60, 60, 80, 0.70);
+}
+
+.thanks-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: rgba(255, 255, 255, 0.30);
+}
+.thanks-item {
+  background: rgba(255, 255, 255, 0.20);
+}
+.thanks-item:hover {
+  background: rgba(255, 255, 255, 0.40);
+}
+.thanks-username {
+  color: #1a1a2e;
+}
+.thanks-amount {
+  color: #d4af37;
+}
+.thanks-date {
+  color: rgba(60, 60, 80, 0.40);
+  font-size: 0.65rem;
+  margin-left: auto;
+}
+
 .max-h-80::-webkit-scrollbar {
   width: 3px;
 }
@@ -477,22 +449,5 @@ onMounted(() => {
 }
 .max-h-80::-webkit-scrollbar-track {
   background: transparent;
-}
-
-/* 档位卡片内的文字 */
-.tier-card .text-white,
-.tier-card .text-white\/60,
-.tier-card .text-white\/30,
-.tier-card .text-accent\/70 {
-  color: #1a1a2e !important;
-}
-.tier-card .text-accent\/70 {
-  color: #d4af37 !important;
-}
-.tier-card .text-2xl {
-  color: #1a1a2e !important;
-}
-.tier-card .text-white {
-  color: #1a1a2e !important;
 }
 </style>

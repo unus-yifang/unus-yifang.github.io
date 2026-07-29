@@ -7,12 +7,12 @@
     </div>
 
     <!-- ===== 卡片1：兑换码 ===== -->
-    <div class="admin-card glass dark:glass-dark rounded-xl p-5 border border-white/10 mb-6">
-      <h2 class="text-white/80 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+    <div class="admin-card rounded-xl p-5 border mb-6">
+      <h2 class="card-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-ticket-alt text-accent"></i> 兑换码管理
       </h2>
       <div class="flex gap-2">
-        <select v-model="codeTier" class="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-accent/50">
+        <select v-model="codeTier" class="card-select flex-1 rounded-lg px-3 py-2 text-sm outline-none">
           <option value="6">6元 — 60币</option>
           <option value="12">12元 — 132币</option>
           <option value="30">30元 — 375币</option>
@@ -20,7 +20,7 @@
         </select>
         <button @click="generateCode" class="px-4 py-2 rounded-lg bg-accent/20 border border-accent/30 text-accent text-sm font-medium hover:bg-accent/30 transition">生成</button>
       </div>
-      <div v-if="generatedCode" class="mt-3 flex items-center gap-2 bg-white/10 rounded-lg px-3 py-2">
+      <div v-if="generatedCode" class="mt-3 flex items-center gap-2 rounded-lg px-3 py-2 code-box">
         <code class="text-accent text-sm font-mono flex-1">{{ generatedCode }}</code>
         <button @click="copyCode" class="text-white/60 hover:text-white text-xs">📋 复制</button>
         <button @click="generatedCode = ''" class="text-white/30 hover:text-white/60 text-xs">✕</button>
@@ -29,8 +29,8 @@
     </div>
 
     <!-- ===== 卡片2：一言管理 ===== -->
-    <div class="admin-card glass dark:glass-dark rounded-xl p-5 border border-white/10 mb-6">
-      <h2 class="text-white/80 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+    <div class="admin-card rounded-xl p-5 border mb-6">
+      <h2 class="card-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-quote-left text-accent"></i> 一言管理（共 {{ quotes.length }} 条）
       </h2>
 
@@ -39,7 +39,7 @@
           v-model="newQuote"
           type="text"
           placeholder="输入新一言..."
-          class="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm placeholder-white/40 outline-none focus:border-accent/50"
+          class="card-input flex-1 rounded-lg px-3 py-2 text-sm outline-none"
           @keydown.enter="addQuote"
         />
         <button @click="addQuote" class="px-4 py-2 rounded-lg bg-accent/20 border border-accent/30 text-accent text-sm font-medium hover:bg-accent/30 transition whitespace-nowrap">
@@ -51,9 +51,9 @@
         <div
           v-for="q in quotes"
           :key="q.id"
-          class="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2 text-sm group hover:bg-white/10 transition"
+          class="flex items-center justify-between rounded-lg px-3 py-2 text-sm group quote-item"
         >
-          <span class="text-white/80 truncate flex-1 mr-2">{{ q.content }}</span>
+          <span class="quote-content truncate flex-1 mr-2">{{ q.content }}</span>
           <span class="text-white/30 text-[10px] mr-2">{{ q.id ? q.id.substring(0, 8) : '' }}</span>
           <div class="flex gap-1 flex-shrink-0">
             <button @click="openEditModal(q)" class="text-white/40 hover:text-white text-xs transition px-1">✎</button>
@@ -67,15 +67,15 @@
     </div>
 
     <!-- ===== 卡片3：推荐位 ===== -->
-    <div class="admin-card glass dark:glass-dark rounded-xl p-5 border border-white/10">
-      <h2 class="text-white/80 text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
+    <div class="admin-card rounded-xl p-5 border">
+      <h2 class="card-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-fire text-accent"></i> 推荐位管理（共 {{ promos.length }} 个）
       </h2>
       <div class="space-y-2">
-        <input v-model="promoTitle" type="text" placeholder="标题" class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm placeholder-white/40 outline-none focus:border-accent/50" />
-        <input v-model="promoUrl" type="text" placeholder="链接" class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm placeholder-white/40 outline-none focus:border-accent/50" />
+        <input v-model="promoTitle" type="text" placeholder="标题" class="card-input w-full rounded-lg px-3 py-2 text-sm outline-none" />
+        <input v-model="promoUrl" type="text" placeholder="链接" class="card-input w-full rounded-lg px-3 py-2 text-sm outline-none" />
         <div class="flex gap-2">
-          <select v-model="promoDays" class="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-accent/50">
+          <select v-model="promoDays" class="card-select flex-1 rounded-lg px-3 py-2 text-sm outline-none">
             <option :value="7">7天</option>
             <option :value="30">30天</option>
             <option :value="365">365天</option>
@@ -84,8 +84,8 @@
         </div>
       </div>
       <div class="mt-3 max-h-40 overflow-y-auto space-y-1">
-        <div v-for="p in promos" :key="p.id" class="flex items-center justify-between bg-white/5 rounded-lg px-3 py-1.5 text-sm group">
-          <span class="text-white/70 truncate flex-1">{{ p.title }}</span>
+        <div v-for="p in promos" :key="p.id" class="flex items-center justify-between rounded-lg px-3 py-1.5 text-sm group promo-item">
+          <span class="promo-title truncate flex-1">{{ p.title }}</span>
           <span class="text-white/30 text-xs mr-2">{{ p.remaining }}d</span>
           <button @click="removePromo(p.id)" class="text-red-400/60 hover:text-red-400 text-xs transition opacity-0 group-hover:opacity-100">下架</button>
         </div>
@@ -175,9 +175,7 @@ function copyCode() {
 
 // ===== 一言管理 =====
 async function loadQuotes() {
-  console.log('🔄 [一言] 开始加载...')
   quotes.value = []
-
   try {
     const { data, error } = await supabase
       .from('user_quotes')
@@ -185,30 +183,14 @@ async function loadQuotes() {
       .eq('status', 'approved')
       .order('created_at', { ascending: false })
       .limit(1000)
-
-    if (error) {
-      console.error('❌ [一言] 加载失败:', error)
-      quoteMsg.value = '❌ 加载失败: ' + error.message
-      quoteMsgType.value = 'err'
-      return
-    }
-
-    console.log('✅ [一言] 加载成功，共', data?.length || 0, '条')
+    if (error) { console.error('加载一言失败:', error); return }
     quotes.value = data || []
-  } catch (err) {
-    console.error('❌ [一言] 异常:', err)
-    quoteMsg.value = '❌ 加载异常: ' + err.message
-    quoteMsgType.value = 'err'
-  }
+  } catch (err) { console.error('加载一言异常:', err) }
 }
 
 async function addQuote() {
   const content = newQuote.value.trim()
-  if (!content) {
-    quoteMsg.value = '⚠️ 请输入内容'
-    quoteMsgType.value = 'err'
-    return
-  }
+  if (!content) { quoteMsg.value = '⚠️ 请输入内容'; quoteMsgType.value = 'err'; return }
 
   const { data: user } = await supabase.auth.getUser()
   const userId = user?.user?.id || null
@@ -223,11 +205,7 @@ async function addQuote() {
     approved_at: new Date().toISOString(),
   })
 
-  if (error) {
-    quoteMsg.value = '❌ ' + error.message
-    quoteMsgType.value = 'err'
-    return
-  }
+  if (error) { quoteMsg.value = '❌ ' + error.message; quoteMsgType.value = 'err'; return }
 
   quoteMsg.value = '✅ 已添加'
   quoteMsgType.value = 'ok'
@@ -244,24 +222,12 @@ function openEditModal(q) {
 
 async function confirmEditQuote() {
   const content = editQuoteContent.value.trim()
-  if (!content) {
-    quoteMsg.value = '⚠️ 内容不能为空'
-    quoteMsgType.value = 'err'
-    return
-  }
+  if (!content) { quoteMsg.value = '⚠️ 内容不能为空'; quoteMsgType.value = 'err'; return }
 
-  const { error } = await supabase
-    .from('user_quotes')
-    .update({ content })
-    .eq('id', editQuoteId.value)
-
+  const { error } = await supabase.from('user_quotes').update({ content }).eq('id', editQuoteId.value)
   editModalVisible.value = false
 
-  if (error) {
-    quoteMsg.value = '❌ ' + error.message
-    quoteMsgType.value = 'err'
-    return
-  }
+  if (error) { quoteMsg.value = '❌ ' + error.message; quoteMsgType.value = 'err'; return }
 
   quoteMsg.value = '✅ 已修改'
   quoteMsgType.value = 'ok'
@@ -271,99 +237,47 @@ async function confirmEditQuote() {
 
 async function deleteQuote(id) {
   if (!confirm('确定删除这条一言吗？')) return
-
-  console.log('🔄 [一言] 删除 ID:', id)
-
-  const { error } = await supabase
-    .from('user_quotes')
-    .delete()
-    .eq('id', id)
-
-  if (error) {
-    console.error('❌ [一言] 删除失败:', error)
-    quoteMsg.value = '❌ ' + error.message
-    quoteMsgType.value = 'err'
-    return
+  const { error } = await supabase.from('user_quotes').delete().eq('id', id)
+  if (error) { quoteMsg.value = '❌ ' + error.message; quoteMsgType.value = 'err' } else {
+    await loadQuotes()
+    quoteMsg.value = '✅ 已删除'
+    quoteMsgType.value = 'ok'
   }
-
-  console.log('✅ [一言] 删除成功')
-  quoteMsg.value = '✅ 已删除'
-  quoteMsgType.value = 'ok'
-  await loadQuotes()
   setTimeout(() => { quoteMsg.value = '' }, 2000)
 }
 
 // ===== 推荐位管理 =====
 async function loadPromos() {
-  console.log('🔄 [推荐位] 加载中...')
   promos.value = []
-
   try {
-    const { data, error } = await supabase
-      .from('promotions')
-      .select('*')
-      .eq('status', 'active')
-      .order('expires_at', { ascending: true })
-
-    if (error) {
-      console.error('❌ [推荐位] 加载失败:', error)
-      return
-    }
-
-    console.log('✅ [推荐位] 加载成功，共', data?.length || 0, '个')
-
+    const { data, error } = await supabase.from('promotions').select('*').eq('status', 'active').order('expires_at', { ascending: true })
+    if (error) { console.error('加载推荐位失败:', error); return }
     if (data) {
-      promos.value = data.map(p => ({
-        ...p,
-        remaining: Math.max(0, Math.ceil((new Date(p.expires_at) - new Date()) / (1000 * 60 * 60 * 24)))
-      }))
+      promos.value = data.map(p => ({ ...p, remaining: Math.max(0, Math.ceil((new Date(p.expires_at) - new Date()) / (1000 * 60 * 60 * 24))) }))
     }
-  } catch (err) {
-    console.error('❌ [推荐位] 异常:', err)
-  }
+  } catch (err) { console.error('加载推荐位异常:', err) }
 }
 
 async function addPromo() {
   const title = promoTitle.value.trim()
   const url = promoUrl.value.trim()
-
-  if (!title || !url) {
-    promoMsg.value = '⚠️ 请填写标题和链接'
-    promoMsgType.value = 'err'
-    return
-  }
+  if (!title || !url) { promoMsg.value = '⚠️ 请填写标题和链接'; promoMsgType.value = 'err'; return }
 
   let finalUrl = url
-  if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
-    finalUrl = 'https://' + finalUrl
-  }
+  if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) finalUrl = 'https://' + finalUrl
 
   const priceMap = { 7: 7.9, 30: 29.9, 365: 298 }
   const expires = new Date()
   expires.setDate(expires.getDate() + promoDays.value)
 
-  console.log('🔄 [推荐位] 添加:', { title, url: finalUrl, days: promoDays.value })
+  const { error } = await supabase.from('promotions').insert({
+    title, url: finalUrl, duration_days: promoDays.value,
+    price: priceMap[promoDays.value], status: 'active',
+    expires_at: expires.toISOString(), created_at: new Date().toISOString(),
+  })
 
-  const { error } = await supabase
-    .from('promotions')
-    .insert({
-      title,
-      url: finalUrl,
-      duration_days: promoDays.value,
-      price: priceMap[promoDays.value],
-      status: 'active',
-      expires_at: expires.toISOString(),
-      created_at: new Date().toISOString(),
-    })
+  if (error) { promoMsg.value = '❌ ' + error.message; promoMsgType.value = 'err'; return }
 
-  if (error) {
-    console.error('❌ [推荐位] 添加失败:', error)
-    promoMsg.value = '❌ ' + error.message
-    promoMsgType.value = 'err'
-    return
-  }
-
-  console.log('✅ [推荐位] 添加成功')
   promoMsg.value = '✅ 已添加'
   promoMsgType.value = 'ok'
   promoTitle.value = ''
@@ -374,81 +288,84 @@ async function addPromo() {
 
 async function removePromo(id) {
   if (!confirm('确定下架吗？')) return
-
-  console.log('🔄 [推荐位] 下架:', id)
-
-  const { error } = await supabase
-    .from('promotions')
-    .update({ status: 'expired' })
-    .eq('id', id)
-
-  if (error) {
-    console.error('❌ [推荐位] 下架失败:', error)
-    promoMsg.value = '❌ ' + error.message
-    promoMsgType.value = 'err'
-    return
+  const { error } = await supabase.from('promotions').update({ status: 'expired' }).eq('id', id)
+  if (error) { promoMsg.value = '❌ ' + error.message; promoMsgType.value = 'err' } else {
+    await loadPromos()
+    promoMsg.value = '✅ 已下架'
+    promoMsgType.value = 'ok'
   }
-
-  console.log('✅ [推荐位] 下架成功')
-  await loadPromos()
-  promoMsg.value = '✅ 已下架'
-  promoMsgType.value = 'ok'
   setTimeout(() => { promoMsg.value = '' }, 2000)
 }
 
-// ===== 生命周期 =====
 onMounted(() => {
-  console.log('📌 [Admin] 页面已加载')
   loadQuotes()
   loadPromos()
 })
 </script>
 
 <style scoped>
-/* ===== 卡片背景改为实心毛玻璃 ===== */
 .admin-card {
-  background: rgba(255, 255, 255, 0.75) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border-color: rgba(255, 255, 255, 0.30) !important;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: rgba(255, 255, 255, 0.30);
 }
 
-/* 卡片内的所有文字改为深色（除标题外） */
-.admin-card .text-white,
-.admin-card .text-white\/40,
-.admin-card .text-white\/50,
-.admin-card .text-white\/60,
-.admin-card .text-white\/70,
-.admin-card .text-white\/80,
-.admin-card .text-white\/90 {
+.card-title {
   color: #1a1a2e !important;
 }
 
-/* 但标题保留原色（accent金色） */
-.admin-card .text-accent {
+.card-title .text-accent {
   color: #d4af37 !important;
 }
 
-/* 输入框和选择框 */
-.admin-card input,
-.admin-card select {
-  color: #1a1a2e !important;
-  background: rgba(255, 255, 255, 0.80) !important;
+.card-input {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+  color: #1a1a2e;
 }
-.admin-card input::placeholder {
-  color: rgba(60, 60, 80, 0.50) !important;
+.card-input::placeholder {
+  color: rgba(60, 60, 80, 0.50);
 }
-
-/* 按钮保留accent色 */
-.admin-card .bg-accent\/20 {
-  color: #d4af37 !important;
+.card-input:focus {
+  border-color: #d4af37;
+  outline: none;
 }
 
-/* 错误/成功消息保留原色 */
-.text-green-400 { color: #4ade80 !important; }
-.text-red-400 { color: #f87171 !important; }
+.card-select {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+  color: #1a1a2e;
+}
+.card-select:focus {
+  border-color: #d4af37;
+  outline: none;
+}
 
-/* 滚动条 */
+.code-box {
+  background: rgba(255, 255, 255, 0.50);
+}
+
+.quote-item {
+  background: rgba(255, 255, 255, 0.30);
+}
+.quote-item:hover {
+  background: rgba(255, 255, 255, 0.50);
+}
+.quote-content {
+  color: #1a1a2e;
+}
+
+.promo-item {
+  background: rgba(255, 255, 255, 0.30);
+}
+.promo-item:hover {
+  background: rgba(255, 255, 255, 0.50);
+}
+.promo-title {
+  color: #1a1a2e;
+}
+
 .max-h-64::-webkit-scrollbar,
 .max-h-40::-webkit-scrollbar {
   width: 3px;
