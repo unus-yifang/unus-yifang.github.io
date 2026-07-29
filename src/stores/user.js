@@ -169,6 +169,7 @@ export const useUserStore = defineStore('user', {
       this.profile.subscription_expires_at = expiresAt.toISOString()
     },
 
+    // ===== 购买月卡（68 U币 / 30天） =====
     async subscribeMonthly() {
       if (!this.user) throw new Error('请先登录')
       if (this.effectiveSubscription === 'monthly') throw new Error('已是月卡会员')
@@ -176,15 +177,32 @@ export const useUserStore = defineStore('user', {
 
       await this.deductCoins(68)
       await this.setSubscription('monthly', 30)
+
+      // 重置AI免费次数为月卡标准（8次）
+      const today = new Date().toISOString().split('T')[0]
+      const maxFree = 8
+      localStorage.setItem('unus_ai_free_date', today)
+      localStorage.setItem('unus_ai_free_count', String(maxFree))
+      await this.updateAIFreeCount(maxFree, today)
+
       return true
     },
 
+    // ===== 购买年卡（648 U币 / 365天） =====
     async subscribeYearly() {
       if (!this.user) throw new Error('请先登录')
       if (this.effectiveSubscription === 'yearly') throw new Error('已是年卡会员')
 
       await this.deductCoins(648)
       await this.setSubscription('yearly', 365)
+
+      // 重置AI免费次数为年卡标准（20次）
+      const today = new Date().toISOString().split('T')[0]
+      const maxFree = 20
+      localStorage.setItem('unus_ai_free_date', today)
+      localStorage.setItem('unus_ai_free_count', String(maxFree))
+      await this.updateAIFreeCount(maxFree, today)
+
       return true
     },
 

@@ -1,10 +1,13 @@
 <template>
   <div class="top-bar w-full flex items-center justify-end gap-3 px-4 md:px-6 py-3 flex-shrink-0">
-    <!-- U币余额 -->
-    <router-link to="/profile" class="flex items-center gap-1.5 px-3 h-9 rounded-full glass-dark border border-white/5 text-white/90 text-sm font-medium hover:bg-white/10 transition-all duration-200">
+    <!-- U币余额（浅色毛玻璃） -->
+    <router-link
+      to="/profile"
+      class="flex items-center gap-1.5 px-3 h-9 rounded-full glass-light text-gray-700 text-sm font-medium hover:bg-white/30 transition-all duration-200"
+    >
       <span class="text-accent">💰</span>
       <span>{{ userStore.ucoins }}</span>
-      <span class="text-white/40 text-xs ml-0.5">U币</span>
+      <span class="text-gray-400 text-xs ml-0.5">U币</span>
     </router-link>
 
     <!-- 签到 -->
@@ -17,7 +20,7 @@
       <img
         :src="userStore.avatar"
         alt="avatar"
-        class="avatar-top h-9 w-9 rounded-full object-cover border-2 border-white/20 hover:border-white/50 transition-all"
+        class="avatar-top h-9 w-9 rounded-full object-cover border-2 border-white/40 hover:border-white/60 transition-all"
         @error="handleAvatarError"
         ref="avatarImg"
       />
@@ -26,7 +29,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useUserStore } from '../stores/user'
 
 const userStore = useUserStore()
@@ -44,11 +47,6 @@ async function handleSignin() {
     alert(err.message)
   }
 }
-
-onMounted(() => {
-  // 确保夜间模式
-  document.documentElement.classList.add('dark')
-})
 </script>
 
 <style scoped>
@@ -60,14 +58,14 @@ onMounted(() => {
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 500;
-  background: rgba(255, 255, 255, 0.10);
-  color: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.55);
+  color: rgba(40, 40, 50, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.30);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 .signin-btn:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.75);
 }
 
 .avatar-top {
@@ -77,6 +75,6 @@ onMounted(() => {
 }
 .avatar-top:hover {
   transform: scale(1.06);
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.7);
 }
 </style>
