@@ -33,17 +33,20 @@ const router = createRouter({
   routes,
 })
 
-// ===== 全局路由守卫（包含管理员权限校验） =====
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
   
-  // 检查是否需要登录
+  // 如果 URL 带有 redirect 参数，处理它
+  if (to.query.redirect && to.path === '/') {
+    // 把 redirect 参数存到 localStorage，登录后使用
+    localStorage.setItem('unus_redirect', to.query.redirect)
+  }
+  
   if (to.meta.requiresAuth && !userStore.isLoggedIn) {
     next({ path: '/login', query: { redirect: to.fullPath } })
     return
   }
   
-  // ===== 检查是否需要管理员权限 =====
   if (to.meta.requiresAdmin) {
     const user = userStore.user
     const isAdmin = user?.email === '3931095272@qq.com' && userStore.username === 'Gesoleerdeiland'
@@ -54,6 +57,13 @@ router.beforeEach(async (to, from, next) => {
   }
   
   if (to.path === '/login' && userStore.isLoggedIn) {
+    // 登录后检查是否有 redirect
+    const redirectPath = localStorage.getItem('unus_redirect')
+    localStorage.removeItem('unus_redirect')
+    if (redirectPath) {
+      next({ path: redirectPath })
+      return
+    }
     next({ path: '/' })
     return
   }

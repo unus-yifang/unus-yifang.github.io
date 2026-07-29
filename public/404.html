@@ -2,13 +2,15 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0; url=/" />
-  <title>Redirecting...</title>
+  <title>一方 · 加载中</title>
+  <script>
+    // 获取当前访问的路径
+    var path = window.location.pathname;
+    // 把路径作为参数带到首页，让 Vue Router 接管
+    window.location.replace('/?redirect=' + encodeURIComponent(path));
+  </script>
 </head>
 <body>
-  <script>
-    const path = window.location.pathname;
-    window.location.href = '/' + path;
-  </script>
+  正在加载...
 </body>
 </html>

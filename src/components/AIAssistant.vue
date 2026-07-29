@@ -163,10 +163,11 @@ async function decrementFreeCount() {
 }
 
 // ============================================================
-// 切换聊天
+// 切换聊天（修复：未登录时带 redirect 参数）
 // ============================================================
 async function toggleChat() {
   if (!userStore.isLoggedIn) {
+    // 带上当前路径作为 redirect 参数，登录后可以回到当前页面
     const currentPath = window.location.pathname + window.location.search
     window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`
     return
@@ -310,7 +311,7 @@ async function sendMessage() {
 }
 
 // ============================================================
-// 辅助函数
+// 辅助函数：Markdown 转 HTML
 // ============================================================
 function formatMessage(content) {
   if (!content) return ''
