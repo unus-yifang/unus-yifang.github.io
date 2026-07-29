@@ -10,7 +10,6 @@
 
       <!-- ===== 搜索框（纯白） ===== -->
       <div class="search-wrapper w-full max-w-xl flex items-stretch rounded-2xl border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-accent/50 relative z-20">
-        <!-- 左侧下拉按钮（文字黑色） -->
         <div class="relative flex items-center pl-4 pr-2 border-r border-gray-200 cursor-pointer select-none" @click="toggleDropdown">
           <span class="text-gray-800 text-sm font-medium whitespace-nowrap flex items-center gap-1.5">
             {{ selectedPlatform.name }}
@@ -18,7 +17,6 @@
           <i class="fas fa-chevron-down text-gray-400 text-[10px] ml-1 transition-transform" :class="{ 'rotate-180': isDropdownOpen }"></i>
         </div>
 
-        <!-- 输入框 -->
         <input
           type="text"
           v-model="query"
@@ -28,7 +26,6 @@
           autofocus
         />
 
-        <!-- 搜索按钮 -->
         <button @click="search" class="px-5 text-gray-500 hover:text-gray-700 transition-colors flex-shrink-0">
           <i class="fas fa-search text-lg"></i>
         </button>
@@ -37,7 +34,6 @@
       <!-- ===== 下拉菜单（虚化20%） ===== -->
       <div v-if="isDropdownOpen" class="relative w-full max-w-xl z-50 -mt-1">
         <div class="dropdown-menu rounded-2xl p-4 shadow-lg">
-          <!-- 搜索引擎 -->
           <div class="mb-3">
             <div class="dropdown-label text-[10px] font-semibold tracking-wider uppercase mb-2 flex items-center gap-2">
               <span class="w-4 h-px bg-gray-300"></span> 搜索引擎
@@ -55,7 +51,6 @@
             </div>
           </div>
 
-          <!-- 应用/社交媒体 -->
           <div>
             <div class="dropdown-label text-[10px] font-semibold tracking-wider uppercase mb-2 flex items-center gap-2">
               <span class="w-4 h-px bg-gray-300"></span> 应用与社区
@@ -109,7 +104,6 @@
               </button>
             </div>
 
-            <!-- 添加按钮 -->
             <a
               v-if="!userStore.isLoggedIn"
               href="#"
@@ -137,7 +131,7 @@
           </div>
         </div>
 
-        <!-- ===== 公共推荐位（完全不虚化） ===== -->
+        <!-- ===== 公共推荐位（透明度10%） ===== -->
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="section-title text-sm font-medium tracking-wide">
@@ -293,7 +287,7 @@ function goLogin() {
 }
 
 // ============================================================
-// 方法：自定义链接
+// 自定义链接
 // ============================================================
 function loadCustomLinks() {
   const allLinks = (userStore.isLoggedIn && userStore.profile?.custom_links) || []
@@ -365,7 +359,7 @@ async function deleteLink(index) {
 }
 
 // ============================================================
-// 方法：推荐位
+// 推荐位
 // ============================================================
 async function loadPromotions() {
   try {
@@ -392,7 +386,7 @@ async function loadPromotions() {
 }
 
 // ============================================================
-// 方法：下拉菜单外部关闭
+// 下拉菜单外部关闭
 // ============================================================
 function handleClickOutside(event) {
   const wrapper = event.target.closest('.search-wrapper')
@@ -402,26 +396,16 @@ function handleClickOutside(event) {
   }
 }
 
-// ============================================================
-// 监听登录状态和订阅状态变化
-// ============================================================
 watch(
   () => userStore.isLoggedIn,
-  () => {
-    loadCustomLinks()
-  }
+  () => { loadCustomLinks() }
 )
 
 watch(
   () => userStore.effectiveSubscription,
-  () => {
-    loadCustomLinks()
-  }
+  () => { loadCustomLinks() }
 )
 
-// ============================================================
-// 生命周期
-// ============================================================
 onMounted(() => {
   const lastPlatform = localStorage.getItem('unus_last_platform')
   if (lastPlatform) {
@@ -578,16 +562,16 @@ onUnmounted(() => {
   transform: translateY(-50%) scale(1.1);
 }
 
-/* ===== 推广位（完全不虚化，背景实色） ===== */
+/* ===== 推广位（透明度10%，保留毛玻璃虚化） ===== */
 .promo-card {
-  background: rgba(212, 175, 55, 0.90) !important;
-  border-color: rgba(212, 175, 55, 0.30) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background: rgba(212, 175, 55, 0.10) !important;
+  border-color: rgba(212, 175, 55, 0.08) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
   color: #1a1a2e !important;
 }
 .promo-card:hover {
-  background: rgba(212, 175, 55, 1) !important;
+  background: rgba(212, 175, 55, 0.18) !important;
   transform: translateY(-2px);
 }
 
