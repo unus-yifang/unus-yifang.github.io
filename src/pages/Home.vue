@@ -8,7 +8,7 @@
         <span class="font-light">一方</span>
       </h1>
 
-      <!-- ===== 搜索框 ===== -->
+      <!-- ===== 搜索框（纯白） ===== -->
       <div class="search-wrapper w-full max-w-xl flex items-stretch rounded-2xl border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-accent/50 relative z-20">
         <!-- 左侧下拉按钮（文字黑色） -->
         <div class="relative flex items-center pl-4 pr-2 border-r border-gray-200 cursor-pointer select-none" @click="toggleDropdown">
@@ -34,7 +34,7 @@
         </button>
       </div>
 
-      <!-- ===== 下拉菜单 ===== -->
+      <!-- ===== 下拉菜单（虚化20%） ===== -->
       <div v-if="isDropdownOpen" class="relative w-full max-w-xl z-50 -mt-1">
         <div class="dropdown-menu rounded-2xl p-4 shadow-lg">
           <!-- 搜索引擎 -->
@@ -137,7 +137,7 @@
           </div>
         </div>
 
-        <!-- ===== 公共推荐位（透明度 10%） ===== -->
+        <!-- ===== 公共推荐位（完全不虚化） ===== -->
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="section-title text-sm font-medium tracking-wide">
@@ -263,6 +263,9 @@ const linkLimit = computed(() => {
   return 3
 })
 
+// ============================================================
+// 方法：搜索
+// ============================================================
 function search() {
   const keyword = query.value.trim()
   if (!keyword) return
@@ -290,7 +293,7 @@ function goLogin() {
 }
 
 // ============================================================
-// 自定义链接
+// 方法：自定义链接
 // ============================================================
 function loadCustomLinks() {
   const allLinks = (userStore.isLoggedIn && userStore.profile?.custom_links) || []
@@ -362,7 +365,7 @@ async function deleteLink(index) {
 }
 
 // ============================================================
-// 推荐位
+// 方法：推荐位
 // ============================================================
 async function loadPromotions() {
   try {
@@ -389,7 +392,7 @@ async function loadPromotions() {
 }
 
 // ============================================================
-// 下拉菜单外部关闭
+// 方法：下拉菜单外部关闭
 // ============================================================
 function handleClickOutside(event) {
   const wrapper = event.target.closest('.search-wrapper')
@@ -399,14 +402,21 @@ function handleClickOutside(event) {
   }
 }
 
+// ============================================================
+// 监听登录状态和订阅状态变化
+// ============================================================
 watch(
   () => userStore.isLoggedIn,
-  () => { loadCustomLinks() }
+  () => {
+    loadCustomLinks()
+  }
 )
 
 watch(
   () => userStore.effectiveSubscription,
-  () => { loadCustomLinks() }
+  () => {
+    loadCustomLinks()
+  }
 )
 
 // ============================================================
@@ -447,11 +457,11 @@ onUnmounted(() => {
   border-color: #d4af37;
 }
 
-/* ===== 下拉菜单 ===== */
+/* ===== 下拉菜单（虚化20%） ===== */
 .dropdown-menu {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.80) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
@@ -568,23 +578,27 @@ onUnmounted(() => {
   transform: translateY(-50%) scale(1.1);
 }
 
-/* ===== 推广位（透明度 10%） ===== */
+/* ===== 推广位（完全不虚化，背景实色） ===== */
 .promo-card {
-  background: rgba(212, 175, 55, 0.10) !important;
-  border-color: rgba(212, 175, 55, 0.08) !important;
+  background: rgba(212, 175, 55, 0.90) !important;
+  border-color: rgba(212, 175, 55, 0.30) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #1a1a2e !important;
 }
 .promo-card:hover {
-  background: rgba(212, 175, 55, 0.18) !important;
+  background: rgba(212, 175, 55, 1) !important;
+  transform: translateY(-2px);
 }
 
 .promo-remaining {
-  color: rgba(255, 255, 255, 0.30) !important;
+  color: rgba(255, 255, 255, 0.70) !important;
   font-size: 0.65rem;
 }
 
 .badge-promote {
   font-size: 0.5rem;
-  background: rgba(212, 175, 55, 0.70);
+  background: rgba(212, 175, 55, 0.80);
   color: #fff;
   padding: 1px 8px;
   border-radius: 20px;
