@@ -1,8 +1,8 @@
 <template>
-  <aside class="sidebar glass-nav-dark w-[180px] min-w-[180px] h-full flex flex-col px-3 py-4">
+  <aside class="sidebar glass-nav w-[180px] min-w-[180px] h-full flex flex-col px-3 py-4">
 
-    <div class="flex items-center px-2 pb-4 mb-2 border-b border-white/5">
-      <span class="logo-text text-white font-bold text-lg tracking-tight drop-shadow-sm">
+    <div class="flex items-center px-2 pb-4 mb-2 border-b border-white/20">
+      <span class="logo-text text-gray-800 font-bold text-lg tracking-tight">
         Unus <span class="text-accent font-light">·</span> 一方
       </span>
     </div>
@@ -40,13 +40,13 @@
     </nav>
 
     <div class="mt-auto">
-      <div class="flex items-center gap-2 px-2 py-2 text-white/90 text-sm">
+      <div class="flex items-center gap-2 px-2 py-2 text-gray-700 text-sm">
         <i class="fas fa-coins text-accent"></i>
         <span>{{ userStore.ucoins }}</span>
-        <span class="text-white/40 text-xs">U币</span>
+        <span class="text-gray-400 text-xs">U币</span>
       </div>
 
-      <div class="border-t border-white/5 my-1"></div>
+      <div class="border-t border-white/20 my-1"></div>
 
       <router-link to="/profile" class="nav-user-card">
         <img :src="userStore.avatar" alt="avatar" class="avatar-sm" />
@@ -54,7 +54,7 @@
           <span class="username">{{ userStore.username }}</span>
           <span class="sub-text">{{ userStore.isLoggedIn ? '查看资料' : '点击登录' }}</span>
         </div>
-        <i class="fas fa-chevron-right text-white/25 text-[10px] ml-auto"></i>
+        <i class="fas fa-chevron-right text-gray-400 text-[10px] ml-auto"></i>
       </router-link>
     </div>
   </aside>
@@ -74,13 +74,20 @@ const isAdmin = computed(() => {
 </script>
 
 <style scoped>
+.sidebar {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.30);
+}
+
 .nav-item {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 8px 12px;
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.50);
+  color: rgba(60, 60, 70, 0.65);
   transition: all 0.2s ease;
   font-weight: 500;
   font-size: 0.85rem;
@@ -88,12 +95,12 @@ const isAdmin = computed(() => {
   white-space: nowrap;
 }
 .nav-item:hover {
-  background: rgba(255, 255, 255, 0.07);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.40);
+  color: rgba(30, 30, 40, 0.9);
 }
 .nav-item.active {
-  background: rgba(255, 255, 255, 0.09);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.50);
+  color: rgba(20, 20, 30, 0.95);
 }
 .nav-item i {
   width: 18px;
@@ -112,12 +119,12 @@ const isAdmin = computed(() => {
   text-decoration: none;
 }
 .nav-user-card:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.25);
 }
 .nav-user-card .username {
   font-size: 0.8rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(40, 40, 50, 0.8);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -125,7 +132,7 @@ const isAdmin = computed(() => {
 }
 .nav-user-card .sub-text {
   font-size: 0.6rem;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(80, 80, 90, 0.5);
 }
 
 .avatar-sm {
@@ -133,7 +140,7 @@ const isAdmin = computed(() => {
   height: 34px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.40);
   flex-shrink: 0;
 }
 
