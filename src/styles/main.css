@@ -146,3 +146,74 @@ body {
   .page-card { padding: 1.5rem 1rem; }
   .top-bar { padding-right: 8px !important; }
 }
+
+/* ============================================================
+   白天模式透明度修复（夜间模式不受影响）
+   所有文字透明度 ≥ 80%，卡片背景透明度 ≥ 80%
+   ============================================================ */
+
+html:not(.dark) .nav-item {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+html:not(.dark) .nav-user-card .username {
+  color: rgba(255, 255, 255, 0.90) !important;
+}
+
+html:not(.dark) .nav-user-card .sub-text {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+
+html:not(.dark) .link-card {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+html:not(.dark) .link-card.add-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+html:not(.dark) .link-card.add-btn:hover {
+  background: rgba(255, 255, 255, 0.20) !important;
+}
+
+html:not(.dark) .page-card {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+html:not(.dark) .page-card p {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+html:not(.dark) .page-card .icon-big {
+  color: rgba(255, 255, 255, 0.50) !important;
+}
+
+html:not(.dark) .daily-quote {
+  color: rgba(255, 255, 255, 0.90) !important;
+}
+
+html:not(.dark) .signin-btn {
+  background: rgba(255, 255, 255, 0.22) !important;
+  border-color: rgba(255, 255, 255, 0.20) !important;
+}
+
+html:not(.dark) .theme-btn {
+  background: rgba(255, 255, 255, 0.22) !important;
+  border-color: rgba(255, 255, 255, 0.20) !important;
+}
+
+html:not(.dark) .glass-nav {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-right-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+html:not(.dark) .glass {
+  background: rgba(255, 255, 255, 0.25) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+html:not(.dark) .badge-promote {
+  background: rgba(212, 175, 55, 0.7) !important;
+}
