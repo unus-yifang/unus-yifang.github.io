@@ -146,3 +146,45 @@ body {
   .page-card { padding: 1.5rem 1rem; }
   .top-bar { padding-right: 8px !important; }
 }
+
+/* ===== 搜索框纯白（覆盖毛玻璃） ===== */
+.search-wrapper {
+  background: #ffffff !important;
+  border-color: #d4af37 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.search-wrapper:focus-within {
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25);
+}
+
+.search-wrapper input {
+  color: #1a1a2e !important;
+}
+.search-wrapper input::placeholder {
+  color: #9ca3af !important;
+  opacity: 0.6 !important;
+}
+
+/* 下拉菜单背景更实 */
+.search-wrapper + .relative .glass,
+.search-wrapper + .relative .glass-dark {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* 平台选项 */
+.search-wrapper + .relative .platform-item {
+  background: rgba(255, 255, 255, 0.80);
+  color: #1a1a2e;
+  border-color: rgba(0,0,0,0.06);
+}
+.search-wrapper + .relative .platform-item:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+.search-wrapper + .relative .platform-item.active {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.30);
+  color: #d4af37;
+}
