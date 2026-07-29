@@ -1,18 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unus · 一方</title>
+  <title>一方</title>
   <script>
-    // 把当前路径保存到 sessionStorage，然后跳转到首页
     var path = window.location.pathname;
-    var search = window.location.search;
-    sessionStorage.setItem('redirect_path', path + search);
-    window.location.replace('/');
+    window.location.replace('/?redirect=' + encodeURIComponent(path));
   </script>
 </head>
 <body>
-  正在加载...
+  加载中...
 </body>
 </html>
