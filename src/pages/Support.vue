@@ -101,8 +101,7 @@
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义链接上限 8 个</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 每日 AI 免费 8 次</div>
             <div class="flex items-center gap-2"><span class="text-green-400">✅</span> 自定义壁纸 / 主题色</div>
-            <!-- 虚化去掉，改为清晰可见 -->
-            <div class="flex items-center gap-2"><span>❌</span> 新功能优先体验</div>
+            <div class="flex items-center gap-2 text-white/50"><span>❌</span> 新功能优先体验</div>
           </div>
           <button
             v-if="userStore.effectiveSubscription !== 'monthly'"
@@ -163,7 +162,8 @@
         <i class="fas fa-heart text-red-400"></i> 感谢支持者（{{ thanksList.length }} 人）
       </h2>
       <div class="thanks-card rounded-xl p-4 border">
-        <div v-if="thanksList.length === 0" class="text-white/30 text-sm text-center py-4">
+        <!-- ===== 空状态文案改为黑色 ===== -->
+        <div v-if="thanksList.length === 0" class="text-gray-700 text-sm text-center py-4">
           还没有支持者，成为第一个吧 🎉
         </div>
         <div v-else class="space-y-1 max-h-80 overflow-y-auto">
@@ -188,6 +188,7 @@
     <div v-if="qrModalVisible" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm" @click.self="qrModalVisible = false">
       <div class="glass dark:glass-dark rounded-2xl border border-white/20 p-6 w-full max-w-sm shadow-2xl text-center">
         <div class="text-white font-medium mb-3">扫码联系站长</div>
+        <!-- ===== 二维码图片更换为新链接 ===== -->
         <img
           :src="qrImageUrl"
           alt="微信二维码"
@@ -225,7 +226,8 @@ const isRedeeming = ref(false)
 
 const qrModalVisible = ref(false)
 const selectedItem = ref(null)
-const qrImageUrl = ref('https://cdn.luogu.com.cn/upload/image_hosting/bdj5xsuu.png')
+// ===== 二维码图片更换为新链接 =====
+const qrImageUrl = ref('https://cdn.luogu.com.cn/upload/image_hosting/l26vwta6.png')
 
 const subMsg = ref('')
 const subMsgType = ref('ok')
