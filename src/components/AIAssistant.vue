@@ -204,7 +204,7 @@ function handleClickOutside(event) {
 }
 
 // ============================================================
-// 发送消息（含调试日志）
+// 发送消息（已修复 URL 为 v2）
 // ============================================================
 async function sendMessage() {
   const text = inputMessage.value.trim()
@@ -227,20 +227,21 @@ async function sendMessage() {
     const token = session?.access_token
     const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-    // ===== 调试日志 =====
+    // 调试日志
     console.log('🔍 [小U] 调试信息:')
     console.log('  - token 是否存在:', !!token)
     console.log('  - token 前10位:', token ? token.substring(0, 10) + '...' : '无')
     console.log('  - anonKey 是否存在:', !!anonKey)
     console.log('  - anonKey 前10位:', anonKey ? anonKey.substring(0, 10) + '...' : '无')
-    console.log('  - 请求URL:', 'https://oifrhpfekuocvdjixohc.supabase.co/functions/v1/ai-chat')
+    console.log('  - 请求URL:', 'https://oifrhpfekuocvdjixohc.supabase.co/functions/v2/ai-chat')
 
     if (!token) {
       throw new Error('未登录，请重新登录')
     }
 
+    // ===== 关键修复：使用 v2 =====
     const response = await fetch(
-      'https://oifrhpfekuocvdjixohc.supabase.co/functions/v1/ai-chat',
+      'https://oifrhpfekuocvdjixohc.supabase.co/functions/v2/ai-chat',
       {
         method: 'POST',
         headers: {
