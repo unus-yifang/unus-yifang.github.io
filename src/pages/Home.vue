@@ -131,7 +131,7 @@
           </div>
         </div>
 
-        <!-- ===== 公共推荐位（引导卡片始终显示，白底黄框） ===== -->
+        <!-- ===== 公共推荐位 ===== -->
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="section-title text-sm font-medium tracking-wide">
@@ -140,7 +140,6 @@
             <span class="section-hint">· 推广位</span>
           </div>
           <div class="flex flex-wrap gap-2">
-            <!-- 推广链接 -->
             <a
               v-for="item in promotions"
               :key="item.id"
@@ -154,7 +153,6 @@
               <span class="promo-remaining">· {{ item.remaining }}d</span>
             </a>
 
-            <!-- ===== 引导卡片（始终显示，白底黄框） ===== -->
             <router-link
               to="/support"
               class="link-card guide-card"
@@ -170,31 +168,31 @@
       </div>
     </div>
 
-    <!-- ===== 添加链接模态框 ===== -->
+    <!-- ===== 添加链接模态框（已改为白色毛玻璃 + 深色文字） ===== -->
     <div v-if="showModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm" @click.self="closeModal">
-      <div class="glass dark:glass-dark rounded-2xl border border-white/20 dark:border-white/10 p-6 w-full max-w-md shadow-2xl">
-        <h3 class="text-white text-lg font-semibold mb-4 flex items-center gap-2">
+      <div class="modal-light rounded-2xl p-6 w-full max-w-md shadow-2xl">
+        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800">
           <i class="fas fa-plus-circle text-accent"></i> 添加链接
         </h3>
         <div class="space-y-3">
           <div>
-            <label class="text-white/60 text-xs font-medium uppercase tracking-wider block mb-1">链接名称</label>
+            <label class="text-gray-600 text-xs font-medium uppercase tracking-wider block mb-1">链接名称</label>
             <input
               type="text"
               v-model="newLinkName"
               placeholder="例如：我的博客"
-              class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 outline-none focus:border-accent/50 transition"
+              class="modal-input w-full rounded-lg px-4 py-2 outline-none transition"
               @keydown.enter="confirmAddLink"
               autofocus
             />
           </div>
           <div>
-            <label class="text-white/60 text-xs font-medium uppercase tracking-wider block mb-1">链接地址</label>
+            <label class="text-gray-600 text-xs font-medium uppercase tracking-wider block mb-1">链接地址</label>
             <input
               type="text"
               v-model="newLinkUrl"
               placeholder="https://example.com"
-              class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 outline-none focus:border-accent/50 transition"
+              class="modal-input w-full rounded-lg px-4 py-2 outline-none transition"
               @keydown.enter="confirmAddLink"
             />
           </div>
@@ -203,7 +201,7 @@
           <button @click="confirmAddLink" class="flex-1 py-2 rounded-lg bg-accent/20 border border-accent/30 text-accent font-medium hover:bg-accent/30 transition">
             确认添加
           </button>
-          <button @click="closeModal" class="flex-1 py-2 rounded-lg bg-white/10 border border-white/10 text-white/70 hover:bg-white/20 transition">
+          <button @click="closeModal" class="flex-1 py-2 rounded-lg bg-white/60 border border-gray-200 text-gray-700 font-medium hover:bg-white/80 transition">
             取消
           </button>
         </div>
@@ -317,7 +315,7 @@ function openAddModal() {
   newLinkUrl.value = ''
   showModal.value = true
   setTimeout(() => {
-    const input = document.querySelector('.fixed.inset-0 input[type="text"]')
+    const input = document.querySelector('.modal-input')
     if (input) input.focus()
   }, 100)
 }
@@ -588,7 +586,7 @@ onUnmounted(() => {
   margin-left: 4px;
 }
 
-/* ===== 引导卡片（白底黄框，始终显示） ===== */
+/* ===== 引导卡片 ===== */
 .guide-card {
   background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(4px) !important;
@@ -609,5 +607,26 @@ onUnmounted(() => {
 .guide-arrow {
   color: #d4af37;
   font-size: 0.65rem;
+}
+
+/* ===== 模态框（白色毛玻璃 + 深色文字） ===== */
+.modal-light {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.50);
+}
+
+.modal-input {
+  background: rgba(255, 255, 255, 0.60);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #1a1a2e;
+}
+.modal-input::placeholder {
+  color: rgba(0, 0, 0, 0.30);
+}
+.modal-input:focus {
+  border-color: rgba(212, 175, 55, 0.40);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
 }
 </style>

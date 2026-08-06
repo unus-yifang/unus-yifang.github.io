@@ -229,15 +229,15 @@ const qrImageUrl = ref('https://cdn.luogu.com.cn/upload/image_hosting/l26vwta6.p
 const subMsg = ref('')
 const subMsgType = ref('ok')
 
-// ===== 新充值档位 =====
+// ===== 充值档位（修改标签） =====
 const tiers = [
   { price: 1, coins: 10, label: '体验档', bonus: 0, tag: null, tagClass: '' },
   { price: 6, coins: 80, label: '标准档', bonus: 25, tag: '+25%', tagClass: 'bg-blue-500' },
-  { price: 9.9, coins: 128, label: '进阶档', bonus: 28, tag: '+28%', tagClass: 'bg-purple-500' },
-  { price: 29.9, coins: 648, label: '年卡档', bonus: 0, tag: '🎯 最划算', tagClass: 'bg-accent' },
+  { price: 9.9, coins: 128, label: '进阶档', bonus: 30, tag: '+30%', tagClass: 'bg-purple-500' },
+  { price: 29.9, coins: 648, label: '年卡档', bonus: 120, tag: '+120%', tagClass: 'bg-accent' },
 ]
 
-// ===== 新推广位价格 =====
+// ===== 推广位 =====
 const promoTiers = [
   { days: 7, price: '7', label: '体验推广' },
   { days: 30, price: '19.9', label: '标准推广' },
