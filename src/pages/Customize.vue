@@ -352,9 +352,6 @@ async function resetAll() {
   window.location.reload()
 }
 
-// ============================================================
-// 生命周期
-// ============================================================
 onMounted(() => {
   loadWallpaperPreference()
   loadThemeColor()
