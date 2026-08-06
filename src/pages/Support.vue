@@ -33,7 +33,7 @@
           <div class="tier-coins">{{ tier.coins }} U币</div>
           <div class="tier-label">{{ tier.label }}</div>
           <div v-if="tier.bonus" class="tier-bonus">🎁 加赠 {{ tier.bonus }}%</div>
-          <div v-if="tier.extra" class="tier-extra text-[10px] mt-1 text-white/80">{{ tier.extra }}</div>
+          <div v-if="tier.extra" class="tier-extra">{{ tier.extra }}</div>
         </div>
       </div>
     </div>
@@ -231,7 +231,6 @@ const qrImageUrl = ref('https://cdn.luogu.com.cn/upload/image_hosting/l26vwta6.p
 const subMsg = ref('')
 const subMsgType = ref('ok')
 
-// ===== 充值档位 =====
 const tiers = [
   { price: 1, coins: 10, label: '体验档', bonus: 0, tag: null, tagClass: '' },
   { price: 6, coins: 80, label: '标准档', bonus: 25, tag: '+25%', tagClass: 'bg-blue-500' },
@@ -239,7 +238,6 @@ const tiers = [
   { price: 29.9, coins: 648, label: '年卡档', bonus: 120, tag: '+120%', tagClass: 'bg-accent', extra: '📝 可提交一句一言' },
 ]
 
-// ===== 推广位 =====
 const promoTiers = [
   { days: 7, price: '7', label: '体验推广' },
   { days: 30, price: '19.9', label: '标准推广' },
@@ -371,7 +369,30 @@ onMounted(() => {
 .tier-coins { color: rgba(60, 60, 80, 0.70); font-size: 0.875rem; margin-top: 4px; }
 .tier-label { color: rgba(60, 60, 80, 0.50); font-size: 0.65rem; margin-top: 4px; }
 .tier-bonus { color: #d4af37; font-size: 0.65rem; margin-top: 2px; }
-.tier-extra { color: rgba(255, 255, 255, 0.80) !important; font-size: 0.65rem; margin-top: 4px; }
+
+/* ===== 炫酷金色渐变发光文字 ===== */
+.tier-extra {
+  font-size: 0.65rem;
+  margin-top: 4px;
+  background: linear-gradient(135deg, #f5d97e 0%, #d4af37 40%, #b8962a 80%, #f5d97e 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  animation: goldShimmer 2.5s ease-in-out infinite;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  letter-spacing: 0.5px;
+}
+
+@keyframes goldShimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
 
 .member-card {
   background: rgba(255, 255, 255, 0.75);
