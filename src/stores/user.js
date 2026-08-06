@@ -7,6 +7,8 @@ export const useUserStore = defineStore('user', {
     user: null,
     profile: null,
     loading: false,
+    // 添加头像版本号，用于强制刷新
+    avatarVersion: 0,
   }),
 
   getters: {
@@ -38,19 +40,28 @@ export const useUserStore = defineStore('user', {
       if (sub === 'monthly') return 'text-blue-400 border-blue-400/30 bg-blue-400/10'
       return 'text-white/40 border-white/10 bg-white/5'
     },
+
+    // ===== 头像（修复颜色缓存问题） =====
     avatar: (state) => {
       if (!state.user || !state.profile?.username) {
         return 'https://ui-avatars.com/api/?name=?&background=6b7280&color=fff&size=64&font-size=0.5&bold=true'
       }
+
       const name = state.profile.username
       const sub = state.effectiveSubscription
+
+      // 从 localStorage 读取最新主题色（每次都读取，避免缓存）
       let bgColor
       if (sub === 'free') {
         bgColor = '6b7280'
       } else {
-        bgColor = localStorage.getItem('unus_theme_color')?.replace('#', '') || 'd4af37'
+        const themeColor = localStorage.getItem('unus_theme_color')
+        bgColor = themeColor ? themeColor.replace('#', '') : 'd4af37'
       }
-      return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${bgColor}&color=fff&size=64&bold=true`
+
+      // 使用版本号强制刷新缓存
+      const version = state.avatarVersion || 0
+      return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${bgColor}&color=fff&size=64&bold=true&v=${version}`
     },
 
     isSignedInToday: (state) => {
@@ -62,12 +73,19 @@ export const useUserStore = defineStore('user', {
   },
 
   actions: {
+    // ===== 刷新头像 =====
+    refreshAvatar() {
+      this.avatarVersion += 1
+    },
+
     async init() {
       this.loading = true
       const { data: { session } } = await supabase.auth.getSession()
       if (session?.user) {
         this.user = session.user
         await this.fetchProfile()
+        // 登录时刷新头像
+        this.refreshAvatar()
       }
       this.loading = false
     },
@@ -90,6 +108,8 @@ export const useUserStore = defineStore('user', {
             localStorage.setItem('unus_sign_date', today)
           }
         }
+        // 刷新头像
+        this.refreshAvatar()
       }
     },
 
@@ -122,6 +142,7 @@ export const useUserStore = defineStore('user', {
       }
       this.user = data.user
       await this.fetchProfile()
+      this.refreshAvatar()
     },
 
     async signUp(email, password, username) {
@@ -139,9 +160,9 @@ export const useUserStore = defineStore('user', {
       this.user = null
       this.profile = null
       localStorage.removeItem('unus_sign_date')
+      this.refreshAvatar()
     },
 
-    // ===== 签到（使用中国时区） =====
     async signInDaily() {
       if (!this.user) throw new Error('请先登录')
 

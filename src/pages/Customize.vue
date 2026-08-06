@@ -136,6 +136,7 @@
             alt="头像预览"
             class="w-10 h-10 rounded-full border-2"
             :style="{ borderColor: themeColor }"
+            :key="userStore.avatar"  <!-- 添加 key 强制刷新 -->
           />
           <span class="text-white/40 text-xs">背景色跟随主题色</span>
         </div>
@@ -278,7 +279,7 @@ function handleImageError(e) {
 }
 
 // ============================================================
-// 主题色
+// 主题色（修复头像颜色覆盖问题）
 // ============================================================
 const themeColor = ref('#d4af37')
 const customThemeColor = ref('#d4af37')
@@ -305,6 +306,10 @@ function saveThemeColor(value) {
   customThemeColor.value = value
   localStorage.setItem('unus_theme_color', value)
   applyThemeColor(value)
+
+  // 强制刷新头像
+  userStore.refreshAvatar()
+  // 刷新页面
   setTimeout(() => { window.location.reload() }, 100)
 }
 
@@ -327,6 +332,9 @@ async function resetAll() {
   customThemeColor.value = defaultColor
   localStorage.setItem('unus_theme_color', defaultColor)
   applyThemeColor(defaultColor)
+
+  // 强制刷新头像
+  userStore.refreshAvatar()
 
   if (userStore.isLoggedIn) {
     const { error } = await supabase
@@ -362,7 +370,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* ===== 自定义卡片：更不透明，文字黑色 ===== */
 .custom-card {
   background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(12px) !important;
@@ -370,12 +377,10 @@ onMounted(() => {
   border-color: rgba(255, 255, 255, 0.40) !important;
 }
 
-/* 卡片内所有文字（除了 .section-title 和 .text-accent）改为黑色 */
 .custom-card :not(.section-title):not(.text-accent):not(.text-green-400):not(.text-red-400):not(.text-white\/40) {
   color: #1a1a2e !important;
 }
 
-/* 标题保留深色（已经是黑色） */
 .section-title {
   color: #1a1a2e !important;
 }
@@ -383,12 +388,9 @@ onMounted(() => {
   color: #d4af37 !important;
 }
 
-/* 卡片内的金色文字保留 */
 .custom-card .text-accent {
   color: #d4af37 !important;
 }
-
-/* 卡片内的绿色（✅）保留 */
 .custom-card .text-green-400 {
   color: #4ade80 !important;
 }
@@ -396,7 +398,6 @@ onMounted(() => {
   color: #f87171 !important;
 }
 
-/* 输入框、选择框、按钮文字 */
 .custom-card input,
 .custom-card select,
 .custom-card button:not(.bg-accent\/20):not(.bg-red-500\/20) {
@@ -406,7 +407,6 @@ onMounted(() => {
   color: rgba(60, 60, 80, 0.50) !important;
 }
 
-/* 按钮内文字（accent按钮保持金色） */
 .custom-card .bg-accent\/20 {
   color: #d4af37 !important;
 }
@@ -414,12 +414,9 @@ onMounted(() => {
   color: #f87171 !important;
 }
 
-/* 预览文字 */
 .custom-card .text-white\/40 {
   color: rgba(60, 60, 80, 0.60) !important;
 }
-
-/* 未订阅引导卡片中的文字 */
 .custom-card .text-white {
   color: #1a1a2e !important;
 }

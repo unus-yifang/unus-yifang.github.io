@@ -1,11 +1,9 @@
 <template>
-  <!-- 背景 -->
   <div class="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-700"
        :style="backgroundStyle">
     <div class="absolute inset-0 bg-black/20 transition-all duration-500"></div>
   </div>
 
-  <!-- 主布局 -->
   <div class="relative z-10 flex h-screen w-screen overflow-hidden">
     <Sidebar />
 
@@ -17,7 +15,6 @@
           <router-view class="w-full max-w-2xl" />
         </div>
 
-        <!-- 每日一句（纯白色，无虚化） -->
         <div class="flex-shrink-0 w-full text-center py-3">
           <span class="daily-quote">
             <i class="fas fa-quote-left mr-2"></i>
@@ -32,7 +29,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { supabase } from '../lib/supabase'
 import { useUserStore } from '../stores/user'
@@ -44,10 +41,38 @@ const route = useRoute()
 const userStore = useUserStore()
 const dailyQuote = ref('')
 
-// ===== 背景：每日固定一张图（0点自动换） =====
-const today = new Date()
-const seed = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0')
-const bgUrl = ref('https://picsum.photos/seed/' + seed + '/1920/1080')
+// ===== 壁纸逻辑 =====
+// 只有在 daily 模式下才使用日期种子，fixed/solid 直接使用用户存储的值
+const dailyBgUrl = ref('https://picsum.photos/seed/' + getDailySeed() + '/1920/1080')
+
+function getDailySeed() {
+  const today = new Date()
+  return today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0')
+}
+
+// 每天0点刷新 daily 壁纸
+function updateDailyBg() {
+  dailyBgUrl.value = 'https://picsum.photos/seed/' + getDailySeed() + '/1920/1080'
+}
+
+// 计算下次0点的时间
+function getNextMidnight() {
+  const now = new Date()
+  const next = new Date(now)
+  next.setDate(next.getDate() + 1)
+  next.setHours(0, 0, 0, 0)
+  return next.getTime() - now.getTime()
+}
+
+// 设置定时器，每天0点刷新
+function scheduleDailyBgUpdate() {
+  const delay = getNextMidnight()
+  setTimeout(() => {
+    updateDailyBg()
+    // 之后每天执行
+    setInterval(updateDailyBg, 24 * 60 * 60 * 1000)
+  }, delay)
+}
 
 const backgroundStyle = computed(() => {
   const pref = userStore.profile?.wallpaper_preference || 'daily'
@@ -58,11 +83,16 @@ const backgroundStyle = computed(() => {
   }
 
   if (pref === 'fixed') {
-    const url = userStore.profile?.wallpaper_url || bgUrl.value
+    const url = userStore.profile?.wallpaper_url
+    // 如果用户没有设置固定壁纸，回退到 daily
+    if (!url) {
+      return { backgroundImage: `url(${dailyBgUrl.value})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+    }
     return { backgroundImage: `url(${url})`, backgroundSize: 'cover', backgroundPosition: 'center' }
   }
 
-  return { backgroundImage: `url(${bgUrl.value})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+  // daily 模式
+  return { backgroundImage: `url(${dailyBgUrl.value})`, backgroundSize: 'cover', backgroundPosition: 'center' }
 })
 
 async function loadDailyQuote() {
@@ -90,13 +120,22 @@ async function loadDailyQuote() {
   }
 }
 
+// 监听登录状态变化，刷新壁纸
+watch(
+  () => userStore.isLoggedIn,
+  () => {
+    // 登录后重新加载壁纸
+    updateDailyBg()
+  }
+)
+
 onMounted(() => {
   loadDailyQuote()
+  scheduleDailyBgUpdate()
 })
 </script>
 
 <style scoped>
-/* 每日一句：纯白色，无虚化，无透明度 */
 .daily-quote {
   font-size: 1rem;
   color: #ffffff;
@@ -104,7 +143,6 @@ onMounted(() => {
   letter-spacing: 0.5px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
-
 .daily-quote .fa-quote-left {
   color: #ffffff;
   opacity: 0.5;
