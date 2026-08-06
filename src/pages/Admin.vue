@@ -372,7 +372,6 @@ onMounted(() => {
 .promo-item:hover { background: rgba(255, 255, 255, 0.50); }
 .promo-title { color: #1a1a2e; }
 
-/* ===== 弹窗白色毛玻璃 ===== */
 .modal-white {
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
