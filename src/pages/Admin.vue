@@ -26,6 +26,25 @@
         <button @click="generatedCode = ''" class="text-white/30 hover:text-white/60 text-xs">✕</button>
       </div>
       <p v-if="codeMsg" class="text-xs mt-2" :class="codeMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ codeMsg }}</p>
+
+      <!-- ===== 兑换码列表（新增） ===== -->
+      <div v-if="codeList.length > 0" class="mt-4 border-t border-white/10 pt-4">
+        <h3 class="text-xs text-white/60 font-medium tracking-wide mb-2">已生成的兑换码</h3>
+        <div class="max-h-40 overflow-y-auto space-y-1">
+          <div
+            v-for="item in codeList"
+            :key="item.id"
+            class="flex items-center justify-between text-xs px-2 py-1.5 rounded hover:bg-white/5 transition"
+          >
+            <span class="font-mono text-white/80">{{ item.code }}</span>
+            <span class="text-white/40">{{ item.coins }}币</span>
+            <span class="text-white/30 text-[10px]">{{ formatChinaDate(item.created_at) }}</span>
+            <span :class="item.used ? 'text-red-400' : 'text-green-400'">
+              {{ item.used ? '已使用' : '未使用' }}
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ===== 卡片2：一言管理 ===== -->
@@ -120,12 +139,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { supabase } from '../lib/supabase'
+import { formatChinaDate } from '../utils/time'
 
 // ===== 状态 =====
 const codeTier = ref('6')
 const generatedCode = ref('')
 const codeMsg = ref('')
 const codeMsgType = ref('ok')
+const codeList = ref([])  // 新增
 
 const newQuote = ref('')
 const quotes = ref([])
@@ -163,6 +184,8 @@ async function generateCode() {
   generatedCode.value = code
   codeMsg.value = '✅ 已生成'
   codeMsgType.value = 'ok'
+  // 刷新列表
+  await loadCodeList()
   setTimeout(() => { codeMsg.value = '' }, 3000)
 }
 
@@ -171,6 +194,18 @@ function copyCode() {
   codeMsg.value = '✅ 已复制'
   codeMsgType.value = 'ok'
   setTimeout(() => { codeMsg.value = '' }, 2000)
+}
+
+// ===== 兑换码列表（新增） =====
+async function loadCodeList() {
+  const { data, error } = await supabase
+    .from('redeem_codes')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(50)
+  if (!error && data) {
+    codeList.value = data
+  }
 }
 
 // ===== 一言管理 =====
@@ -297,9 +332,11 @@ async function removePromo(id) {
   setTimeout(() => { promoMsg.value = '' }, 2000)
 }
 
+// ===== 生命周期 =====
 onMounted(() => {
   loadQuotes()
   loadPromos()
+  loadCodeList()
 })
 </script>
 
@@ -314,7 +351,6 @@ onMounted(() => {
 .card-title {
   color: #1a1a2e !important;
 }
-
 .card-title .text-accent {
   color: #d4af37 !important;
 }

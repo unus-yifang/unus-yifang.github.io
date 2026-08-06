@@ -79,6 +79,7 @@ import { ref, nextTick, onMounted, watch, onUnmounted } from 'vue'
 import { useUserStore } from '../stores/user'
 import { supabase } from '../lib/supabase'
 import { marked } from 'marked'
+import { getChinaDateString } from '../utils/time'
 
 marked.setOptions({ gfm: true, breaks: true })
 
@@ -105,8 +106,9 @@ function getMaxFreeCount() {
   return 3
 }
 
+// 获取今天的日期字符串（中国时区）
 function getToday() {
-  return new Date().toISOString().split('T')[0]
+  return getChinaDateString()
 }
 
 // ============================================================
@@ -163,11 +165,10 @@ async function decrementFreeCount() {
 }
 
 // ============================================================
-// 切换聊天（修复：未登录时带 redirect 参数）
+// 切换聊天
 // ============================================================
 async function toggleChat() {
   if (!userStore.isLoggedIn) {
-    // 带上当前路径作为 redirect 参数，登录后可以回到当前页面
     const currentPath = window.location.pathname + window.location.search
     window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`
     return
@@ -397,7 +398,7 @@ onUnmounted(() => {
   50% { background-position: 100% 50%; }
 }
 
-/* ===== 聊天窗口（更不透明白色毛玻璃） ===== */
+/* ===== 聊天窗口 ===== */
 .chat-window {
   position: absolute;
   bottom: 76px;

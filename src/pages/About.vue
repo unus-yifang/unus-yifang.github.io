@@ -40,7 +40,7 @@
           <p><span class="text-gray-800 font-medium">AI 接口调用</span><br>每一次 AI 对话背后都有真实的成本。免费用户每天 3 次，年卡用户每天 20 次，这些调用累积起来，是开发者和服务商之间的真实账单。</p>
           <p><span class="text-gray-800 font-medium">时间与精力</span><br>设计、开发、测试、维护——从零到一，再到持续的迭代和修复，全由一个人完成。这背后是无数个夜晚和周末，是对产品的执着，而不是对回报的算计。</p>
           <p><span class="text-gray-800 font-medium">域名与基础服务</span><br>域名续费、邮件服务、CDN 加速、安全防护——每一样都不起眼，但加起来是一笔持续的支出。</p>
-          <p class="text-gray-600">所以，支持不是为了让开发者赚钱，而是为了让这个项目活下去。免费用户已经能用到 90% 的功能，付费是给那些觉得“这个网站值得”的人一个选择——让一方能继续存在，并变得更好。</p>
+          <p class="text-gray-600">所以，支持不是为了让开发者赚钱，而是为了让这个项目活下去。免费用户已经能用到 90% 的功能，付费是给那些觉得"这个网站值得"的人一个选择——让一方能继续存在，并变得更好。</p>
           <p class="text-gray-500 text-sm">你支持的不是一个商品，而是一个用心在做的小众产品，和一个想让互联网多点温度的普通人。</p>
         </div>
       </div>
@@ -58,7 +58,7 @@
             <li>一杯柠檬水：4 元，够你用 33 天</li>
           </ul>
           <p>一年不到 50 块，换来的是每天打开浏览器时那种自己的一方天地的归属感。更能添加自定义一言。</p>
-          <p class="text-gray-500 text-sm">💡 当然，免费版已经很好用，不付费完全没问题。如果你觉得“每天 0.12 元换这个体验值”，那随时欢迎你升级。</p>
+          <p class="text-gray-500 text-sm">💡 当然，免费版已经很好用，不付费完全没问题。如果你觉得"每天 0.12 元换这个体验值"，那随时欢迎你升级。</p>
         </div>
       </div>
 
@@ -102,7 +102,7 @@
 
     </div>
 
-    <!-- ===== 设为首页引导弹窗（白色毛玻璃，更不透明） ===== -->
+    <!-- ===== 设为首页引导弹窗 ===== -->
     <div v-if="showGuide" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-sm" @click.self="showGuide = false">
       <div class="guide-modal rounded-2xl p-6 w-full max-w-md shadow-2xl">
 
@@ -197,7 +197,6 @@ function copyUrl() {
 </script>
 
 <style scoped>
-/* ===== 普通卡片（和之前一样） ===== */
 .about-card {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
@@ -205,7 +204,6 @@ function copyUrl() {
   border-color: rgba(255, 255, 255, 0.40);
 }
 
-/* ===== 设为首页弹窗（白色毛玻璃，更不透明） ===== */
 .guide-modal {
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
@@ -214,13 +212,11 @@ function copyUrl() {
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10);
 }
 
-/* ===== 弹窗内步骤卡片 ===== */
 .guide-step {
   background: rgba(255, 255, 255, 0.50);
   border: 1px solid rgba(255, 255, 255, 0.30);
 }
 
-/* ===== 弹窗内输入框 ===== */
 .guide-url-input {
   background: rgba(255, 255, 255, 0.60);
   border: 1px solid rgba(255, 255, 255, 0.30);
@@ -230,7 +226,6 @@ function copyUrl() {
   border-color: rgba(212, 175, 55, 0.40);
 }
 
-/* ===== 弹窗内复制按钮 ===== */
 .guide-copy-btn {
   background: rgba(212, 175, 55, 0.15);
   border: 1px solid rgba(212, 175, 55, 0.20);
