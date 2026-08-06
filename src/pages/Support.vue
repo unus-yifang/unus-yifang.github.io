@@ -370,7 +370,6 @@ onMounted(() => {
 .tier-label { color: rgba(60, 60, 80, 0.50); font-size: 0.65rem; margin-top: 4px; }
 .tier-bonus { color: #d4af37; font-size: 0.65rem; margin-top: 2px; }
 
-/* ===== 炫酷金色渐变发光文字 ===== */
 .tier-extra {
   font-size: 0.65rem;
   margin-top: 4px;
