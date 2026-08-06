@@ -231,6 +231,7 @@ const qrImageUrl = ref('https://cdn.luogu.com.cn/upload/image_hosting/l26vwta6.p
 const subMsg = ref('')
 const subMsgType = ref('ok')
 
+// ===== 充值档位 =====
 const tiers = [
   { price: 1, coins: 10, label: '体验档', bonus: 0, tag: null, tagClass: '' },
   { price: 6, coins: 80, label: '标准档', bonus: 25, tag: '+25%', tagClass: 'bg-blue-500' },
@@ -238,6 +239,7 @@ const tiers = [
   { price: 29.9, coins: 648, label: '年卡档', bonus: 120, tag: '+120%', tagClass: 'bg-accent', extra: '📝 可提交一句一言' },
 ]
 
+// ===== 推广位 =====
 const promoTiers = [
   { days: 7, price: '7', label: '体验推广' },
   { days: 30, price: '19.9', label: '标准推广' },
@@ -294,6 +296,7 @@ async function buyYearly() {
   setTimeout(() => { subMsg.value = '' }, 3000)
 }
 
+// ===== 兑换码兑换（已修复金额显示） =====
 async function redeem() {
   const code = redeemCode.value.trim()
   if (!code) { redeemMsg.value = '⚠️ 请输入兑换码'; redeemMsgType.value = 'err'; return }
@@ -385,12 +388,8 @@ onMounted(() => {
 }
 
 @keyframes goldShimmer {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .member-card {
