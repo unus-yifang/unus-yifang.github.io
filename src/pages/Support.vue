@@ -32,7 +32,7 @@
           <div class="tier-price">{{ tier.price }}元</div>
           <div class="tier-coins">{{ tier.coins }} U币</div>
           <div class="tier-label">{{ tier.label }}</div>
-          <div v-if="tier.bonus" class="tier-bonus">🎁 加赠 {{ tier.bonus }} 币</div>
+          <div v-if="tier.bonus" class="tier-bonus">🎁 加赠 {{ tier.bonus }}%</div>
         </div>
       </div>
     </div>
@@ -43,10 +43,10 @@
         <i class="fas fa-bullhorn text-accent"></i> 推广位购买
       </h2>
       <p class="section-desc-white text-xs mb-3">让你的网站出现在首页推荐位，获得更多曝光</p>
-      <div class="grid grid-cols-3 gap-3">
+      <div class="grid grid-cols-4 gap-3">
         <div
           v-for="promo in promoTiers"
-          :key="promo.days"
+          :key="promo.days + promo.price"
           class="tier-card rounded-xl p-4 border text-center hover:border-accent/40 transition cursor-pointer"
           @click="openQRCode(promo)"
         >
@@ -196,7 +196,7 @@
         <div class="text-white/40 text-xs mt-3">
           <div v-if="selectedItem?.coins">
             档位：<span class="text-white">{{ selectedItem?.price }}元 — {{ selectedItem?.coins }} U币</span>
-            <span v-if="selectedItem?.bonus" class="text-accent"> 🎁 加赠 {{ selectedItem.bonus }} 币</span>
+            <span v-if="selectedItem?.bonus" class="text-accent"> 🎁 加赠 {{ selectedItem.bonus }}%</span>
           </div>
           <div v-else-if="selectedItem?.days">
             推广位：<span class="text-white">{{ selectedItem?.days }}天 — {{ selectedItem?.price }}元</span>
@@ -229,17 +229,20 @@ const qrImageUrl = ref('https://cdn.luogu.com.cn/upload/image_hosting/l26vwta6.p
 const subMsg = ref('')
 const subMsgType = ref('ok')
 
+// ===== 新充值档位 =====
 const tiers = [
-  { price: 6, coins: 60, label: '体验包', bonus: 0, tag: null, tagClass: '' },
-  { price: 12, coins: 132, label: '标准包', bonus: 12, tag: '+10%', tagClass: 'bg-blue-500' },
-  { price: 30, coins: 375, label: '尊享包', bonus: 75, tag: '+25%', tagClass: 'bg-purple-500' },
-  { price: 60, coins: 900, label: '旗舰包', bonus: 300, tag: '+50% 🔥', tagClass: 'bg-accent' },
+  { price: 1, coins: 10, label: '体验档', bonus: 0, tag: null, tagClass: '' },
+  { price: 6, coins: 80, label: '标准档', bonus: 25, tag: '+25%', tagClass: 'bg-blue-500' },
+  { price: 9.9, coins: 128, label: '进阶档', bonus: 28, tag: '+28%', tagClass: 'bg-purple-500' },
+  { price: 29.9, coins: 648, label: '年卡档', bonus: 0, tag: '🎯 最划算', tagClass: 'bg-accent' },
 ]
 
+// ===== 新推广位价格 =====
 const promoTiers = [
-  { days: 7, price: '7.9', label: '体验推广' },
-  { days: 30, price: '29.9', label: '标准推广' },
-  { days: 365, price: '298', label: '长期推广' },
+  { days: 7, price: '7', label: '体验推广' },
+  { days: 30, price: '19.9', label: '标准推广' },
+  { days: 365, price: '128', label: '长期推广' },
+  { days: 30, price: '9.9', label: '🔥 首月特价' },
 ]
 
 async function loadThanksList() {
@@ -300,7 +303,6 @@ async function redeem() {
   redeemMsg.value = ''
 
   try {
-    // ===== 使用 RPC 安全兑换（原子操作，防并发） =====
     const { data, error } = await supabase.rpc('redeem_code_safe', {
       p_code: code,
       p_user_id: userStore.user.id,
@@ -344,119 +346,53 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* ===== 标题和小字（白色） ===== */
-.section-title-white {
-  color: #ffffff !important;
-}
-.section-title-white .text-accent {
-  color: #d4af37 !important;
-}
+.section-title-white { color: #ffffff !important; }
+.section-title-white .text-accent { color: #d4af37 !important; }
+.section-desc-white { color: rgba(255, 255, 255, 0.50) !important; }
 
-.section-desc-white {
-  color: rgba(255, 255, 255, 0.50) !important;
-}
-
-/* ===== 输入框 ===== */
 .support-input {
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.40);
   color: #1a1a2e;
 }
-.support-input::placeholder {
-  color: rgba(60, 60, 80, 0.50);
-}
-.support-input:focus {
-  border-color: #d4af37;
-  outline: none;
-}
+.support-input::placeholder { color: rgba(60, 60, 80, 0.50); }
+.support-input:focus { border-color: #d4af37; outline: none; }
 
-/* ===== 卡片（黑色文字） ===== */
 .tier-card {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-color: rgba(255, 255, 255, 0.30);
 }
-.tier-card:hover {
-  border-color: rgba(212, 175, 55, 0.50);
-}
+.tier-card:hover { border-color: rgba(212, 175, 55, 0.50); }
+.tier-price { font-size: 1.5rem; font-weight: 700; color: #1a1a2e; }
+.tier-coins { color: rgba(60, 60, 80, 0.70); font-size: 0.875rem; margin-top: 4px; }
+.tier-label { color: rgba(60, 60, 80, 0.50); font-size: 0.65rem; margin-top: 4px; }
+.tier-bonus { color: #d4af37; font-size: 0.65rem; margin-top: 2px; }
 
-.tier-price {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1a1a2e;
-}
-.tier-coins {
-  color: rgba(60, 60, 80, 0.70);
-  font-size: 0.875rem;
-  margin-top: 4px;
-}
-.tier-label {
-  color: rgba(60, 60, 80, 0.50);
-  font-size: 0.65rem;
-  margin-top: 4px;
-}
-.tier-bonus {
-  color: #d4af37;
-  font-size: 0.65rem;
-  margin-top: 2px;
-}
-
-/* ===== 会员卡 ===== */
 .member-card {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-color: rgba(255, 255, 255, 0.30);
 }
+.member-title { font-weight: 700; font-size: 1.125rem; color: #1a1a2e; }
+.member-price { color: rgba(60, 60, 80, 0.50); font-size: 0.875rem; }
+.member-features { color: rgba(60, 60, 80, 0.70); }
 
-.member-title {
-  font-weight: 700;
-  font-size: 1.125rem;
-  color: #1a1a2e;
-}
-.member-price {
-  color: rgba(60, 60, 80, 0.50);
-  font-size: 0.875rem;
-}
-
-.member-features {
-  color: rgba(60, 60, 80, 0.70);
-}
-
-/* ===== 感谢名单 ===== */
 .thanks-card {
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-color: rgba(255, 255, 255, 0.30);
 }
-.thanks-item {
-  background: rgba(255, 255, 255, 0.20);
-}
-.thanks-item:hover {
-  background: rgba(255, 255, 255, 0.40);
-}
-.thanks-username {
-  color: #1a1a2e;
-}
-.thanks-amount {
-  color: #d4af37;
-}
-.thanks-date {
-  color: rgba(60, 60, 80, 0.40);
-  font-size: 0.65rem;
-  margin-left: auto;
-}
+.thanks-item { background: rgba(255, 255, 255, 0.20); }
+.thanks-item:hover { background: rgba(255, 255, 255, 0.40); }
+.thanks-username { color: #1a1a2e; }
+.thanks-amount { color: #d4af37; }
+.thanks-date { color: rgba(60, 60, 80, 0.40); font-size: 0.65rem; margin-left: auto; }
 
-.max-h-80::-webkit-scrollbar {
-  width: 3px;
-}
-.max-h-80::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-}
-.max-h-80::-webkit-scrollbar-track {
-  background: transparent;
-}
+.max-h-80::-webkit-scrollbar { width: 3px; }
+.max-h-80::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.15); border-radius: 4px; }
+.max-h-80::-webkit-scrollbar-track { background: transparent; }
 </style>

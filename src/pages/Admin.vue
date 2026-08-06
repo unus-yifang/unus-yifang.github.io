@@ -6,17 +6,16 @@
       <p class="text-white/40 text-sm mt-2">所有操作实时生效</p>
     </div>
 
-    <!-- ===== 卡片1：兑换码 ===== -->
     <div class="admin-card rounded-xl p-5 border mb-6">
       <h2 class="card-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-ticket-alt text-accent"></i> 兑换码管理
       </h2>
       <div class="flex gap-2">
         <select v-model="codeTier" class="card-select flex-1 rounded-lg px-3 py-2 text-sm outline-none">
-          <option value="6">6元 — 60币</option>
-          <option value="12">12元 — 132币</option>
-          <option value="30">30元 — 375币</option>
-          <option value="60">60元 — 900币</option>
+          <option value="1">1元 — 10币</option>
+          <option value="6">6元 — 80币</option>
+          <option value="9.9">9.9元 — 128币</option>
+          <option value="29.9">29.9元 — 648币</option>
         </select>
         <button @click="generateCode" class="px-4 py-2 rounded-lg bg-accent/20 border border-accent/30 text-accent text-sm font-medium hover:bg-accent/30 transition">生成</button>
       </div>
@@ -27,7 +26,6 @@
       </div>
       <p v-if="codeMsg" class="text-xs mt-2" :class="codeMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ codeMsg }}</p>
 
-      <!-- ===== 兑换码列表（新增） ===== -->
       <div v-if="codeList.length > 0" class="mt-4 border-t border-white/10 pt-4">
         <h3 class="text-xs text-white/60 font-medium tracking-wide mb-2">已生成的兑换码</h3>
         <div class="max-h-40 overflow-y-auto space-y-1">
@@ -47,12 +45,11 @@
       </div>
     </div>
 
-    <!-- ===== 卡片2：一言管理 ===== -->
+    <!-- ===== 一言管理 ===== -->
     <div class="admin-card rounded-xl p-5 border mb-6">
       <h2 class="card-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-quote-left text-accent"></i> 一言管理（共 {{ quotes.length }} 条）
       </h2>
-
       <div class="flex gap-2 mb-3">
         <input
           v-model="newQuote"
@@ -65,7 +62,6 @@
           添加
         </button>
       </div>
-
       <div class="max-h-64 overflow-y-auto space-y-1">
         <div
           v-for="q in quotes"
@@ -81,11 +77,10 @@
         </div>
         <div v-if="quotes.length === 0" class="text-gray-500 text-xs text-center py-4">暂无一言</div>
       </div>
-
       <p v-if="quoteMsg" class="text-xs mt-2" :class="quoteMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ quoteMsg }}</p>
     </div>
 
-    <!-- ===== 卡片3：推荐位 ===== -->
+    <!-- ===== 推荐位 ===== -->
     <div class="admin-card rounded-xl p-5 border">
       <h2 class="card-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-fire text-accent"></i> 推荐位管理（共 {{ promos.length }} 个）
@@ -113,7 +108,7 @@
       <p v-if="promoMsg" class="text-xs mt-2" :class="promoMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ promoMsg }}</p>
     </div>
 
-    <!-- ===== 编辑一言模态框 ===== -->
+    <!-- 编辑一言模态框 -->
     <div v-if="editModalVisible" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-sm" @click.self="editModalVisible = false">
       <div class="glass dark:glass-dark rounded-2xl border border-white/20 p-6 w-full max-w-md shadow-2xl">
         <h3 class="text-white text-lg font-semibold mb-3 flex items-center gap-2">
@@ -142,11 +137,11 @@ import { supabase } from '../lib/supabase'
 import { formatChinaDate } from '../utils/time'
 
 // ===== 状态 =====
-const codeTier = ref('6')
+const codeTier = ref('1')
 const generatedCode = ref('')
 const codeMsg = ref('')
 const codeMsgType = ref('ok')
-const codeList = ref([])  // 新增
+const codeList = ref([])
 
 const newQuote = ref('')
 const quotes = ref([])
@@ -164,8 +159,9 @@ const promoMsg = ref('')
 const promoMsgType = ref('ok')
 
 // ===== 兑换码 =====
+const tierMap = { 1: 10, 6: 80, 9.9: 128, 29.9: 648 }
+
 async function generateCode() {
-  const tierMap = { 6: 60, 12: 132, 30: 375, 60: 900 }
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
   let random = ''
   for (let i = 0; i < 8; i++) random += chars[Math.floor(Math.random() * chars.length)]
@@ -184,7 +180,6 @@ async function generateCode() {
   generatedCode.value = code
   codeMsg.value = '✅ 已生成'
   codeMsgType.value = 'ok'
-  // 刷新列表
   await loadCodeList()
   setTimeout(() => { codeMsg.value = '' }, 3000)
 }
@@ -196,7 +191,6 @@ function copyCode() {
   setTimeout(() => { codeMsg.value = '' }, 2000)
 }
 
-// ===== 兑换码列表（新增） =====
 async function loadCodeList() {
   const { data, error } = await supabase
     .from('redeem_codes')
@@ -301,7 +295,7 @@ async function addPromo() {
   let finalUrl = url
   if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) finalUrl = 'https://' + finalUrl
 
-  const priceMap = { 7: 7.9, 30: 29.9, 365: 298 }
+  const priceMap = { 7: 7, 30: 19.9, 365: 128 }
   const expires = new Date()
   expires.setDate(expires.getDate() + promoDays.value)
 
@@ -347,72 +341,29 @@ onMounted(() => {
   -webkit-backdrop-filter: blur(12px);
   border-color: rgba(255, 255, 255, 0.30);
 }
-
-.card-title {
-  color: #1a1a2e !important;
-}
-.card-title .text-accent {
-  color: #d4af37 !important;
-}
-
+.card-title { color: #1a1a2e !important; }
+.card-title .text-accent { color: #d4af37 !important; }
 .card-input {
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.40);
   color: #1a1a2e;
 }
-.card-input::placeholder {
-  color: rgba(60, 60, 80, 0.50);
-}
-.card-input:focus {
-  border-color: #d4af37;
-  outline: none;
-}
-
+.card-input::placeholder { color: rgba(60, 60, 80, 0.50); }
+.card-input:focus { border-color: #d4af37; outline: none; }
 .card-select {
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.40);
   color: #1a1a2e;
 }
-.card-select:focus {
-  border-color: #d4af37;
-  outline: none;
-}
-
-.code-box {
-  background: rgba(255, 255, 255, 0.50);
-}
-
-.quote-item {
-  background: rgba(255, 255, 255, 0.30);
-}
-.quote-item:hover {
-  background: rgba(255, 255, 255, 0.50);
-}
-.quote-content {
-  color: #1a1a2e;
-}
-
-.promo-item {
-  background: rgba(255, 255, 255, 0.30);
-}
-.promo-item:hover {
-  background: rgba(255, 255, 255, 0.50);
-}
-.promo-title {
-  color: #1a1a2e;
-}
-
-.max-h-64::-webkit-scrollbar,
-.max-h-40::-webkit-scrollbar {
-  width: 3px;
-}
-.max-h-64::-webkit-scrollbar-thumb,
-.max-h-40::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-}
-.max-h-64::-webkit-scrollbar-track,
-.max-h-40::-webkit-scrollbar-track {
-  background: transparent;
-}
+.card-select:focus { border-color: #d4af37; outline: none; }
+.code-box { background: rgba(255, 255, 255, 0.50); }
+.quote-item { background: rgba(255, 255, 255, 0.30); }
+.quote-item:hover { background: rgba(255, 255, 255, 0.50); }
+.quote-content { color: #1a1a2e; }
+.promo-item { background: rgba(255, 255, 255, 0.30); }
+.promo-item:hover { background: rgba(255, 255, 255, 0.50); }
+.promo-title { color: #1a1a2e; }
+.max-h-64::-webkit-scrollbar, .max-h-40::-webkit-scrollbar { width: 3px; }
+.max-h-64::-webkit-scrollbar-thumb, .max-h-40::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.15); border-radius: 4px; }
+.max-h-64::-webkit-scrollbar-track, .max-h-40::-webkit-scrollbar-track { background: transparent; }
 </style>

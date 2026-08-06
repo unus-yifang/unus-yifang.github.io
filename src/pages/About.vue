@@ -45,20 +45,21 @@
         </div>
       </div>
 
+      <!-- ===== 付费逻辑 ===== -->
       <div class="about-card rounded-2xl p-6 border">
         <div class="space-y-4 text-gray-700 text-sm leading-relaxed">
           <p class="text-gray-800 font-medium">年卡 648 U币，实际花多少钱？</p>
-          <p>充值 60 元 = 900 U币，足够兑换年卡，还多 252 U币。</p>
-          <p>实际花费：约 <span class="text-gray-800 font-medium">43 元/年</span></p>
-          <p>每天成本：43 ÷ 365 ≈ <span class="text-gray-800 font-medium">0.12 元/天</span></p>
+          <p>充值 <span class="text-gray-800 font-medium">29.9 元</span> = 648 U币，刚好兑换年卡。</p>
+          <p>实际花费：约 <span class="text-gray-800 font-medium">29.9 元/年</span></p>
+          <p>每天成本：29.9 ÷ 365 ≈ <span class="text-gray-800 font-medium">0.08 元/天</span></p>
           <p>对比一下日常消费：</p>
           <ul class="space-y-1 text-gray-600 text-sm list-disc list-inside">
-            <li>一瓶矿泉水：2 元，够你用 16 天</li>
-            <li>一根烤肠：3 元，够你用 25 天</li>
-            <li>一杯柠檬水：4 元，够你用 33 天</li>
+            <li>一瓶矿泉水：2 元，够你用 25 天</li>
+            <li>一根烤肠：3 元，够你用 37 天</li>
+            <li>一杯柠檬水：4 元，够你用 50 天</li>
           </ul>
-          <p>一年不到 50 块，换来的是每天打开浏览器时那种自己的一方天地的归属感。更能添加自定义一言。</p>
-          <p class="text-gray-500 text-sm">💡 当然，免费版已经很好用，不付费完全没问题。如果你觉得"每天 0.12 元换这个体验值"，那随时欢迎你升级。</p>
+          <p>一年不到 30 块，换来的是每天打开浏览器时那种自己的一方天地的归属感。</p>
+          <p class="text-gray-500 text-sm">💡 当然，免费版已经很好用，不付费完全没问题。如果你觉得"每天 0.08 元换这个体验值"，那随时欢迎你升级。</p>
         </div>
       </div>
 
