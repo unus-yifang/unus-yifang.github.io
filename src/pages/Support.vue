@@ -187,6 +187,7 @@
     <div v-if="qrModalVisible" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm" @click.self="qrModalVisible = false">
       <div class="glass dark:glass-dark rounded-2xl border border-white/20 p-6 w-full max-w-sm shadow-2xl text-center">
         <div class="text-white font-medium mb-3">扫码联系站长</div>
+        <div class="text-white/30 text-[10px] mb-3">👤 人工处理，72 小时内回复</div>
         <img
           :src="qrImageUrl"
           alt="微信二维码"
