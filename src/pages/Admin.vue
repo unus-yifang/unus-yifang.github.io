@@ -26,18 +26,19 @@
       </div>
       <p v-if="codeMsg" class="text-xs mt-2" :class="codeMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ codeMsg }}</p>
 
+      <!-- ===== 兑换码列表（文字全部黑色） ===== -->
       <div v-if="codeList.length > 0" class="mt-4 border-t border-white/10 pt-4">
-        <h3 class="text-xs text-white/60 font-medium tracking-wide mb-2">已生成的兑换码</h3>
+        <h3 class="text-xs text-gray-500 font-medium tracking-wide mb-2">已生成的兑换码</h3>
         <div class="max-h-40 overflow-y-auto space-y-1">
           <div
             v-for="item in codeList"
             :key="item.id"
-            class="flex items-center justify-between text-xs px-2 py-1.5 rounded hover:bg-white/5 transition"
+            class="flex items-center justify-between text-xs px-2 py-1.5 rounded hover:bg-gray-100 transition"
           >
-            <span class="font-mono text-white/80">{{ item.code }}</span>
-            <span class="text-white/40">{{ item.coins }}币</span>
-            <span class="text-white/30 text-[10px]">{{ formatChinaDate(item.created_at) }}</span>
-            <span :class="item.used ? 'text-red-400' : 'text-green-400'">
+            <span class="font-mono text-gray-800">{{ item.code }}</span>
+            <span class="text-gray-600">{{ item.coins }}币</span>
+            <span class="text-gray-400 text-[10px]">{{ formatChinaDate(item.created_at) }}</span>
+            <span :class="item.used ? 'text-red-500' : 'text-green-600'">
               {{ item.used ? '已使用' : '未使用' }}
             </span>
           </div>
@@ -50,6 +51,7 @@
       <h2 class="card-title text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
         <i class="fas fa-quote-left text-accent"></i> 一言管理（共 {{ quotes.length }} 条）
       </h2>
+
       <div class="flex gap-2 mb-3">
         <input
           v-model="newQuote"
@@ -62,6 +64,7 @@
           添加
         </button>
       </div>
+
       <div class="max-h-64 overflow-y-auto space-y-1">
         <div
           v-for="q in quotes"
@@ -77,6 +80,7 @@
         </div>
         <div v-if="quotes.length === 0" class="text-gray-500 text-xs text-center py-4">暂无一言</div>
       </div>
+
       <p v-if="quoteMsg" class="text-xs mt-2" :class="quoteMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ quoteMsg }}</p>
     </div>
 
