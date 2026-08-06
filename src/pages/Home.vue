@@ -586,7 +586,6 @@ onUnmounted(() => {
   margin-left: 4px;
 }
 
-/* ===== 引导卡片 ===== */
 .guide-card {
   background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(4px) !important;
