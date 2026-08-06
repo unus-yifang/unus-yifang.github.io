@@ -165,7 +165,7 @@ import { supabase } from '../lib/supabase'
 const userStore = useUserStore()
 
 // ============================================================
-// 订阅状态（基于 effectiveSubscription，到期自动切换）
+// 订阅状态
 // ============================================================
 const isSubscribed = computed(() => userStore.effectiveSubscription !== 'free')
 
@@ -275,7 +275,7 @@ function handleImageError(e) {
 }
 
 // ============================================================
-// 主题色
+// 主题色（修复跨账号共享问题）
 // ============================================================
 const themeColor = ref('#d4af37')
 const customThemeColor = ref('#d4af37')
@@ -291,17 +291,30 @@ const colorOptions = [
 ]
 
 function loadThemeColor() {
+  // 从 localStorage 读取（用于页面展示）
   const saved = localStorage.getItem('unus_theme_color') || '#d4af37'
   themeColor.value = saved
   customThemeColor.value = saved
   applyThemeColor(saved)
 }
 
-function saveThemeColor(value) {
+async function saveThemeColor(value) {
   themeColor.value = value
   customThemeColor.value = value
   localStorage.setItem('unus_theme_color', value)
   applyThemeColor(value)
+
+  // ===== 保存到数据库 =====
+  if (userStore.isLoggedIn) {
+    try {
+      await userStore.updateThemeColor(value)
+    } catch (err) {
+      console.error('保存主题色到数据库失败:', err)
+      alert('保存主题色失败：' + err.message)
+      return
+    }
+  }
+
   userStore.refreshAvatar()
   setTimeout(() => { window.location.reload() }, 100)
 }
@@ -310,6 +323,9 @@ function applyThemeColor(color) {
   document.documentElement.style.setProperty('--accent-color', color)
 }
 
+// ============================================================
+// 重置
+// ============================================================
 async function resetAll() {
   if (!confirm('确定要重置所有自定义设置为默认值吗？此操作不可撤销！')) return
 
@@ -322,6 +338,15 @@ async function resetAll() {
   customThemeColor.value = defaultColor
   localStorage.setItem('unus_theme_color', defaultColor)
   applyThemeColor(defaultColor)
+
+  // ===== 重置数据库中的主题色 =====
+  if (userStore.isLoggedIn) {
+    try {
+      await userStore.updateThemeColor(defaultColor)
+    } catch (err) {
+      console.error('重置主题色失败:', err)
+    }
+  }
 
   userStore.refreshAvatar()
 
@@ -349,6 +374,9 @@ async function resetAll() {
   window.location.reload()
 }
 
+// ============================================================
+// 生命周期
+// ============================================================
 onMounted(() => {
   loadWallpaperPreference()
   loadThemeColor()

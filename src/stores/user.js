@@ -40,7 +40,7 @@ export const useUserStore = defineStore('user', {
       return 'text-white/40 border-white/10 bg-white/5'
     },
 
-    // ===== 头像（免费灰色，付费主题色） =====
+    // ===== 头像（从数据库读取主题色） =====
     avatar: (state) => {
       if (!state.user || !state.profile?.username) {
         return 'https://ui-avatars.com/api/?name=?&background=6b7280&color=fff&size=64&font-size=0.5&bold=true'
@@ -53,8 +53,9 @@ export const useUserStore = defineStore('user', {
       if (sub === 'free') {
         bgColor = '6b7280'
       } else {
-        const themeColor = localStorage.getItem('unus_theme_color')
-        bgColor = themeColor ? themeColor.replace('#', '') : 'd4af37'
+        // 从数据库读取主题色
+        const themeColor = state.profile?.theme_color || '#d4af37'
+        bgColor = themeColor.replace('#', '')
       }
 
       const version = state.avatarVersion || 0
@@ -206,7 +207,7 @@ export const useUserStore = defineStore('user', {
       return true
     },
 
-    // ===== 设置订阅（叠加续费，支持无限续费） =====
+    // ===== 设置订阅（叠加续费） =====
     async setSubscription(type, days) {
       if (!this.user) throw new Error('请先登录')
 
@@ -234,11 +235,9 @@ export const useUserStore = defineStore('user', {
       this.profile.subscription_expires_at = baseDate.toISOString()
     },
 
-    // ===== 购买月卡 =====
+    // ===== 月卡 =====
     async subscribeMonthly() {
       if (!this.user) throw new Error('请先登录')
-
-      // 年卡用户不能买月卡（降级）
       if (this.effectiveSubscription === 'yearly') {
         throw new Error('已是年卡会员，无需购买月卡')
       }
@@ -257,11 +256,10 @@ export const useUserStore = defineStore('user', {
       return true
     },
 
-    // ===== 购买年卡 =====
+    // ===== 年卡 =====
     async subscribeYearly() {
       if (!this.user) throw new Error('请先登录')
 
-      // 年卡可续费叠加，月卡可升级，免费可购买
       await this.deductCoins(648)
       await this.setSubscription('yearly', 365)
 
@@ -295,6 +293,22 @@ export const useUserStore = defineStore('user', {
       const { error } = await supabase.from('profiles').update(updates).eq('id', this.user.id)
       if (error) throw error
       Object.assign(this.profile, updates)
+    },
+
+    // ===== 更新主题色 =====
+    async updateThemeColor(color) {
+      if (!this.user) return
+      const { error } = await supabase
+        .from('profiles')
+        .update({ theme_color: color })
+        .eq('id', this.user.id)
+      if (error) {
+        console.error('保存主题色到数据库失败:', error)
+        throw error
+      }
+      if (this.profile) {
+        this.profile.theme_color = color
+      }
     },
   }
 })
