@@ -102,63 +102,50 @@
 <script setup>
 // ===== 工具数据 =====
 const aiTools = [
-  { name: 'DeepSeek', url: 'https://chat.deepseek.com' },
-  { name: '音述AI音乐', url: 'https://www.yinshuai.com' },
-  { name: 'AI生成PPT', url: 'https://www.aippt.com' },
-  { name: 'AI创作视频', url: 'https://www.aicreator.com' },
-  { name: 'AI短剧创作', url: 'https://www.aidrama.com' },
-  { name: '超级简历', url: 'https://www.wondercv.com' },
-  { name: 'AI写作助手', url: 'https://www.aiwriter.com' },
-  { name: 'AI编程', url: 'https://www.aicode.com' },
-  { name: '桌面AI助理', url: 'https://www.aidesktop.com' },
-  { name: '星流AI', url: 'https://www.xingliuai.com' },
-  { name: '蛙蛙AI写作', url: 'https://www.wawaai.com' },
-  { name: 'AI简历生成', url: 'https://www.aijianli.com' },
-  { name: '蛙蛙AI漫剧', url: 'https://www.wawamanju.com' },
+  { name: 'ChatGPT', url: 'https://chatgpt.com' }, // OpenAI[reference:0][reference:1]
+  { name: 'Claude', url: 'https://claude.ai' }, // Anthropic[reference:2][reference:3]
+  { name: 'Gemini', url: 'https://gemini.google.com' }, // Google[reference:4][reference:5]
+  { name: 'DeepSeek', url: 'https://chat.deepseek.com' }, // 深度求索[reference:6][reference:7]
+  { name: 'Kimi', url: 'https://www.kimi.com' }, // 月之暗面[reference:8][reference:9]
+  { name: '豆包', url: 'https://www.doubao.com' }, // 字节跳动[reference:10][reference:11]
+  { name: '通义千问', url: 'https://tongyi.aliyun.com/qianwen' }, // 阿里云[reference:12][reference:13]
+  { name: '文心一言', url: 'https://yiyan.baidu.com' }, // 百度[reference:14][reference:15]
+  { name: '智谱清言', url: 'https://chatglm.cn' }, // 智谱AI[reference:16][reference:17]
+  { name: '讯飞星火', url: 'https://xinghuo.xfyun.cn' }, // 科大讯飞[reference:18][reference:19]
+  { name: '腾讯元宝', url: 'https://yuanbao.tencent.com' }, // 腾讯[reference:20][reference:21]
+  { name: 'Perplexity', url: 'https://www.perplexity.ai' }, // 问答引擎[reference:22][reference:23]
+  { name: 'Grok', url: 'https://grok.com' }, // xAI[reference:24]
+  { name: 'Poe', url: 'https://poe.com' }, // Quora聚合平台[reference:25]
+  { name: '天工AI', url: 'https://www.tiangong.cn' }, // 昆仑万维[reference:26][reference:27]
 ]
 
 const designTools = [
   { name: '在线PS', url: 'https://www.tugaigai.com/online_ps' },
-  { name: 'PS精简版', url: 'https://www.jianjieps.com' },
-  { name: '奇迹秀工具箱', url: 'https://www.qijixiu.com' },
   { name: '一键抠图', url: 'https://www.remove.bg/zh' },
   { name: 'Iconfont', url: 'https://www.iconfont.cn' },
   { name: '免费商用字体', url: 'https://www.fonts.net.cn' },
   { name: '100Font', url: 'https://www.100font.com' },
   { name: '草料二维码', url: 'https://cli.im' },
   { name: '徽章生成器', url: 'https://shields.io' },
-  { name: '免费logo制作', url: 'https://www.logomaker.com' },
   { name: '字体秀', url: 'https://www.fontshow.com' },
 ]
 
 const imageTools = [
   { name: '在线去水印', url: 'https://www.watermarkremover.io' },
-  { name: '免费去水印', url: 'https://www.removewatermark.com' },
-  { name: '咖啡AI绘画', url: 'https://www.coffeeai.com' },
   { name: '搜图导航', url: 'https://www.91sotu.com' },
-  { name: 'Postimages', url: 'https://postimages.org' },
-  { name: '路过图床', url: 'https://imgtu.com' },
-  { name: 'ImgBB', url: 'https://imgbb.com' },
-  { name: '聚合图床', url: 'https://www.superbed.cn' },
-  { name: '图片压缩', url: 'https://tinypng.com' },
-  { name: 'AI图片放大', url: 'https://www.upscale.media/zh' },
+  { name: 'unsplash', url: 'https://unsplash.com/' },
 ]
 
 const officeTools = [
   { name: 'PDF24Tools', url: 'https://www.pdf24.org' },
   { name: 'PDF在线工具', url: 'https://www.ilovepdf.com/zh-cn' },
   { name: '第一PPT', url: 'https://www.1ppt.com' },
-  { name: '51PPT', url: 'https://www.51ppt.com.cn' },
   { name: '文叔叔传文件', url: 'https://www.wenshushu.cn' },
-  { name: 'UC文件传输', url: 'https://www.uc.cn' },
   { name: '局域网传文件', url: 'https://snapdrop.net' },
 ]
 
 const convertTools = [
   { name: '格式转换器', url: 'https://convertio.co/zh' },
-  { name: '文字转语音', url: 'https://www.text-to-speech.com' },
-  { name: '短链接生成', url: 'https://dwz.cn' },
-  { name: '临时邮箱', url: 'https://www.linshiyouxiang.net' },
   { name: '在线转换', url: 'https://www.online-convert.com' },
   { name: '全能转换', url: 'https://www.aconvert.com/cn' },
   { name: 'CloudConvert', url: 'https://cloudconvert.com' },
@@ -168,16 +155,9 @@ const devTools = [
   { name: 'GitHub', url: 'https://github.com' },
   { name: 'CSDN', url: 'https://www.csdn.net' },
   { name: '在线JSON', url: 'https://www.sojson.com' },
-  { name: '正则测试', url: 'https://regex101.com' },
   { name: 'API测试', url: 'https://www.postman.com' },
-  { name: 'Git教程', url: 'https://www.liaoxuefeng.com' },
   { name: 'Node.js', url: 'https://nodejs.org' },
-  { name: 'MySQL', url: 'https://www.mysql.com' },
-  { name: 'MongoDB', url: 'https://www.mongodb.com' },
-  { name: 'Navicat', url: 'https://www.navicat.com' },
-  { name: 'Gitee', url: 'https://gitee.com' },
   { name: 'VsCode', url: 'https://code.visualstudio.com' },
-  { name: 'Apifox', url: 'https://www.apifox.cn' },
 ]
 
 const mustHave = [
@@ -192,7 +172,6 @@ const mustHave = [
   { name: 'Everything', url: 'https://www.voidtools.com' },
   { name: '火绒安全', url: 'https://www.huorong.cn' },
   { name: '360驱动', url: 'https://www.360.cn' },
-  { name: 'PotPlayer', url: 'https://potplayer.daum.net' },
   { name: '迅雷12', url: 'https://www.xunlei.com' },
   { name: '搜狗输入法', url: 'https://shurufa.sogou.com' },
   { name: '微信输入法', url: 'https://type.weixin.qq.com' },
@@ -203,7 +182,6 @@ const mustHave = [
   { name: '网易云音乐', url: 'https://music.163.com' },
   { name: 'QQ音乐', url: 'https://y.qq.com' },
   { name: '酷狗音乐', url: 'https://www.kugou.com' },
-  { name: '汽水音乐', url: 'https://www.qishuiyinyue.com' },
   { name: 'Steam', url: 'https://store.steampowered.com' },
   { name: 'WeGame', url: 'https://www.wegame.com.cn' },
   { name: 'Epic', url: 'https://www.epicgames.com' },
@@ -212,17 +190,7 @@ const mustHave = [
 const systemTools = [
   { name: '图吧工具箱', url: 'https://www.tbtool.cn' },
   { name: '微PE工具箱', url: 'https://www.wepe.com.cn' },
-  { name: '硬盘分区助手', url: 'https://www.diskgenius.com' },
-  { name: '驱动总裁', url: 'https://www.drivereasy.com' },
-  { name: '显卡驱动', url: 'https://www.nvidia.com/drivers' },
-  { name: 'CPU驱动', url: 'https://www.intel.com/drivers' },
-  { name: '激活工具', url: 'https://github.com/massgravel' },
-  { name: '显示器帧率', url: 'https://www.testufo.com' },
-  { name: '在线键盘测试', url: 'https://www.keyboardtest.com' },
-  { name: '手柄测试', url: 'https://gamepad-tester.com' },
-  { name: '鲁大师精简版', url: 'https://www.ludashi.com' },
-  { name: '游戏加加', url: 'https://gamepp.com' },
-  { name: 'FirPE', url: 'https://www.firpe.cn' },
+  { name: '鲁大师', url: 'https://www.ludashi.com' },
 ]
 </script>
 
