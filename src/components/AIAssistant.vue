@@ -106,7 +106,6 @@ function getMaxFreeCount() {
   return 3
 }
 
-// 获取今天的日期字符串（中国时区）
 function getToday() {
   return getChinaDateString()
 }
@@ -312,7 +311,7 @@ async function sendMessage() {
 }
 
 // ============================================================
-// 辅助函数：Markdown 转 HTML
+// 辅助函数
 // ============================================================
 function formatMessage(content) {
   if (!content) return ''
@@ -344,7 +343,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* ===== 悬浮气泡 ===== */
+/* ===== 悬浮气泡（完全不透明，无虚化） ===== */
 .ai-assistant {
   position: fixed;
   bottom: 28px;
@@ -356,21 +355,21 @@ onUnmounted(() => {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(212, 175, 55, 0.25);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.30);
+  background: #d4af37;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid #b8962a;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 24px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 4px 24px rgba(212, 175, 55, 0.30);
 }
 .assistant-bubble:hover {
   transform: scale(1.08);
-  background: rgba(212, 175, 55, 0.35);
-  box-shadow: 0 4px 32px rgba(212, 175, 55, 0.25);
+  background: #e8c84a;
+  box-shadow: 0 4px 32px rgba(212, 175, 55, 0.40);
 }
 .assistant-bubble.bubble-hidden {
   opacity: 0;
@@ -382,23 +381,13 @@ onUnmounted(() => {
   font-size: 28px;
   font-weight: 900;
   font-family: 'Georgia', 'Times New Roman', serif;
-  background: linear-gradient(135deg, #d4af37 0%, #f5d97e 30%, #d4af37 60%, #b8962a 100%);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.3));
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   letter-spacing: 1px;
-  animation: shimmer 3s ease-in-out infinite;
   line-height: 1;
 }
 
-@keyframes shimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* ===== 聊天窗口 ===== */
+/* ===== 聊天窗口（完全不透明，无虚化） ===== */
 .chat-window {
   position: absolute;
   bottom: 76px;
@@ -406,15 +395,15 @@ onUnmounted(() => {
   width: 380px;
   height: 500px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.50);
+  background: #ffffff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   animation: slideUp 0.3s ease;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10);
 }
 
 @keyframes slideUp {
@@ -428,7 +417,7 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 14px 18px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid #e5e7eb;
   flex-shrink: 0;
 }
 
@@ -528,14 +517,14 @@ onUnmounted(() => {
   max-width: 100%;
 }
 .bubble-user {
-  background: rgba(255, 255, 255, 0.60);
-  border: 1px solid rgba(255, 255, 255, 0.30);
+  background: rgba(212, 175, 55, 0.20);
+  border: 1px solid rgba(212, 175, 55, 0.15);
   color: #1a1a2e;
   border-bottom-right-radius: 4px;
 }
 .bubble-assistant {
-  background: rgba(255, 255, 255, 0.30);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   color: rgba(30, 30, 50, 0.80);
   border-bottom-left-radius: 4px;
 }
@@ -562,14 +551,14 @@ onUnmounted(() => {
   display: flex;
   gap: 8px;
   padding: 12px 16px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid #e5e7eb;
   flex-shrink: 0;
 }
 
 .chat-input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.40);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 8px 14px;
   color: #1a1a2e;
@@ -581,7 +570,7 @@ onUnmounted(() => {
   color: rgba(0, 0, 0, 0.25);
 }
 .chat-input:focus {
-  border-color: rgba(212, 175, 55, 0.30);
+  border-color: rgba(212, 175, 55, 0.40);
 }
 .chat-input:disabled {
   opacity: 0.5;
