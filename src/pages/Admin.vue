@@ -12,10 +12,10 @@
       </h2>
       <div class="flex gap-2">
         <select v-model="codeTier" class="card-select flex-1 rounded-lg px-3 py-2 text-sm outline-none">
-          <option value="1">1元 — 10币</option>
-          <option value="6">6元 — 80币</option>
-          <option value="9.9">9.9元 — 128币</option>
-          <option value="29.9">29.9元 — 648币</option>
+          <option value="10">1元 — 10币</option>
+          <option value="60">6元 — 80币</option>
+          <option value="99">9.9元 — 128币</option>
+          <option value="299">29.9元 — 648币</option>
         </select>
         <button @click="generateCode" class="px-4 py-2 rounded-lg bg-accent/20 border border-accent/30 text-accent text-sm font-medium hover:bg-accent/30 transition">生成</button>
       </div>
@@ -26,7 +26,6 @@
       </div>
       <p v-if="codeMsg" class="text-xs mt-2" :class="codeMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ codeMsg }}</p>
 
-      <!-- ===== 兑换码列表（文字全部黑色） ===== -->
       <div v-if="codeList.length > 0" class="mt-4 border-t border-white/10 pt-4">
         <h3 class="text-xs text-gray-500 font-medium tracking-wide mb-2">已生成的兑换码</h3>
         <div class="max-h-40 overflow-y-auto space-y-1">
@@ -141,7 +140,8 @@ import { supabase } from '../lib/supabase'
 import { formatChinaDate } from '../utils/time'
 
 // ===== 状态 =====
-const codeTier = ref('1')
+// 乘以10后的值：1→10, 6→60, 9.9→99, 29.9→299
+const codeTier = ref('10')
 const generatedCode = ref('')
 const codeMsg = ref('')
 const codeMsgType = ref('ok')
@@ -163,17 +163,19 @@ const promoMsg = ref('')
 const promoMsgType = ref('ok')
 
 // ===== 兑换码 =====
-const tierMap = { 1: 10, 6: 80, 9.9: 128, 29.9: 648 }
+// tierMap 键为乘以10后的值
+const tierMap = { 10: 10, 60: 80, 99: 128, 299: 648 }
 
 async function generateCode() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
   let random = ''
   for (let i = 0; i < 8; i++) random += chars[Math.floor(Math.random() * chars.length)]
+  // codeTier.value 是乘以10后的值，如 '299'
   const code = `U${codeTier.value}-${random}`
 
   const { error } = await supabase.from('redeem_codes').insert({
     code,
-    tier: codeTier.value,
+    tier: parseInt(codeTier.value), // 存入整数
     coins: tierMap[codeTier.value],
     used: false,
     created_at: new Date().toISOString(),
