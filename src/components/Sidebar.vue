@@ -40,7 +40,6 @@
     </nav>
 
     <div class="mt-auto">
-      <!-- U币余额（黑色文字） -->
       <div class="flex items-center gap-2 px-2 py-2 text-gray-800 text-sm">
         <i class="fas fa-coins text-accent"></i>
         <span>{{ userStore.ucoins }}</span>
@@ -52,8 +51,8 @@
       <router-link to="/profile" class="nav-user-card">
         <img :src="userStore.avatar" alt="avatar" class="avatar-sm" />
         <div class="flex flex-col overflow-hidden">
-          <span class="username text-gray-800">{{ userStore.username }}</span>
-          <span class="sub-text text-gray-500">{{ userStore.isLoggedIn ? '查看资料' : '点击登录' }}</span>
+          <span class="username">{{ userStore.username }}</span>
+          <span class="sub-text">{{ userStore.isLoggedIn ? '查看资料' : '点击登录' }}</span>
         </div>
         <i class="fas fa-chevron-right text-gray-400 text-[10px] ml-auto"></i>
       </router-link>
@@ -122,9 +121,11 @@ const isAdmin = computed(() => {
 .nav-user-card:hover {
   background: rgba(0, 0, 0, 0.04);
 }
+
 .nav-user-card .username {
   font-size: 0.8rem;
   font-weight: 500;
+  color: #1a1a2e !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -132,6 +133,7 @@ const isAdmin = computed(() => {
 }
 .nav-user-card .sub-text {
   font-size: 0.6rem;
+  color: #6b7280 !important;
 }
 
 .avatar-sm {
