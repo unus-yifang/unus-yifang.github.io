@@ -13,7 +13,7 @@
     <!-- ===== 充值档位 ===== -->
     <div class="mb-8">
       <h2 class="section-title-white text-sm font-medium tracking-wide mb-3 flex items-center gap-2">
-        <i class="fas fa-coins text-accent"></i> 支持档位
+        <i class="fas fa-coins text-accent"></i> 充值档位
       </h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div
@@ -33,6 +33,7 @@
           <div class="tier-coins">{{ tier.coins }} U币</div>
           <div class="tier-label">{{ tier.label }}</div>
           <div v-if="tier.bonus" class="tier-bonus">🎁 加赠 {{ tier.bonus }}%</div>
+          <div v-if="tier.extra" class="tier-extra text-[10px] mt-1 text-white/80">{{ tier.extra }}</div>
         </div>
       </div>
     </div>
@@ -186,8 +187,8 @@
     <!-- ===== 微信二维码模态框 ===== -->
     <div v-if="qrModalVisible" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm" @click.self="qrModalVisible = false">
       <div class="glass dark:glass-dark rounded-2xl border border-white/20 p-6 w-full max-w-sm shadow-2xl text-center">
-        <div class="text-white font-medium mb-3">扫码联系站长</div>
-        <div class="text-white/30 text-[10px] mb-3">👤 人工处理，72 小时内回复</div>
+        <div class="text-white font-medium mb-1">扫码联系站长</div>
+        <div class="text-white/30 text-[10px] mb-3">👤 人工处理 · 加好友后 72 小时内处理</div>
         <img
           :src="qrImageUrl"
           alt="微信二维码"
@@ -230,12 +231,12 @@ const qrImageUrl = ref('https://cdn.luogu.com.cn/upload/image_hosting/l26vwta6.p
 const subMsg = ref('')
 const subMsgType = ref('ok')
 
-// ===== 充值档位（修改标签） =====
+// ===== 充值档位 =====
 const tiers = [
   { price: 1, coins: 10, label: '体验档', bonus: 0, tag: null, tagClass: '' },
   { price: 6, coins: 80, label: '标准档', bonus: 25, tag: '+25%', tagClass: 'bg-blue-500' },
-  { price: 9.9, coins: 128, label: '进阶档', bonus: 30, tag: '+30%', tagClass: 'bg-purple-500' },
-  { price: 29.9, coins: 648, label: '年卡档', bonus: 120, tag: '+120%', tagClass: 'bg-accent' },
+  { price: 9.9, coins: 128, label: '进阶档', bonus: 30, tag: '+30%', tagClass: 'bg-purple-500', extra: '📝 可提交一句一言' },
+  { price: 29.9, coins: 648, label: '年卡档', bonus: 120, tag: '+120%', tagClass: 'bg-accent', extra: '📝 可提交一句一言' },
 ]
 
 // ===== 推广位 =====
@@ -370,6 +371,7 @@ onMounted(() => {
 .tier-coins { color: rgba(60, 60, 80, 0.70); font-size: 0.875rem; margin-top: 4px; }
 .tier-label { color: rgba(60, 60, 80, 0.50); font-size: 0.65rem; margin-top: 4px; }
 .tier-bonus { color: #d4af37; font-size: 0.65rem; margin-top: 2px; }
+.tier-extra { color: rgba(255, 255, 255, 0.80) !important; font-size: 0.65rem; margin-top: 4px; }
 
 .member-card {
   background: rgba(255, 255, 255, 0.75);
