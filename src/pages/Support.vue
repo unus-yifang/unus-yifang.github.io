@@ -300,28 +300,32 @@ async function redeem() {
   redeemMsg.value = ''
 
   try {
-    const { data: codeData, error: codeError } = await supabase.from('redeem_codes').select('*').eq('code', code).eq('used', false).single()
-    if (codeError || !codeData) { redeemMsg.value = '❌ 无效或已使用的兑换码'; redeemMsgType.value = 'err'; isRedeeming.value = false; return }
-
-    const newCoins = userStore.ucoins + codeData.coins
-    const { error: updateError } = await supabase.from('profiles').update({ ucoins: newCoins }).eq('id', userStore.user.id)
-    if (updateError) { redeemMsg.value = '❌ ' + updateError.message; redeemMsgType.value = 'err'; isRedeeming.value = false; return }
-
-    await supabase.from('redeem_codes').update({ used: true, used_by: userStore.user.id, used_at: new Date().toISOString() }).eq('id', codeData.id)
-
-    const expiresAt = new Date()
-    expiresAt.setDate(expiresAt.getDate() + 30)
-
-    await supabase.from('recharge_records').insert({
-      user_id: userStore.user.id, username: userStore.username, email: userStore.user.email,
-      amount: parseInt(codeData.tier), coins: codeData.coins,
-      created_at: new Date().toISOString(), expires_at: expiresAt.toISOString(), status: 'active'
+    // ===== 使用 RPC 安全兑换（原子操作，防并发） =====
+    const { data, error } = await supabase.rpc('redeem_code_safe', {
+      p_code: code,
+      p_user_id: userStore.user.id,
+      p_username: userStore.username,
+      p_email: userStore.user.email
     })
+
+    if (error) {
+      redeemMsg.value = '❌ ' + error.message
+      redeemMsgType.value = 'err'
+      isRedeeming.value = false
+      return
+    }
+
+    if (!data.success) {
+      redeemMsg.value = '❌ ' + data.message
+      redeemMsgType.value = 'err'
+      isRedeeming.value = false
+      return
+    }
 
     await userStore.fetchProfile()
     await loadThanksList()
 
-    redeemMsg.value = `✅ 兑换成功！获得 ${codeData.coins} U币`
+    redeemMsg.value = `✅ ${data.message}！获得 ${data.coins} U币，当前余额：${data.new_balance} U币`
     redeemMsgType.value = 'ok'
     redeemCode.value = ''
 
