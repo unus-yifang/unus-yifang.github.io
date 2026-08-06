@@ -52,7 +52,7 @@ export const useUserStore = defineStore('user', {
       return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${bgColor}&color=fff&size=64&bold=true`
     },
 
-    // ===== 签到状态（从 Supabase 读取，跨平台互通） =====
+    // 签到状态（从 Supabase 读取，跨平台互通）
     isSignedInToday: (state) => {
       if (!state.profile?.last_sign_in) return false
       const today = new Date().toISOString().split('T')[0]
@@ -83,6 +83,14 @@ export const useUserStore = defineStore('user', {
         console.error('获取资料失败:', error)
       } else {
         this.profile = data
+        // 同步签到状态：如果 last_sign_in 是今天，写入 localStorage
+        if (data?.last_sign_in) {
+          const today = new Date().toISOString().split('T')[0]
+          const lastSignDate = new Date(data.last_sign_in).toISOString().split('T')[0]
+          if (lastSignDate === today) {
+            localStorage.setItem('unus_sign_date', today)
+          }
+        }
       }
     },
 
@@ -105,13 +113,21 @@ export const useUserStore = defineStore('user', {
       }
     },
 
+    // ===== 登录 =====
     async login(email, password) {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-      if (error) throw error
+      if (error) {
+        // 处理邮箱未验证错误
+        if (error.message.includes('Email not confirmed')) {
+          throw new Error('该邮箱尚未验证，请前往邮箱点击验证链接')
+        }
+        throw error
+      }
       this.user = data.user
       await this.fetchProfile()
     },
 
+    // ===== 注册（不自动登录，等待邮箱验证） =====
     async signUp(email, password, username) {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -119,10 +135,10 @@ export const useUserStore = defineStore('user', {
         options: { data: { username } }
       })
       if (error) throw error
-      if (data.user) {
-        this.user = data.user
-        await this.fetchProfile()
-      }
+      // 注册成功后不自动登录，等待邮箱验证
+      // 如果 Confirm email 关闭（开发环境），data.session 存在，但仍然不自动登录
+      // 调用方负责处理后续流程
+      return data
     },
 
     async logout() {
@@ -132,7 +148,7 @@ export const useUserStore = defineStore('user', {
       localStorage.removeItem('unus_sign_date')
     },
 
-    // ===== 签到（数据库级别，跨平台互通） =====
+    // ===== 签到 =====
     async signInDaily() {
       if (!this.user) throw new Error('请先登录')
 
@@ -200,6 +216,7 @@ export const useUserStore = defineStore('user', {
       this.profile.subscription_expires_at = expiresAt.toISOString()
     },
 
+    // ===== 购买月卡（68 U币 / 30天） =====
     async subscribeMonthly() {
       if (!this.user) throw new Error('请先登录')
       if (this.effectiveSubscription === 'monthly') throw new Error('已是月卡会员')
@@ -219,6 +236,7 @@ export const useUserStore = defineStore('user', {
       return true
     },
 
+    // ===== 购买年卡（648 U币 / 365天） =====
     async subscribeYearly() {
       if (!this.user) throw new Error('请先登录')
       if (this.effectiveSubscription === 'yearly') throw new Error('已是年卡会员')

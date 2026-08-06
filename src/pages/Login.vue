@@ -28,7 +28,6 @@
           class="login-input w-full rounded-lg px-4 py-2.5 outline-none transition"
         />
 
-        <!-- 邮箱限制提示 -->
         <p v-if="!isLogin" class="text-xs text-gray-500 mt-1">
           📧 仅支持 <span class="text-gray-700 font-medium">@qq.com</span>、<span class="text-gray-700 font-medium">@163.com</span> 和 <span class="text-gray-700 font-medium">@126.com</span> 邮箱注册
         </p>
@@ -70,14 +69,28 @@ async function handleSubmit() {
     if (isLogin.value) {
       await userStore.login(email.value, password.value)
       alert('登录成功')
+      const redirectPath = route.query.redirect || '/'
+      router.push(redirectPath)
     } else {
+      // ===== 注册：不再自动登录，提示验证邮箱 =====
       await userStore.signUp(email.value, password.value, username.value)
-      alert('注册成功！已自动登录')
+      // 如果注册成功，signUp 方法不会抛出错误，但用户未验证，不会自动登录
+      alert('注册成功！请前往您的邮箱点击验证链接激活账号')
+      // 清空表单，切换到登录模式
+      email.value = ''
+      password.value = ''
+      username.value = ''
+      isLogin.value = true
     }
-    const redirectPath = route.query.redirect || '/'
-    router.push(redirectPath)
   } catch (err) {
-    alert(err.message)
+    // 处理邮箱未验证错误（登录时）
+    if (err.message.includes('Email not confirmed')) {
+      alert('该邮箱尚未验证，请前往邮箱点击验证链接')
+    } else if (err.message.includes('只支持 QQ 邮箱、163 邮箱和 126 邮箱注册')) {
+      alert(err.message)
+    } else {
+      alert(err.message)
+    }
   }
 }
 
@@ -90,7 +103,6 @@ function toggleMode() {
 </script>
 
 <style scoped>
-/* ===== 登录卡片（几乎不透明的白色毛玻璃） ===== */
 .login-card {
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
@@ -99,7 +111,6 @@ function toggleMode() {
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06);
 }
 
-/* ===== 输入框 ===== */
 .login-input {
   background: rgba(255, 255, 255, 0.60);
   border: 1px solid rgba(0, 0, 0, 0.08);
@@ -113,7 +124,6 @@ function toggleMode() {
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
 }
 
-/* ===== 登录按钮 ===== */
 .login-btn {
   background: rgba(212, 175, 55, 0.15);
   border: 1px solid rgba(212, 175, 55, 0.20);

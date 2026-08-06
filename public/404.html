@@ -4,8 +4,16 @@
   <meta charset="UTF-8" />
   <title>一方</title>
   <script>
-    var path = window.location.pathname;
-    window.location.replace('/?redirect=' + encodeURIComponent(path));
+    // 获取当前完整路径（包含查询参数）
+    var fullPath = window.location.pathname + window.location.search;
+    // 如果是根路径或空路径，直接跳转首页
+    if (fullPath === '/' || fullPath === '') {
+      window.location.replace('/');
+    } else {
+      // 保存路径到 sessionStorage，跳转到首页，由 Vue Router 接管
+      sessionStorage.setItem('redirect_path', fullPath);
+      window.location.replace('/');
+    }
   </script>
 </head>
 <body>
