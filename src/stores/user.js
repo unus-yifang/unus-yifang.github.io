@@ -40,6 +40,7 @@ export const useUserStore = defineStore('user', {
       return 'text-white/40 border-white/10 bg-white/5'
     },
 
+    // ===== 头像（免费灰色，付费主题色） =====
     avatar: (state) => {
       if (!state.user || !state.profile?.username) {
         return 'https://ui-avatars.com/api/?name=?&background=6b7280&color=fff&size=64&font-size=0.5&bold=true'
@@ -205,7 +206,7 @@ export const useUserStore = defineStore('user', {
       return true
     },
 
-    // ===== 修复：订阅时间叠加（支持无限续费） =====
+    // ===== 设置订阅（叠加续费，支持无限续费） =====
     async setSubscription(type, days) {
       if (!this.user) throw new Error('请先登录')
 
@@ -233,29 +234,15 @@ export const useUserStore = defineStore('user', {
       this.profile.subscription_expires_at = baseDate.toISOString()
     },
 
-    // ===== 月卡（叠加续费） =====
+    // ===== 购买月卡 =====
     async subscribeMonthly() {
       if (!this.user) throw new Error('请先登录')
-      if (this.effectiveSubscription === 'monthly') {
-        // 已是月卡，续费叠加
-        await this.deductCoins(68)
-        await this.setSubscription('monthly', 30)
 
-        const today = getChinaDateString()
-        const maxFree = 8
-        this.profile.ai_free_count = maxFree
-        this.profile.ai_free_date = today
-        localStorage.setItem('unus_ai_free_date', today)
-        localStorage.setItem('unus_ai_free_count', String(maxFree))
-        await this.updateAIFreeCount(maxFree, today)
-        return true
-      }
-
+      // 年卡用户不能买月卡（降级）
       if (this.effectiveSubscription === 'yearly') {
-        throw new Error('已是年卡会员，无需重复订阅')
+        throw new Error('已是年卡会员，无需购买月卡')
       }
 
-      // 免费用户购买月卡
       await this.deductCoins(68)
       await this.setSubscription('monthly', 30)
 
@@ -270,25 +257,11 @@ export const useUserStore = defineStore('user', {
       return true
     },
 
-    // ===== 年卡（叠加续费） =====
+    // ===== 购买年卡 =====
     async subscribeYearly() {
       if (!this.user) throw new Error('请先登录')
-      if (this.effectiveSubscription === 'yearly') {
-        // 已是年卡，续费叠加
-        await this.deductCoins(648)
-        await this.setSubscription('yearly', 365)
 
-        const today = getChinaDateString()
-        const maxFree = 20
-        this.profile.ai_free_count = maxFree
-        this.profile.ai_free_date = today
-        localStorage.setItem('unus_ai_free_date', today)
-        localStorage.setItem('unus_ai_free_count', String(maxFree))
-        await this.updateAIFreeCount(maxFree, today)
-        return true
-      }
-
-      // 免费用户或月卡用户购买年卡
+      // 年卡可续费叠加，月卡可升级，免费可购买
       await this.deductCoins(648)
       await this.setSubscription('yearly', 365)
 
