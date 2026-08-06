@@ -310,9 +310,6 @@ function applyThemeColor(color) {
   document.documentElement.style.setProperty('--accent-color', color)
 }
 
-// ============================================================
-// 重置
-// ============================================================
 async function resetAll() {
   if (!confirm('确定要重置所有自定义设置为默认值吗？此操作不可撤销！')) return
 
