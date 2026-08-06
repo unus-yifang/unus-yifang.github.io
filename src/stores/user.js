@@ -7,7 +7,6 @@ export const useUserStore = defineStore('user', {
     user: null,
     profile: null,
     loading: false,
-    // 添加头像版本号，用于强制刷新
     avatarVersion: 0,
   }),
 
@@ -41,7 +40,6 @@ export const useUserStore = defineStore('user', {
       return 'text-white/40 border-white/10 bg-white/5'
     },
 
-    // ===== 头像（修复颜色缓存问题） =====
     avatar: (state) => {
       if (!state.user || !state.profile?.username) {
         return 'https://ui-avatars.com/api/?name=?&background=6b7280&color=fff&size=64&font-size=0.5&bold=true'
@@ -50,7 +48,6 @@ export const useUserStore = defineStore('user', {
       const name = state.profile.username
       const sub = state.effectiveSubscription
 
-      // 从 localStorage 读取最新主题色（每次都读取，避免缓存）
       let bgColor
       if (sub === 'free') {
         bgColor = '6b7280'
@@ -59,7 +56,6 @@ export const useUserStore = defineStore('user', {
         bgColor = themeColor ? themeColor.replace('#', '') : 'd4af37'
       }
 
-      // 使用版本号强制刷新缓存
       const version = state.avatarVersion || 0
       return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${bgColor}&color=fff&size=64&bold=true&v=${version}`
     },
@@ -73,7 +69,6 @@ export const useUserStore = defineStore('user', {
   },
 
   actions: {
-    // ===== 刷新头像 =====
     refreshAvatar() {
       this.avatarVersion += 1
     },
@@ -84,7 +79,6 @@ export const useUserStore = defineStore('user', {
       if (session?.user) {
         this.user = session.user
         await this.fetchProfile()
-        // 登录时刷新头像
         this.refreshAvatar()
       }
       this.loading = false
@@ -101,14 +95,12 @@ export const useUserStore = defineStore('user', {
         console.error('获取资料失败:', error)
       } else {
         this.profile = data
-        // 同步签到状态
         if (data?.last_sign_in) {
           const today = getChinaDateString()
           if (data.last_sign_in === today) {
             localStorage.setItem('unus_sign_date', today)
           }
         }
-        // 刷新头像
         this.refreshAvatar()
       }
     },
@@ -213,28 +205,57 @@ export const useUserStore = defineStore('user', {
       return true
     },
 
+    // ===== 修复：订阅时间叠加（支持无限续费） =====
     async setSubscription(type, days) {
       if (!this.user) throw new Error('请先登录')
-      const expiresAt = getChinaDate()
-      expiresAt.setDate(expiresAt.getDate() + days)
+
+      const currentExpires = this.profile?.subscription_expires_at
+      const now = new Date()
+      let baseDate
+
+      if (currentExpires && new Date(currentExpires) > now) {
+        baseDate = new Date(currentExpires)
+      } else {
+        baseDate = new Date()
+      }
+
+      baseDate.setDate(baseDate.getDate() + days)
 
       const { error } = await supabase
         .from('profiles')
         .update({
           subscription_type: type,
-          subscription_expires_at: expiresAt.toISOString(),
+          subscription_expires_at: baseDate.toISOString(),
         })
         .eq('id', this.user.id)
       if (error) throw error
       this.profile.subscription_type = type
-      this.profile.subscription_expires_at = expiresAt.toISOString()
+      this.profile.subscription_expires_at = baseDate.toISOString()
     },
 
+    // ===== 月卡（叠加续费） =====
     async subscribeMonthly() {
       if (!this.user) throw new Error('请先登录')
-      if (this.effectiveSubscription === 'monthly') throw new Error('已是月卡会员')
-      if (this.effectiveSubscription === 'yearly') throw new Error('已是年卡会员，无需重复订阅')
+      if (this.effectiveSubscription === 'monthly') {
+        // 已是月卡，续费叠加
+        await this.deductCoins(68)
+        await this.setSubscription('monthly', 30)
 
+        const today = getChinaDateString()
+        const maxFree = 8
+        this.profile.ai_free_count = maxFree
+        this.profile.ai_free_date = today
+        localStorage.setItem('unus_ai_free_date', today)
+        localStorage.setItem('unus_ai_free_count', String(maxFree))
+        await this.updateAIFreeCount(maxFree, today)
+        return true
+      }
+
+      if (this.effectiveSubscription === 'yearly') {
+        throw new Error('已是年卡会员，无需重复订阅')
+      }
+
+      // 免费用户购买月卡
       await this.deductCoins(68)
       await this.setSubscription('monthly', 30)
 
@@ -249,10 +270,25 @@ export const useUserStore = defineStore('user', {
       return true
     },
 
+    // ===== 年卡（叠加续费） =====
     async subscribeYearly() {
       if (!this.user) throw new Error('请先登录')
-      if (this.effectiveSubscription === 'yearly') throw new Error('已是年卡会员')
+      if (this.effectiveSubscription === 'yearly') {
+        // 已是年卡，续费叠加
+        await this.deductCoins(648)
+        await this.setSubscription('yearly', 365)
 
+        const today = getChinaDateString()
+        const maxFree = 20
+        this.profile.ai_free_count = maxFree
+        this.profile.ai_free_date = today
+        localStorage.setItem('unus_ai_free_date', today)
+        localStorage.setItem('unus_ai_free_count', String(maxFree))
+        await this.updateAIFreeCount(maxFree, today)
+        return true
+      }
+
+      // 免费用户或月卡用户购买年卡
       await this.deductCoins(648)
       await this.setSubscription('yearly', 365)
 

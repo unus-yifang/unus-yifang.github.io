@@ -29,7 +29,6 @@
     <!-- ===== 已订阅：自定义内容 ===== -->
     <div v-else class="space-y-6">
 
-      <!-- 订阅状态 -->
       <div class="custom-card rounded-xl p-4 border border-accent/20 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <span class="text-2xl">✨</span>
@@ -58,7 +57,6 @@
           </button>
         </div>
 
-        <!-- 固定壁纸 -->
         <div v-if="wallpaperPreference === 'fixed'" class="flex gap-2">
           <input
             v-model="customWallpaperUrl"
@@ -74,7 +72,6 @@
           </button>
         </div>
 
-        <!-- 纯色 -->
         <div v-if="wallpaperPreference === 'solid'" class="flex items-center gap-3">
           <input
             type="color"
@@ -90,7 +87,6 @@
           </button>
         </div>
 
-        <!-- 预览 -->
         <div v-if="customWallpaperUrl && wallpaperPreference === 'fixed'" class="mt-3">
           <p class="text-white/40 text-xs mb-1">当前壁纸预览：</p>
           <img :src="customWallpaperUrl" alt="壁纸预览" class="w-full max-h-40 object-cover rounded-lg border border-white/10" @error="handleImageError" />
@@ -136,7 +132,7 @@
             alt="头像预览"
             class="w-10 h-10 rounded-full border-2"
             :style="{ borderColor: themeColor }"
-            :key="userStore.avatar"  <!-- 添加 key 强制刷新 -->
+            :key="userStore.avatar"
           />
           <span class="text-white/40 text-xs">背景色跟随主题色</span>
         </div>
@@ -169,7 +165,7 @@ import { supabase } from '../lib/supabase'
 const userStore = useUserStore()
 
 // ============================================================
-// 订阅状态
+// 订阅状态（基于 effectiveSubscription，到期自动切换）
 // ============================================================
 const isSubscribed = computed(() => userStore.effectiveSubscription !== 'free')
 
@@ -279,7 +275,7 @@ function handleImageError(e) {
 }
 
 // ============================================================
-// 主题色（修复头像颜色覆盖问题）
+// 主题色
 // ============================================================
 const themeColor = ref('#d4af37')
 const customThemeColor = ref('#d4af37')
@@ -306,10 +302,7 @@ function saveThemeColor(value) {
   customThemeColor.value = value
   localStorage.setItem('unus_theme_color', value)
   applyThemeColor(value)
-
-  // 强制刷新头像
   userStore.refreshAvatar()
-  // 刷新页面
   setTimeout(() => { window.location.reload() }, 100)
 }
 
@@ -318,7 +311,7 @@ function applyThemeColor(color) {
 }
 
 // ============================================================
-// 重置所有设置
+// 重置
 // ============================================================
 async function resetAll() {
   if (!confirm('确定要重置所有自定义设置为默认值吗？此操作不可撤销！')) return
@@ -333,7 +326,6 @@ async function resetAll() {
   localStorage.setItem('unus_theme_color', defaultColor)
   applyThemeColor(defaultColor)
 
-  // 强制刷新头像
   userStore.refreshAvatar()
 
   if (userStore.isLoggedIn) {

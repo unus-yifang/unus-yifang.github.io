@@ -41,8 +41,7 @@ const route = useRoute()
 const userStore = useUserStore()
 const dailyQuote = ref('')
 
-// ===== 壁纸逻辑 =====
-// 只有在 daily 模式下才使用日期种子，fixed/solid 直接使用用户存储的值
+// ===== 每日壁纸种子 =====
 const dailyBgUrl = ref('https://picsum.photos/seed/' + getDailySeed() + '/1920/1080')
 
 function getDailySeed() {
@@ -50,12 +49,10 @@ function getDailySeed() {
   return today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0')
 }
 
-// 每天0点刷新 daily 壁纸
 function updateDailyBg() {
   dailyBgUrl.value = 'https://picsum.photos/seed/' + getDailySeed() + '/1920/1080'
 }
 
-// 计算下次0点的时间
 function getNextMidnight() {
   const now = new Date()
   const next = new Date(now)
@@ -64,17 +61,23 @@ function getNextMidnight() {
   return next.getTime() - now.getTime()
 }
 
-// 设置定时器，每天0点刷新
 function scheduleDailyBgUpdate() {
   const delay = getNextMidnight()
   setTimeout(() => {
     updateDailyBg()
-    // 之后每天执行
     setInterval(updateDailyBg, 24 * 60 * 60 * 1000)
   }, delay)
 }
 
+// ===== 壁纸样式（订阅到期强制 daily） =====
 const backgroundStyle = computed(() => {
+  const isPaid = userStore.effectiveSubscription !== 'free'
+
+  // 如果订阅到期，强制使用 daily 模式
+  if (!isPaid) {
+    return { backgroundImage: `url(${dailyBgUrl.value})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+  }
+
   const pref = userStore.profile?.wallpaper_preference || 'daily'
 
   if (pref === 'solid') {
@@ -84,14 +87,12 @@ const backgroundStyle = computed(() => {
 
   if (pref === 'fixed') {
     const url = userStore.profile?.wallpaper_url
-    // 如果用户没有设置固定壁纸，回退到 daily
     if (!url) {
       return { backgroundImage: `url(${dailyBgUrl.value})`, backgroundSize: 'cover', backgroundPosition: 'center' }
     }
     return { backgroundImage: `url(${url})`, backgroundSize: 'cover', backgroundPosition: 'center' }
   }
 
-  // daily 模式
   return { backgroundImage: `url(${dailyBgUrl.value})`, backgroundSize: 'cover', backgroundPosition: 'center' }
 })
 
@@ -120,11 +121,9 @@ async function loadDailyQuote() {
   }
 }
 
-// 监听登录状态变化，刷新壁纸
 watch(
   () => userStore.isLoggedIn,
   () => {
-    // 登录后重新加载壁纸
     updateDailyBg()
   }
 )
