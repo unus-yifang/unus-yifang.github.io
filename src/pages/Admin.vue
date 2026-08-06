@@ -111,22 +111,26 @@
       <p v-if="promoMsg" class="text-xs mt-2" :class="promoMsgType === 'ok' ? 'text-green-400' : 'text-red-400'">{{ promoMsg }}</p>
     </div>
 
-    <!-- 编辑一言模态框 -->
+    <!-- ===== 编辑一言模态框（白色毛玻璃 + 黑色文字） ===== -->
     <div v-if="editModalVisible" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-sm" @click.self="editModalVisible = false">
-      <div class="glass dark:glass-dark rounded-2xl border border-white/20 p-6 w-full max-w-md shadow-2xl">
-        <h3 class="text-white text-lg font-semibold mb-3 flex items-center gap-2">
+      <div class="modal-white rounded-2xl p-6 w-full max-w-md shadow-2xl">
+        <h3 class="text-gray-800 text-lg font-semibold mb-3 flex items-center gap-2">
           <i class="fas fa-pen text-accent"></i> 编辑一言
         </h3>
         <input
           v-model="editQuoteContent"
           type="text"
           placeholder="修改内容..."
-          class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm placeholder-white/40 outline-none focus:border-accent/50"
+          class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-gray-800 text-sm placeholder-gray-400 outline-none focus:border-accent/50 transition"
           @keydown.enter="confirmEditQuote"
         />
         <div class="flex gap-3 mt-4">
-          <button @click="confirmEditQuote" class="flex-1 py-2 rounded-lg bg-accent/20 border border-accent/30 text-accent font-medium hover:bg-accent/30 transition">保存</button>
-          <button @click="editModalVisible = false" class="flex-1 py-2 rounded-lg bg-white/10 border border-white/10 text-white/70 hover:bg-white/20 transition">取消</button>
+          <button @click="confirmEditQuote" class="flex-1 py-2 rounded-lg bg-accent/20 border border-accent/30 text-accent font-medium hover:bg-accent/30 transition">
+            保存
+          </button>
+          <button @click="editModalVisible = false" class="flex-1 py-2 rounded-lg bg-gray-200 border border-gray-300 text-gray-700 font-medium hover:bg-gray-300 transition">
+            取消
+          </button>
         </div>
       </div>
     </div>
@@ -140,7 +144,6 @@ import { supabase } from '../lib/supabase'
 import { formatChinaDate } from '../utils/time'
 
 // ===== 状态 =====
-// 乘以10后的值：1→10, 6→60, 9.9→99, 29.9→299
 const codeTier = ref('10')
 const generatedCode = ref('')
 const codeMsg = ref('')
@@ -170,12 +173,11 @@ async function generateCode() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
   let random = ''
   for (let i = 0; i < 8; i++) random += chars[Math.floor(Math.random() * chars.length)]
-  // codeTier.value 是乘以10后的值，如 '299'
   const code = `U${codeTier.value}-${random}`
 
   const { error } = await supabase.from('redeem_codes').insert({
     code,
-    tier: parseInt(codeTier.value), // 存入整数
+    tier: parseInt(codeTier.value),
     coins: tierMap[codeTier.value],
     used: false,
     created_at: new Date().toISOString(),
@@ -369,6 +371,15 @@ onMounted(() => {
 .promo-item { background: rgba(255, 255, 255, 0.30); }
 .promo-item:hover { background: rgba(255, 255, 255, 0.50); }
 .promo-title { color: #1a1a2e; }
+
+/* ===== 弹窗白色毛玻璃 ===== */
+.modal-white {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.50);
+}
+
 .max-h-64::-webkit-scrollbar, .max-h-40::-webkit-scrollbar { width: 3px; }
 .max-h-64::-webkit-scrollbar-thumb, .max-h-40::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.15); border-radius: 4px; }
 .max-h-64::-webkit-scrollbar-track, .max-h-40::-webkit-scrollbar-track { background: transparent; }
