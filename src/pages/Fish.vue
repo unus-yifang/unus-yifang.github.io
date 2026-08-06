@@ -68,27 +68,30 @@
 
 <script setup>
 const music = [
-  { name: '柠檬无损音乐', url: 'https://www.ningmeng.com' },
-  { name: '无忧音乐网', url: 'https://www.51yinyue.com' },
-  { name: '24bit无损音乐', url: 'https://www.24bitmusic.com' },
-  { name: '5song无损音乐', url: 'https://www.5song.com' },
-  { name: '极光无损音乐', url: 'https://www.jiguangmusic.com' },
-  { name: '歌曲客', url: 'https://www.gequke.com' },
-  { name: '音乐免费下载', url: 'https://www.yinyuefree.com' },
-  { name: '凤梨音乐', url: 'https://www.fengliyinyue.com' },
-  { name: '鲸音无损音乐', url: 'https://www.jingyin.com' },
-  { name: '歌曲宝', url: 'https://www.gequbao.com' },
-  { name: '洛雪音乐', url: 'https://www.luoxueyinyue.com' },
-  { name: '音微网', url: 'https://www.yinwei.com' },
+  { name: 'QQ音乐', url: 'https://y.qq.com' },
+  { name: '酷狗音乐', url: 'https://www.kugou.com' },
+  { name: '酷我音乐', url: 'https://www.kuwo.cn' },
+  { name: '网易云音乐', url: 'https://music.163.com' },
+  { name: '汽水音乐', url: 'https://www.qishuiyinyue.com' },
+  { name: '咪咕音乐', url: 'https://music.migu.cn' },
+  { name: '番茄音乐', url: 'https://www.fanqieyinyue.com' },
+  { name: '波点音乐', url: 'https://www.bodianyinyue.com' },
+  { name: '千千音乐', url: 'https://music.taihe.com' },
+  { name: 'Spotify', url: 'https://www.spotify.com' },
+  { name: 'Apple Music', url: 'https://music.apple.com' },
+  { name: 'YouTube Music', url: 'https://music.youtube.com' },
+  { name: 'Amazon Music', url: 'https://music.amazon.com' },
+  { name: 'Tidal', url: 'https://tidal.com' },
+  { name: 'Deezer', url: 'https://www.deezer.com' },
+  { name: 'Pandora', url: 'https://www.pandora.com' },
+  { name: 'SoundCloud', url: 'https://soundcloud.com' },
+  { name: 'SiriusXM', url: 'https://www.siriusxm.com' },
 ]
 
 const onlineGames = [
   { name: 'Poki', url: 'https://poki.com' },
   { name: 'CrazyGames', url: 'https://www.crazygames.com' },
-  { name: '小霸王在线', url: 'https://www.yikm.net' },
   { name: '2048', url: 'https://play2048.co' },
-  { name: '扫雷', url: 'https://minesweeper.online' },
-  { name: '五子棋', url: 'https://www.5ziqi.com' },
   { name: '俄罗斯方块', url: 'https://tetris.com' },
   { name: '数独', url: 'https://www.sudoku.com' },
   { name: '化学杀', url: 'https://gp0.saobby.com/i/bbv5ur69mpirtt9k' },
@@ -96,31 +99,21 @@ const onlineGames = [
 ]
 
 const classicGames = [
-  { name: '植物大战僵尸合集', url: 'https://www.4399.com' },
-  { name: '红色警戒2', url: 'https://www.ra2.com' },
-  { name: '魔兽争霸', url: 'https://www.warcraft.com' },
-  { name: '小霸王合集', url: 'https://www.yikm.net' },
+  { name: '4399', url: 'https://www.4399.com' },
+  { name: '小霸王在线', url: 'https://www.yikm.net' },
 ]
 
 const fun = [
-  { name: 'Pointer Pointer', url: 'https://pointerpointer.com' },
-  { name: 'Sharkle', url: 'https://sharkle.com' },
   { name: 'neal.fun', url: 'https://neal.fun' },
   { name: 'Useless Web', url: 'https://theuselessweb.com' },
   { name: '猜盐', url: 'https://xiaoce.fun' },
-  { name: '放屁网', url: 'https://www.fart.com' },
-  { name: '为所欲为生成器', url: 'https://lab.bangbang93.com/wsyw' },
-  { name: '黑客模拟', url: 'https://geektyper.com' },
 ]
 
 const relax = [
   { name: '烟花模拟器', url: 'https://troy.js.org/fireworks-simulator' },
   { name: '流星雨', url: 'https://www.meteorshowers.org' },
-  { name: '敲木鱼', url: 'https://www.muyu.online' },
-  { name: '星空漫游', url: 'https://www.100000stars.com' },
+  { name: '诗云', url: 'https://shiyun.cohenjikan.com/' },
   { name: '白噪音', url: 'https://www.rainymood.com' },
-  { name: '呼吸练习', url: 'https://www.breathe.today' },
-  { name: '卡巴斯基网络地图', url: 'https://cybermap.kaspersky.com' },
 ]
 </script>
 
