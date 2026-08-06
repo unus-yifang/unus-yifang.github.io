@@ -33,28 +33,16 @@ const router = createRouter({
   routes,
 })
 
+// ===== 管理员校验由 Supabase RLS 保障，前端仅作 UI 提示 =====
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
-  
-  // ===== 检查是否有 404 重定向路径 =====
-  const redirectPath = sessionStorage.getItem('redirect_path')
-  if (redirectPath && to.path === '/') {
-    sessionStorage.removeItem('redirect_path')
-    // 如果路径是 /login，直接跳转登录页
-    if (redirectPath.startsWith('/login')) {
-      next({ path: redirectPath })
-      return
-    }
-    // 否则保留原路径，Vue Router 会处理
-    next({ path: redirectPath })
-    return
-  }
   
   if (to.meta.requiresAuth && !userStore.isLoggedIn) {
     next({ path: '/login', query: { redirect: to.fullPath } })
     return
   }
   
+  // ===== 管理员路由：前端校验仅作展示，真正的权限由 RLS 保障 =====
   if (to.meta.requiresAdmin) {
     const user = userStore.user
     const isAdmin = user?.email === '3931095272@qq.com' && userStore.username === 'Gesoleerdeiland'
