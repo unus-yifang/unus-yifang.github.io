@@ -28,8 +28,9 @@
           class="login-input w-full rounded-lg px-4 py-2.5 outline-none transition"
         />
 
+        <!-- ===== 修改：邮箱验证提示（已删除后缀限制） ===== -->
         <p v-if="!isLogin" class="text-xs text-gray-500 mt-1">
-          📧 仅支持 <span class="text-gray-700 font-medium">@qq.com</span>、<span class="text-gray-700 font-medium">@163.com</span> 和 <span class="text-gray-700 font-medium">@126.com</span> 邮箱注册
+          📧 注册后请前往邮箱点击验证链接激活账号
         </p>
 
         <button
@@ -72,22 +73,17 @@ async function handleSubmit() {
       const redirectPath = route.query.redirect || '/'
       router.push(redirectPath)
     } else {
-      // ===== 注册：不再自动登录，提示验证邮箱 =====
       await userStore.signUp(email.value, password.value, username.value)
-      // 如果注册成功，signUp 方法不会抛出错误，但用户未验证，不会自动登录
       alert('注册成功！请前往您的邮箱点击验证链接激活账号')
-      // 清空表单，切换到登录模式
       email.value = ''
       password.value = ''
       username.value = ''
       isLogin.value = true
     }
   } catch (err) {
-    // 处理邮箱未验证错误（登录时）
+    // ===== 修改：删除邮箱后缀限制的提示，保留邮箱验证提示 =====
     if (err.message.includes('Email not confirmed')) {
       alert('该邮箱尚未验证，请前往邮箱点击验证链接')
-    } else if (err.message.includes('只支持 QQ 邮箱、163 邮箱和 126 邮箱注册')) {
-      alert(err.message)
     } else {
       alert(err.message)
     }
