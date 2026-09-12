@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../pages/Home.vue'
-import Tools from '../pages/Tools.vue'
-import Fish from '../pages/Fish.vue'
-import Discover from '../pages/Discover.vue'
 import Customize from '../pages/Customize.vue'
 import Support from '../pages/Support.vue'
 import Admin from '../pages/Admin.vue'
@@ -13,9 +10,6 @@ import { useUserStore } from '../stores/user'
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/tools', component: Tools, meta: { requiresAuth: true } },
-  { path: '/fish', component: Fish, meta: { requiresAuth: true } },
-  { path: '/discover', component: Discover, meta: { requiresAuth: true } },
   { path: '/customize', component: Customize, meta: { requiresAuth: true } },
   { path: '/support', component: Support, meta: { requiresAuth: true } },
   { 

@@ -11,15 +11,6 @@
       <router-link to="/" class="nav-item" active-class="active" exact-active-class="active">
         <i class="fas fa-house"></i><span class="nav-label">首页</span>
       </router-link>
-      <router-link to="/tools" class="nav-item" active-class="active">
-        <i class="fas fa-screwdriver-wrench"></i><span class="nav-label">工具</span>
-      </router-link>
-      <router-link to="/fish" class="nav-item" active-class="active">
-        <i class="fas fa-fish"></i><span class="nav-label">摸鱼</span>
-      </router-link>
-      <router-link to="/discover" class="nav-item" active-class="active">
-        <i class="fas fa-compass"></i><span class="nav-label">发现</span>
-      </router-link>
       <router-link to="/customize" class="nav-item" active-class="active">
         <i class="fas fa-palette"></i><span class="nav-label">自定义</span>
       </router-link>
