@@ -74,10 +74,6 @@
             <span class="text-gray-400 text-base">💬</span>
             微信：<span class="text-gray-800 font-medium">w18829558536</span>
           </p>
-          <p class="text-gray-700 flex items-center gap-3">
-            <span class="text-gray-400 text-base">📕</span>
-            小红书：<span class="text-gray-800 font-medium">w18829558536</span>
-          </p>
         </div>
       </div>
 
