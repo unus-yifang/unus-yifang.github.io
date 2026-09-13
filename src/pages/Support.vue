@@ -299,31 +299,35 @@ async function buyYearly() {
 // ===== 兑换码兑换（已修复金额显示） =====
 async function redeem() {
   const code = redeemCode.value.trim()
-  if (!code) { redeemMsg.value = '⚠️ 请输入兑换码'; redeemMsgType.value = 'err'; return }
-  if (!userStore.isLoggedIn) { redeemMsg.value = '⚠️ 请先登录'; redeemMsgType.value = 'err'; return }
+  if (!code) {
+    redeemMsg.value = '⚠️ 请输入兑换码'
+    redeemMsgType.value = 'err'
+    return
+  }
+  if (!userStore.isLoggedIn) {
+    redeemMsg.value = '⚠️ 请先登录'
+    redeemMsgType.value = 'err'
+    return
+  }
 
   isRedeeming.value = true
   redeemMsg.value = ''
 
   try {
+    // ===== 走 RPC 兑换（后端校验 + 修改 U 币） =====
     const { data, error } = await supabase.rpc('redeem_code_safe', {
       p_code: code,
-      p_user_id: userStore.user.id,
-      p_username: userStore.username,
-      p_email: userStore.user.email
     })
 
     if (error) {
       redeemMsg.value = '❌ ' + error.message
       redeemMsgType.value = 'err'
-      isRedeeming.value = false
       return
     }
 
     if (!data.success) {
       redeemMsg.value = '❌ ' + data.message
       redeemMsgType.value = 'err'
-      isRedeeming.value = false
       return
     }
 
@@ -337,10 +341,10 @@ async function redeem() {
   } catch (err) {
     redeemMsg.value = '❌ ' + err.message
     redeemMsgType.value = 'err'
+  } finally {
+    isRedeeming.value = false
+    setTimeout(() => { redeemMsg.value = '' }, 5000)
   }
-
-  isRedeeming.value = false
-  setTimeout(() => { redeemMsg.value = '' }, 5000)
 }
 
 onMounted(() => {
