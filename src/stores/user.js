@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { supabase } from '../lib/supabase'
-import { getChinaDate, getChinaDateString } from '../utils/time'
+import { getChinaDateString } from '../utils/time'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -16,10 +16,12 @@ export const useUserStore = defineStore('user', {
     ucoins: (state) => state.profile?.ucoins || 0,
     subscriptionType: (state) => state.profile?.subscription_type || 'free',
     subscriptionExpiresAt: (state) => state.profile?.subscription_expires_at || null,
+
     subscriptionIsActive: (state) => {
       if (!state.profile?.subscription_expires_at) return false
       return new Date(state.profile.subscription_expires_at) > new Date()
     },
+
     effectiveSubscription: (state) => {
       const type = state.profile?.subscription_type || 'free'
       const expires = state.profile?.subscription_expires_at
@@ -27,12 +29,14 @@ export const useUserStore = defineStore('user', {
       if (new Date(expires) <= new Date()) return 'free'
       return type === 'monthly' || type === 'yearly' ? type : 'free'
     },
+
     subscriptionDisplay: (state) => {
       const sub = state.effectiveSubscription
       if (sub === 'yearly') return '✨ 年卡会员'
       if (sub === 'monthly') return '⭐ 月卡会员'
       return '免费用户'
     },
+
     subscriptionStatusColor: (state) => {
       const sub = state.effectiveSubscription
       if (sub === 'yearly') return 'text-amber-400 border-amber-400/30 bg-amber-400/10'
@@ -53,7 +57,6 @@ export const useUserStore = defineStore('user', {
       if (sub === 'free') {
         bgColor = '6b7280'
       } else {
-        // 从数据库读取主题色
         const themeColor = state.profile?.theme_color || '#d4af37'
         bgColor = themeColor.replace('#', '')
       }
@@ -157,57 +160,35 @@ export const useUserStore = defineStore('user', {
       this.refreshAvatar()
     },
 
+    // ===== 签到：走 RPC（后端校验日期 + 加币） =====
     async signInDaily() {
-      if (!this.user) throw new Error('请先登录')
-
-      const { data: profile, error: fetchError } = await supabase
-        .from('profiles')
-        .select('last_sign_in, ucoins')
-        .eq('id', this.user.id)
-        .single()
-
-      if (fetchError) throw fetchError
+      const { data, error } = await supabase.rpc('sign_in_daily')
+      if (error) throw new Error(error.message)
+      if (!data.success) throw new Error(data.message || '签到失败')
 
       const today = getChinaDateString()
-      const lastSignIn = profile?.last_sign_in || null
-
-      if (lastSignIn === today) {
-        throw new Error('今天已签到')
+      if (this.profile) {
+        this.profile.ucoins = data.new_balance
+        this.profile.last_sign_in = today
       }
-
-      const newCoins = (profile?.ucoins || 0) + 1
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({
-          ucoins: newCoins,
-          last_sign_in: today
-        })
-        .eq('id', this.user.id)
-
-      if (updateError) throw updateError
-
-      this.profile.ucoins = newCoins
-      this.profile.last_sign_in = today
       localStorage.setItem('unus_sign_date', today)
 
-      return newCoins
+      return data.new_balance
     },
 
+    // ===== 扣费：走 RPC（后端校验余额 + 扣减） =====
     async deductCoins(amount) {
-      if (!this.user) throw new Error('请先登录')
-      if ((this.profile?.ucoins || 0) < amount) throw new Error('U币不足')
+      const { data, error } = await supabase.rpc('deduct_coins', { p_amount: amount })
+      if (error) throw new Error(error.message)
+      if (!data.success) throw new Error(data.message || '扣费失败')
 
-      const newCoins = this.profile.ucoins - amount
-      const { error } = await supabase
-        .from('profiles')
-        .update({ ucoins: newCoins })
-        .eq('id', this.user.id)
-      if (error) throw error
-      this.profile.ucoins = newCoins
+      if (this.profile) {
+        this.profile.ucoins = data.new_balance
+      }
       return true
     },
 
-    // ===== 设置订阅（叠加续费） =====
+    // ===== 设置订阅（仅作兼容保留，实际订阅走 RPC） =====
     async setSubscription(type, days) {
       if (!this.user) throw new Error('请先登录')
 
@@ -235,40 +216,48 @@ export const useUserStore = defineStore('user', {
       this.profile.subscription_expires_at = baseDate.toISOString()
     },
 
-    // ===== 月卡 =====
+    // ===== 月卡：走 RPC（后端校验 + 扣费 + 叠加时间） =====
     async subscribeMonthly() {
-      if (!this.user) throw new Error('请先登录')
-      if (this.effectiveSubscription === 'yearly') {
-        throw new Error('已是年卡会员，无需购买月卡')
-      }
-
-      await this.deductCoins(68)
-      await this.setSubscription('monthly', 30)
+      const { data, error } = await supabase.rpc('subscribe_plan', { p_type: 'monthly' })
+      if (error) throw new Error(error.message)
+      if (!data.success) throw new Error(data.message || '订阅失败')
 
       const today = getChinaDateString()
       const maxFree = 8
-      this.profile.ai_free_count = maxFree
-      this.profile.ai_free_date = today
+      if (this.profile) {
+        this.profile.ucoins = data.new_balance
+        this.profile.subscription_type = 'monthly'
+        this.profile.subscription_expires_at = data.expires_at
+        this.profile.ai_free_count = maxFree
+        this.profile.ai_free_date = today
+      }
       localStorage.setItem('unus_ai_free_date', today)
       localStorage.setItem('unus_ai_free_count', String(maxFree))
+
+      // 同步 AI 免费次数
       await this.updateAIFreeCount(maxFree, today)
 
       return true
     },
 
-    // ===== 年卡 =====
+    // ===== 年卡：走 RPC =====
     async subscribeYearly() {
-      if (!this.user) throw new Error('请先登录')
-
-      await this.deductCoins(648)
-      await this.setSubscription('yearly', 365)
+      const { data, error } = await supabase.rpc('subscribe_plan', { p_type: 'yearly' })
+      if (error) throw new Error(error.message)
+      if (!data.success) throw new Error(data.message || '订阅失败')
 
       const today = getChinaDateString()
       const maxFree = 20
-      this.profile.ai_free_count = maxFree
-      this.profile.ai_free_date = today
+      if (this.profile) {
+        this.profile.ucoins = data.new_balance
+        this.profile.subscription_type = 'yearly'
+        this.profile.subscription_expires_at = data.expires_at
+        this.profile.ai_free_count = maxFree
+        this.profile.ai_free_date = today
+      }
       localStorage.setItem('unus_ai_free_date', today)
       localStorage.setItem('unus_ai_free_count', String(maxFree))
+
       await this.updateAIFreeCount(maxFree, today)
 
       return true
@@ -309,6 +298,46 @@ export const useUserStore = defineStore('user', {
       if (this.profile) {
         this.profile.theme_color = color
       }
+    },
+
+    // ============================================================
+    // ===== 游戏 2048：全部走 RPC（防作弊） =====
+    // ============================================================
+
+    // 开始新游戏，返回 session id
+    async game2048Start() {
+      const { data, error } = await supabase.rpc('game_2048_start')
+      if (error) throw new Error(error.message)
+      return data
+    },
+
+    // 结束游戏，提交分数并领奖
+    async game2048Finish(sessionId, score) {
+      const { data, error } = await supabase.rpc('game_2048_finish', {
+        p_session_id: sessionId,
+        p_score: score,
+      })
+      if (error) throw new Error(error.message)
+      if (!data.success) throw new Error(data.message || '结算失败')
+
+      // 同步最新余额、最高分、总积分
+      if (this.profile) {
+        this.profile.ucoins = data.new_balance
+        this.profile.game_2048_best_score = data.best_score
+      }
+      return data
+    },
+
+    // 游戏内扣费（悔棋 1 币，招募 2 币）
+    async game2048Spend(amount) {
+      const { data, error } = await supabase.rpc('game_2048_spend', { p_amount: amount })
+      if (error) throw new Error(error.message)
+      if (!data.success) throw new Error(data.message || '扣费失败')
+
+      if (this.profile) {
+        this.profile.ucoins = data.new_balance
+      }
+      return true
     },
   }
 })

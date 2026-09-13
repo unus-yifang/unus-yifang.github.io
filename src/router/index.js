@@ -20,6 +20,11 @@ const routes = [
   { path: '/profile', component: Profile, meta: { requiresAuth: true } },
   { path: '/login', component: Login },
   { path: '/about', component: About },
+  {
+  path: '/game',
+  component: () => import('../pages/Game2048.vue'),
+  meta: { requiresAuth: true }
+  },
 ]
 
 const router = createRouter({

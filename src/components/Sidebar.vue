@@ -11,6 +11,9 @@
       <router-link to="/" class="nav-item" active-class="active" exact-active-class="active">
         <i class="fas fa-house"></i><span class="nav-label">首页</span>
       </router-link>
+      <router-link to="/game" class="nav-item" active-class="active">
+        <i class="fas fa-gamepad"></i><span class="nav-label">2048</span>
+      </router-link>
       <router-link to="/customize" class="nav-item" active-class="active">
         <i class="fas fa-palette"></i><span class="nav-label">自定义</span>
       </router-link>
